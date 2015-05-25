@@ -49,6 +49,7 @@ moltin.product.get("6", new Handler.Callback() {
 	@Override
 	public boolean handleMessage(Message msg) {
 		if (msg.what == Constants.RESULT_OK) {
+			JSONObject jsonResponse = (JSONObject)msg.obj;
 			return true;
 		} else {
 			return false;
