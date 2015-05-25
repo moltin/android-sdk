@@ -20,7 +20,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import in.molt.android_sdk.utilities.Constants;
@@ -132,13 +132,13 @@ abstract class HttpMethodAbstract {
         }
     }
 
-    private static BasicNameValuePair[] setData(JSONObject data)
+    private static ArrayList<BasicNameValuePair> setData(JSONObject data)
     {
         try
         {
             if(data!=null)
             {
-                BasicNameValuePair[] nameValuePairs = new BasicNameValuePair[data.length()];
+                ArrayList<BasicNameValuePair> nameValuePairs = new ArrayList<BasicNameValuePair>();
 
                 Iterator<?> keys=data.keys();
 
@@ -147,9 +147,13 @@ abstract class HttpMethodAbstract {
                 while( keys.hasNext() )
                 {
                     String key = (String)keys.next();
-                    Log.i("Key - Value", key + " - " + data.getString(key));
-                    if( data.get(key) instanceof String){
-                        nameValuePairs[i]=new BasicNameValuePair(key, data.getString(key));
+                    if(data.get(key) instanceof String){
+                        nameValuePairs.add(new BasicNameValuePair(key, data.getString(key)));
+                        Log.i("Key - Value", key + " - " + data.getString(key));
+                    }
+                    else if(data.get(key) instanceof JSONObject)
+                    {
+                        getNestedName(key, data.getJSONObject(key), nameValuePairs);
                     }
 
                     i++;
@@ -159,13 +163,38 @@ abstract class HttpMethodAbstract {
             }
             else
             {
-                return new BasicNameValuePair[0];
+                return new ArrayList<BasicNameValuePair>();
             }
         }
         catch (Exception e)
         {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    static private void getNestedName(String oldKey, JSONObject json, ArrayList<BasicNameValuePair> nameValuePairs)
+    {
+        try
+        {
+            Iterator<?> keys=json.keys();
+
+            while( keys.hasNext() )
+            {
+                String key = (String)keys.next();
+                if(json.get(key) instanceof String){
+                    nameValuePairs.add(new BasicNameValuePair(oldKey + "[" + key + "]", json.getString(key)));
+                    Log.i("Key - Value", oldKey + "[" + key + "]" + " - " + json.getString(key));
+                }
+                else if(json.get(key) instanceof JSONObject)
+                {
+                    getNestedName(oldKey + "[" + key + "]", json.getJSONObject(key), nameValuePairs);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
 
@@ -303,9 +332,9 @@ abstract class HttpMethodAbstract {
 
                         post.setEntity(se);*/
 
-                        BasicNameValuePair[] params = setData(json);
+                        ArrayList<BasicNameValuePair> params = setData(json);
 
-                        UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity( Arrays.asList(params), "utf-8");
+                        UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity( params, "utf-8");
                         post.setEntity(urlEncodedFormEntity);
                     }
 
