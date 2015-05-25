@@ -33,6 +33,7 @@ Just set the `publicId` from the api console on Moltin website and you are ready
 ```
 moltin.authenticate("XXXXXXXXXXXXX", callback);
 ```
+be aware that the `authenticate` call is asynchronous, only after the callback the TOKEN is ready
 
 ### Get A CRUD Resource
 
