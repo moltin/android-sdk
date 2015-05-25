@@ -23,6 +23,8 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import in.molt.android_sdk.utilities.Constants;
+
 //abstract class for http methods with params and headers handling
 abstract class HttpMethodAbstract {
 
@@ -248,11 +250,11 @@ abstract class HttpMethodAbstract {
             protected void onPostExecute(Object result) {
                 //if result is JSONObject all is OK
                 if (result != null && (result instanceof JSONObject)) {
-                    callbackMessage.what = 1;
+                    callbackMessage.what = Constants.RESULT_OK;
                     callbackMessage.obj = result;
                     callback.handleMessage(callbackMessage);
                 } else {
-                    callbackMessage.what = 0;
+                    callbackMessage.what = Constants.RESULT_NOT_OK;
                     if (callbackMessage.obj == null && result != null) {
                         callbackMessage.obj = result;
                     }
@@ -360,11 +362,11 @@ abstract class HttpMethodAbstract {
             protected void onPostExecute(Object result) {
                 //if result is JSONObject all is OK
                 if (result != null && (result instanceof JSONObject)) {
-                    callbackMessage.what = 1;
+                    callbackMessage.what = Constants.RESULT_OK;
                     callbackMessage.obj = result;
                     callback.handleMessage(callbackMessage);
                 } else {
-                    callbackMessage.what = 0;
+                    callbackMessage.what = Constants.RESULT_NOT_OK;
                     if (callbackMessage.obj == null && result != null) {
                         callbackMessage.obj = result;
                     }

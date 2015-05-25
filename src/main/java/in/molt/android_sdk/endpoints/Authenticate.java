@@ -43,7 +43,7 @@ public class Authenticate extends HttpMethodAbstract {
                 }
 
                 final Message callbackMessage = new Message();
-                callbackMessage.what = 1;
+                callbackMessage.what = Constants.RESULT_OK;
                 callbackMessage.obj = json;
                 callback.handleMessage(callbackMessage);
 
@@ -63,7 +63,7 @@ public class Authenticate extends HttpMethodAbstract {
             Handler.Callback callbackForAuth = new Handler.Callback() {
                 @Override
                 public boolean handleMessage(Message msg) {
-                    if (msg.what == 1)
+                    if (msg.what == Constants.RESULT_OK)
                     {
                         JSONObject json = new JSONObject();
                         try

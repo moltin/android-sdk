@@ -3,6 +3,7 @@ package in.molt.android_sdk.endpoints;
 import android.os.Handler;
 import android.os.Message;
 
+import in.molt.android_sdk.utilities.Constants;
 import in.molt.android_sdk.utilities.Preferences;
 
 //handling the token expiration when calling endpoint
@@ -22,7 +23,7 @@ public class Address extends AddressAbstract {
             Handler.Callback callbackForAuth = new Handler.Callback() {
                 @Override
                 public boolean handleMessage(Message msg) {
-                    if (msg.what == 1)
+                    if (msg.what == Constants.RESULT_OK)
                     {
                         try {
                             Address.super.get(customer, id, callback);
@@ -33,7 +34,11 @@ public class Address extends AddressAbstract {
                     }
                     else
                     {
-
+                        try {
+                            Address.super.get(customer, id, callback);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         return false;
                     }
                 }
