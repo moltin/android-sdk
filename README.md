@@ -48,7 +48,7 @@ moltin.product.get("6", callback);
 moltin.product.get("6", new Handler.Callback() {
 	@Override
 	public boolean handleMessage(Message msg) {
-		if (msg.what == 1) {
+		if (msg.what == Constants.RESULT_OK) {
 			return true;
 		} else {
 			return false;
