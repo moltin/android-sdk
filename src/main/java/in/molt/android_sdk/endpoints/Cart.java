@@ -1,5 +1,6 @@
 package in.molt.android_sdk.endpoints;
 
+
 import android.os.Handler;
 import android.os.Message;
 
@@ -9,15 +10,15 @@ import in.molt.android_sdk.utilities.Constants;
 import in.molt.android_sdk.utilities.Preferences;
 
 //handling the token expiration when calling endpoint
-public class Product extends ProductAbstract {
+public class Cart extends CartAbstract {
 
-    public Product(Preferences preferences)
+    public Cart(Preferences preferences)
     {
         super(preferences);
     }
 
     @Override
-    public void get(final String id, final Handler.Callback callback) throws Exception {
+    public void contents(final Handler.Callback callback) throws Exception {
         if(preferences.isExpired())
         {
             Authenticate authenticate = new Authenticate(preferences);
@@ -28,7 +29,7 @@ public class Product extends ProductAbstract {
                     if (msg.what == Constants.RESULT_OK)
                     {
                         try {
-                            Product.super.get(id, callback);
+                            Cart.super.contents(callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -37,7 +38,7 @@ public class Product extends ProductAbstract {
                     else
                     {
                         try {
-                            Product.super.get(id, callback);
+                            Cart.super.contents(callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -50,12 +51,12 @@ public class Product extends ProductAbstract {
         }
         else
         {
-            super.get(id, callback);
+            super.contents(callback);
         }
     }
 
     @Override
-    public void find(final JSONObject terms, final Handler.Callback callback) throws Exception {
+    public void insert(final String id, final Integer qty, final String mods, final Handler.Callback callback) throws Exception {
         if(preferences.isExpired())
         {
             Authenticate authenticate = new Authenticate(preferences);
@@ -66,7 +67,7 @@ public class Product extends ProductAbstract {
                     if (msg.what == Constants.RESULT_OK)
                     {
                         try {
-                            Product.super.find(terms, callback);
+                            Cart.super.insert(id, qty, mods, callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -75,7 +76,7 @@ public class Product extends ProductAbstract {
                     else
                     {
                         try {
-                            Product.super.find(terms, callback);
+                            Cart.super.insert(id, qty, mods, callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -88,12 +89,12 @@ public class Product extends ProductAbstract {
         }
         else
         {
-            super.find(terms, callback);
+            super.insert(id, qty, mods, callback);
         }
     }
 
     @Override
-    public void list(final JSONObject terms, final Handler.Callback callback) throws Exception {
+    public void update(final String id, final JSONObject data, final Handler.Callback callback) throws Exception {
         if(preferences.isExpired())
         {
             Authenticate authenticate = new Authenticate(preferences);
@@ -104,7 +105,7 @@ public class Product extends ProductAbstract {
                     if (msg.what == Constants.RESULT_OK)
                     {
                         try {
-                            Product.super.list(terms, callback);
+                            Cart.super.update(id, data, callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -113,7 +114,7 @@ public class Product extends ProductAbstract {
                     else
                     {
                         try {
-                            Product.super.list(terms, callback);
+                            Cart.super.update(id, data, callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -126,12 +127,12 @@ public class Product extends ProductAbstract {
         }
         else
         {
-            super.list(terms, callback);
+            super.update(id, data, callback);
         }
     }
 
     @Override
-    public void search(final JSONObject terms, final Handler.Callback callback) throws Exception {
+    public void delete(final Handler.Callback callback) throws Exception {
         if(preferences.isExpired())
         {
             Authenticate authenticate = new Authenticate(preferences);
@@ -142,7 +143,7 @@ public class Product extends ProductAbstract {
                     if (msg.what == Constants.RESULT_OK)
                     {
                         try {
-                            Product.super.search(terms, callback);
+                            Cart.super.delete(callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -151,7 +152,7 @@ public class Product extends ProductAbstract {
                     else
                     {
                         try {
-                            Product.super.search(terms, callback);
+                            Cart.super.delete(callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -164,12 +165,12 @@ public class Product extends ProductAbstract {
         }
         else
         {
-            super.search(terms, callback);
+            super.delete(callback);
         }
     }
 
     @Override
-    public void fields(final String id, final Handler.Callback callback) throws Exception {
+    public void remove(final String id,final Handler.Callback callback) throws Exception {
         if(preferences.isExpired())
         {
             Authenticate authenticate = new Authenticate(preferences);
@@ -180,7 +181,7 @@ public class Product extends ProductAbstract {
                     if (msg.what == Constants.RESULT_OK)
                     {
                         try {
-                            Product.super.fields(id, callback);
+                            Cart.super.remove(id, callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -189,7 +190,7 @@ public class Product extends ProductAbstract {
                     else
                     {
                         try {
-                            Product.super.fields(id, callback);
+                            Cart.super.remove(id, callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -202,12 +203,12 @@ public class Product extends ProductAbstract {
         }
         else
         {
-            super.fields(id, callback);
+            super.remove(id, callback);
         }
     }
 
     @Override
-    public void modifiers(final String id, final Handler.Callback callback) throws Exception {
+    public void item(final String id,final Handler.Callback callback) throws Exception {
         if(preferences.isExpired())
         {
             Authenticate authenticate = new Authenticate(preferences);
@@ -218,7 +219,7 @@ public class Product extends ProductAbstract {
                     if (msg.what == Constants.RESULT_OK)
                     {
                         try {
-                            Product.super.modifiers(id, callback);
+                            Cart.super.item(id, callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -227,7 +228,7 @@ public class Product extends ProductAbstract {
                     else
                     {
                         try {
-                            Product.super.modifiers(id, callback);
+                            Cart.super.item(id, callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -240,12 +241,12 @@ public class Product extends ProductAbstract {
         }
         else
         {
-            super.modifiers(id, callback);
+            super.item(id, callback);
         }
     }
 
     @Override
-    public void variations(final String id, final Handler.Callback callback) throws Exception {
+    public void inCart(final String id,final Handler.Callback callback) throws Exception {
         if(preferences.isExpired())
         {
             Authenticate authenticate = new Authenticate(preferences);
@@ -256,7 +257,7 @@ public class Product extends ProductAbstract {
                     if (msg.what == Constants.RESULT_OK)
                     {
                         try {
-                            Product.super.variations(id, callback);
+                            Cart.super.inCart(id, callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -265,7 +266,7 @@ public class Product extends ProductAbstract {
                     else
                     {
                         try {
-                            Product.super.variations(id, callback);
+                            Cart.super.inCart(id, callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -278,7 +279,83 @@ public class Product extends ProductAbstract {
         }
         else
         {
-            super.variations(id, callback);
+            super.inCart(id, callback);
+        }
+    }
+
+    @Override
+    public void checkout(final Handler.Callback callback) throws Exception {
+        if(preferences.isExpired())
+        {
+            Authenticate authenticate = new Authenticate(preferences);
+
+            Handler.Callback callbackForAuth = new Handler.Callback() {
+                @Override
+                public boolean handleMessage(Message msg) {
+                    if (msg.what == Constants.RESULT_OK)
+                    {
+                        try {
+                            Cart.super.checkout(callback);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return true;
+                    }
+                    else
+                    {
+                        try {
+                            Cart.super.checkout(callback);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return false;
+                    }
+                }
+            };
+
+            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
+        }
+        else
+        {
+            super.checkout(callback);
+        }
+    }
+
+    @Override
+    public void complete(final JSONObject data, final Handler.Callback callback) throws Exception {
+        if(preferences.isExpired())
+        {
+            Authenticate authenticate = new Authenticate(preferences);
+
+            Handler.Callback callbackForAuth = new Handler.Callback() {
+                @Override
+                public boolean handleMessage(Message msg) {
+                    if (msg.what == Constants.RESULT_OK)
+                    {
+                        try {
+                            Cart.super.complete(data, callback);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return true;
+                    }
+                    else
+                    {
+                        try {
+                            Cart.super.complete(data, callback);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return false;
+                    }
+                }
+            };
+
+            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
+        }
+        else
+        {
+            super.complete(data, callback);
         }
     }
 }

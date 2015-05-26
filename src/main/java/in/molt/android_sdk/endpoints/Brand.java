@@ -9,9 +9,9 @@ import in.molt.android_sdk.utilities.Constants;
 import in.molt.android_sdk.utilities.Preferences;
 
 //handling the token expiration when calling endpoint
-public class Product extends ProductAbstract {
+public class Brand extends BrandAbstract {
 
-    public Product(Preferences preferences)
+    public Brand(Preferences preferences)
     {
         super(preferences);
     }
@@ -28,7 +28,7 @@ public class Product extends ProductAbstract {
                     if (msg.what == Constants.RESULT_OK)
                     {
                         try {
-                            Product.super.get(id, callback);
+                            Brand.super.get(id, callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -37,7 +37,7 @@ public class Product extends ProductAbstract {
                     else
                     {
                         try {
-                            Product.super.get(id, callback);
+                            Brand.super.get(id, callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -66,7 +66,7 @@ public class Product extends ProductAbstract {
                     if (msg.what == Constants.RESULT_OK)
                     {
                         try {
-                            Product.super.find(terms, callback);
+                            Brand.super.find(terms, callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -75,7 +75,7 @@ public class Product extends ProductAbstract {
                     else
                     {
                         try {
-                            Product.super.find(terms, callback);
+                            Brand.super.find(terms, callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -104,7 +104,7 @@ public class Product extends ProductAbstract {
                     if (msg.what == Constants.RESULT_OK)
                     {
                         try {
-                            Product.super.list(terms, callback);
+                            Brand.super.list(terms, callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -113,7 +113,7 @@ public class Product extends ProductAbstract {
                     else
                     {
                         try {
-                            Product.super.list(terms, callback);
+                            Brand.super.list(terms, callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -131,44 +131,6 @@ public class Product extends ProductAbstract {
     }
 
     @Override
-    public void search(final JSONObject terms, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
-
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Product.super.search(terms, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
-                    }
-                    else
-                    {
-                        try {
-                            Product.super.search(terms, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
-                }
-            };
-
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
-        }
-        else
-        {
-            super.search(terms, callback);
-        }
-    }
-
-    @Override
     public void fields(final String id, final Handler.Callback callback) throws Exception {
         if(preferences.isExpired())
         {
@@ -180,7 +142,7 @@ public class Product extends ProductAbstract {
                     if (msg.what == Constants.RESULT_OK)
                     {
                         try {
-                            Product.super.fields(id, callback);
+                            Brand.super.fields(id, callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -189,7 +151,7 @@ public class Product extends ProductAbstract {
                     else
                     {
                         try {
-                            Product.super.fields(id, callback);
+                            Brand.super.fields(id, callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -203,82 +165,6 @@ public class Product extends ProductAbstract {
         else
         {
             super.fields(id, callback);
-        }
-    }
-
-    @Override
-    public void modifiers(final String id, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
-
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Product.super.modifiers(id, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
-                    }
-                    else
-                    {
-                        try {
-                            Product.super.modifiers(id, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
-                }
-            };
-
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
-        }
-        else
-        {
-            super.modifiers(id, callback);
-        }
-    }
-
-    @Override
-    public void variations(final String id, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
-
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Product.super.variations(id, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
-                    }
-                    else
-                    {
-                        try {
-                            Product.super.variations(id, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
-                }
-            };
-
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
-        }
-        else
-        {
-            super.variations(id, callback);
         }
     }
 }

@@ -23,6 +23,16 @@ public class Preferences {
         }
     }
 
+    public String getCartId()
+    {
+        return preferencesGetString("mcart");
+    }
+
+    public void setCartId(String cartId)
+    {
+        preferencesSetString("mcart", cartId);
+    }
+
     public String getPublicId()
     {
         return preferencesGetString("mpublic");
