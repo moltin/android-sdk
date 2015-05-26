@@ -45,12 +45,38 @@ moltin.product.get("6", callback);
 
 ### Handling the Callback on an example
 
+Getting the product "6" specification
 ```
+
 moltin.product.get("6", new Handler.Callback() {
 	@Override
 	public boolean handleMessage(Message msg) {
 		if (msg.what == Constants.RESULT_OK) {
 			JSONObject jsonResponse = (JSONObject)msg.obj;
+			return true;
+		} else {
+			return false;
+		}
+	}
+});
+```
+
+Creating a user's address
+```
+JSONObject jsonCustomer = new JSONObject();
+jsonCustomer.put("save_as","2");
+jsonCustomer.put("first_name","Joe");
+jsonCustomer.put("last_name","Black");
+jsonCustomer.put("address_1","High Street");
+jsonCustomer.put("address_2","Example Village");
+jsonCustomer.put("postcode","1000");
+jsonCustomer.put("country","GB");
+
+moltin.address.create("0", jsonCustomer, new Handler.Callback() {
+	@Override
+	public boolean handleMessage(Message msg) {
+		if (msg.what == Constants.RESULT_OK) {
+			JSONObject jsonResponse = (JSONObject) msg.obj;
 			return true;
 		} else {
 			return false;
