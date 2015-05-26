@@ -26,7 +26,7 @@ public class CartAbstract extends HttpMethodAbstract {
 
             if(cartId.equals(""))
             {
-                cartId = UUID.randomUUID().toString();
+                cartId = UUID.randomUUID().toString().replace("-","");
                 preferences.setCartId(cartId);
             }
 
