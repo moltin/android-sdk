@@ -23,6 +23,16 @@ public class Preferences {
         }
     }
 
+    public String getCurrencyId()
+    {
+        return preferencesGetString("mcurrency");
+    }
+
+    public void setCurrencyId(String currencyId)
+    {
+        preferencesSetString("mcurrency", currencyId);
+    }
+
     public String getCartId()
     {
         return preferencesGetString("mcart");

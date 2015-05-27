@@ -46,6 +46,8 @@ public class CartAbstract extends HttpMethodAbstract {
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
             jsonHeaders.put("Authorization", "Bearer " + preferences.getToken());
+            if(preferences.getCurrencyId().length()>0)
+                jsonHeaders.put("X-Currency", preferences.getCurrencyId());
 
             super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, null, callback);
         }
@@ -71,6 +73,8 @@ public class CartAbstract extends HttpMethodAbstract {
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
             jsonHeaders.put("Authorization", "Bearer " + preferences.getToken());
+            if(preferences.getCurrencyId().length()>0)
+                jsonHeaders.put("X-Currency", preferences.getCurrencyId());
 
             super.httpPostAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, null, jsonData, callback);
         }
@@ -88,6 +92,8 @@ public class CartAbstract extends HttpMethodAbstract {
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
             jsonHeaders.put("Authorization", "Bearer " + preferences.getToken());
+            if(preferences.getCurrencyId().length()>0)
+                jsonHeaders.put("X-Currency", preferences.getCurrencyId());
 
             super.httpPutAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, null, data, callback);
         }
@@ -105,6 +111,8 @@ public class CartAbstract extends HttpMethodAbstract {
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
             jsonHeaders.put("Authorization", "Bearer " + preferences.getToken());
+            if(preferences.getCurrencyId().length()>0)
+                jsonHeaders.put("X-Currency", preferences.getCurrencyId());
 
             super.httpDeleteAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, null, callback);
         }
@@ -122,6 +130,8 @@ public class CartAbstract extends HttpMethodAbstract {
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
             jsonHeaders.put("Authorization", "Bearer " + preferences.getToken());
+            if(preferences.getCurrencyId().length()>0)
+                jsonHeaders.put("X-Currency", preferences.getCurrencyId());
 
             super.httpDeleteAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, null, callback);
         }
@@ -139,6 +149,8 @@ public class CartAbstract extends HttpMethodAbstract {
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
             jsonHeaders.put("Authorization", "Bearer " + preferences.getToken());
+            if(preferences.getCurrencyId().length()>0)
+                jsonHeaders.put("X-Currency", preferences.getCurrencyId());
 
             super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, null, callback);
         }
@@ -156,6 +168,8 @@ public class CartAbstract extends HttpMethodAbstract {
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
             jsonHeaders.put("Authorization", "Bearer " + preferences.getToken());
+            if(preferences.getCurrencyId().length()>0)
+                jsonHeaders.put("X-Currency", preferences.getCurrencyId());
 
             super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, null, callback);
         }
@@ -173,6 +187,8 @@ public class CartAbstract extends HttpMethodAbstract {
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
             jsonHeaders.put("Authorization", "Bearer " + preferences.getToken());
+            if(preferences.getCurrencyId().length()>0)
+                jsonHeaders.put("X-Currency", preferences.getCurrencyId());
 
             super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, null, callback);
         }
@@ -190,6 +206,8 @@ public class CartAbstract extends HttpMethodAbstract {
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
             jsonHeaders.put("Authorization", "Bearer " + preferences.getToken());
+            if(preferences.getCurrencyId().length()>0)
+                jsonHeaders.put("X-Currency", preferences.getCurrencyId());
 
             super.httpPostAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, null, data, callback);
         }

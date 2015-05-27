@@ -8,19 +8,19 @@ import in.molt.android_sdk.utilities.Constants;
 import in.molt.android_sdk.utilities.Preferences;
 
 //handling API calls for the endpoint
-public abstract class AddressAbstract extends HttpMethodAbstract {
+public class OrderAbstract extends HttpMethodAbstract {
 
     public Preferences preferences;
 
-    public AddressAbstract(Preferences preferences)
+    public OrderAbstract(Preferences preferences)
     {
         this.preferences = preferences;
     }
 
-    public void get(String customer, String id, Handler.Callback callback) throws Exception {
+    public void get(String id, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "customer/" + customer + "/address/" + id;
+            String endpoint = "order/" + id;
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -36,10 +36,10 @@ public abstract class AddressAbstract extends HttpMethodAbstract {
         }
     }
 
-    public void find(String customer, JSONObject terms, Handler.Callback callback) throws Exception {
+    public void find(JSONObject terms, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "customer/" + customer + "/address";
+            String endpoint = "order";
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -55,10 +55,10 @@ public abstract class AddressAbstract extends HttpMethodAbstract {
         }
     }
 
-    public void list(String customer, JSONObject terms, Handler.Callback callback) throws Exception {
+    public void list(JSONObject terms, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "customer/" + customer + "/addresses";
+            String endpoint = "orders";
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -74,10 +74,10 @@ public abstract class AddressAbstract extends HttpMethodAbstract {
         }
     }
 
-    public void create(String customer, JSONObject data, Handler.Callback callback) throws Exception {
+    public void create(JSONObject data, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "customer/" + customer + "/address";
+            String endpoint = "order";
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -86,39 +86,6 @@ public abstract class AddressAbstract extends HttpMethodAbstract {
                 jsonHeaders.put("X-Currency", preferences.getCurrencyId());
 
             super.httpPostAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, null, data, callback);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
-    }
-
-    public void fields(String customer, String id, Handler.Callback callback) throws Exception {
-        try
-        {
-            String endpoint = "";
-
-            if (customer == null || customer.length()==0) {
-                customer = "";
-            }
-            if (id == null || id.length()==0) {
-                id = "";
-            }
-            if (customer.length()>0 && id.length()==0) {
-                endpoint = "customer/" + customer + "/address/fields";
-            } else if (customer.length()>0 && id.length()>0) {
-                endpoint = "customer/" + customer + "/address/" + id + "/fields";
-            } else {
-                endpoint = "address/fields";
-            }
-
-            JSONObject jsonHeaders = new JSONObject();
-            jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
-            jsonHeaders.put("Authorization", "Bearer " + preferences.getToken());
-            if(preferences.getCurrencyId().length()>0)
-                jsonHeaders.put("X-Currency", preferences.getCurrencyId());
-
-            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, null, callback);
         }
         catch (Exception e) {
             e.printStackTrace();
