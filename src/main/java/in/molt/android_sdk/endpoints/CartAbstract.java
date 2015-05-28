@@ -41,7 +41,7 @@ public class CartAbstract extends HttpMethodAbstract {
     public void contents(Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "cart/" + preferences.getCartId();
+            String endpoint = "cart/" + getIdentifier();
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -68,7 +68,7 @@ public class CartAbstract extends HttpMethodAbstract {
             jsonData.put("quantity",qty);
             jsonData.put("modifier",mods);
 
-            String endpoint = "cart/" + preferences.getCartId();
+            String endpoint = "cart/" + getIdentifier();
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -87,7 +87,7 @@ public class CartAbstract extends HttpMethodAbstract {
     public void update(String id, JSONObject data, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "cart/" + preferences.getCartId() + "/item/" + id;
+            String endpoint = "cart/" + getIdentifier() + "/item/" + id;
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -125,7 +125,7 @@ public class CartAbstract extends HttpMethodAbstract {
     public void remove(String id, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "cart/" + preferences.getCartId() + "/item/" + id;
+            String endpoint = "cart/" + getIdentifier() + "/item/" + id;
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -144,7 +144,7 @@ public class CartAbstract extends HttpMethodAbstract {
     public void item(String id, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "cart/" + preferences.getCartId() + "/item/" + id;
+            String endpoint = "cart/" + getIdentifier() + "/item/" + id;
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -163,7 +163,7 @@ public class CartAbstract extends HttpMethodAbstract {
     public void inCart(String id, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "cart/" + preferences.getCartId() + "/has/" + id;
+            String endpoint = "cart/" + getIdentifier() + "/has/" + id;
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -182,7 +182,7 @@ public class CartAbstract extends HttpMethodAbstract {
     public void checkout(Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "cart/" + preferences.getCartId() + "/checkout";
+            String endpoint = "cart/" + getIdentifier() + "/checkout";
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -201,7 +201,7 @@ public class CartAbstract extends HttpMethodAbstract {
     public void complete(JSONObject data, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "cart/" + preferences.getCartId() + "/checkout";
+            String endpoint = "cart/" + getIdentifier() + "/checkout";
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");

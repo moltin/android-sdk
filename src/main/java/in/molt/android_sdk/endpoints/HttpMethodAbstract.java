@@ -209,7 +209,7 @@ abstract class HttpMethodAbstract {
                 while( keys.hasNext() )
                 {
                     String key = (String)keys.next();
-                    if(data.get(key) instanceof String){
+                    if(data.get(key) instanceof String || data.get(key) instanceof Integer || data.get(key) instanceof Long || data.get(key) instanceof Float || data.get(key) instanceof Double){
                         nameValuePairs.add(new BasicNameValuePair(key, data.getString(key)));
                         Log.i("Key - Value", key + " - " + data.getString(key));
                     }
@@ -244,7 +244,7 @@ abstract class HttpMethodAbstract {
             while( keys.hasNext() )
             {
                 String key = (String)keys.next();
-                if(json.get(key) instanceof String){
+                if(json.get(key) instanceof String || json.get(key) instanceof Integer || json.get(key) instanceof Long || json.get(key) instanceof Float || json.get(key) instanceof Double){
                     nameValuePairs.add(new BasicNameValuePair(oldKey + "[" + key + "]", json.getString(key)));
                     Log.i("Key - Value", oldKey + "[" + key + "]" + " - " + json.getString(key));
                 }

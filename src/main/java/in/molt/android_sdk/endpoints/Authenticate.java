@@ -68,7 +68,7 @@ public class Authenticate extends HttpMethodAbstract {
                         JSONObject json = new JSONObject();
                         try
                         {
-                            json.put("result", "authenticated");
+                            json.put("result", "already authenticated with valid token");
                         }
                         catch (JSONException e)
                         {

@@ -48,7 +48,7 @@ public class Moltin
         this.preferences = new Preferences(context);
 
         authenticate = new Authenticate(preferences);
-        
+
         address = new Address(preferences);
         brand = new Brand(preferences);
         cart = new Cart(preferences);
