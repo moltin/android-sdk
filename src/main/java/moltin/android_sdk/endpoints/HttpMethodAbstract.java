@@ -22,6 +22,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -52,7 +53,7 @@ abstract class HttpMethodAbstract {
                     String key = (String)keys.next();
 
                     if( parameters.get(key) instanceof String){
-                        stringParameters+=key + "=" + parameters.getString(key);
+                        stringParameters+=URLEncoder.encode(key, "utf-8") + "=" + URLEncoder.encode(parameters.getString(key), "utf-8");
                         i++;
                     }
                 }
@@ -204,8 +205,8 @@ abstract class HttpMethodAbstract {
                 while( keys.hasNext() )
                 {
                     String key = (String)keys.next();
-                    if(data.get(key) instanceof String || data.get(key) instanceof Integer || data.get(key) instanceof Long || data.get(key) instanceof Float || data.get(key) instanceof Double){
-                        nameValuePairs.add(new BasicNameValuePair(key, data.getString(key)));
+                    if(data.get(key) instanceof String || data.get(key) instanceof Integer || data.get(key) instanceof Long || data.get(key) instanceof Float || data.get(key) instanceof Double || data.get(key) instanceof Boolean){
+                        nameValuePairs.add(new BasicNameValuePair(URLEncoder.encode(key, "utf-8"), URLEncoder.encode(data.getString(key), "utf-8")));
                     }
                     else if(data.get(key) instanceof JSONObject)
                     {
@@ -238,12 +239,12 @@ abstract class HttpMethodAbstract {
             while( keys.hasNext() )
             {
                 String key = (String)keys.next();
-                if(json.get(key) instanceof String || json.get(key) instanceof Integer || json.get(key) instanceof Long || json.get(key) instanceof Float || json.get(key) instanceof Double){
-                    nameValuePairs.add(new BasicNameValuePair(oldKey + "[" + key + "]", json.getString(key)));
+                if(json.get(key) instanceof String || json.get(key) instanceof Integer || json.get(key) instanceof Long || json.get(key) instanceof Float || json.get(key) instanceof Double || json.get(key) instanceof Boolean) {
+                    nameValuePairs.add(new BasicNameValuePair(oldKey + "[" + URLEncoder.encode(key, "utf-8") + "]", URLEncoder.encode(json.getString(key), "utf-8")));
                 }
                 else if(json.get(key) instanceof JSONObject)
                 {
-                    getNestedName(oldKey + "[" + key + "]", json.getJSONObject(key), nameValuePairs);
+                    getNestedName(oldKey + "[" + URLEncoder.encode(key, "utf-8") + "]", json.getJSONObject(key), nameValuePairs);
                 }
             }
         }
