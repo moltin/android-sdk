@@ -1,4 +1,4 @@
-package in.molt.android_sdk;
+package moltin.android_sdk;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
