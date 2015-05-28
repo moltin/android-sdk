@@ -15,7 +15,7 @@ repositories {
 dependencies {
    compile(name:'android-sdk-[debug|release]', ext:'aar')
 }
-``
+```
 And then add the .aar file into your `libs` folder from `[moltin lib root folder]/build/outputs/aar/`
 
 ## Usage
