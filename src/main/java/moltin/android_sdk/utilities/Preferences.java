@@ -2,7 +2,6 @@ package moltin.android_sdk.utilities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import java.util.Date;
 
@@ -62,13 +61,11 @@ public class Preferences {
 
     public String getToken()
     {
-        Log.i("READING TOKEN", "mtoken " + preferencesGetString("mtoken"));
         return preferencesGetString("mtoken");
     }
 
     public void setToken(String token)
     {
-        Log.i("WRITING TOKEN", "mtoken " + token);
         preferencesSetString("mtoken", token);
     }
 

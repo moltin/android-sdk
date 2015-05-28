@@ -29,13 +29,13 @@ public class Authenticate extends HttpMethodAbstract {
 
             preferences.setPublicId(publicId);
 
-            Log.i("REQUEST TOKEN", "mtoken " + preferences.getToken());
+            if(!Constants.DISABLE_LOGGING) Log.i("REQUEST TOKEN", "mtoken " + preferences.getToken());
 
             if (!preferences.getToken().equals("") && !preferences.isExpired()) {
                 JSONObject json = new JSONObject();
                 try {
 
-                    Log.i("RESPONSE AUTH", "already authenticated");
+                    if(!Constants.DISABLE_LOGGING) Log.i("RESPONSE AUTH", "already authenticated");
 
                     json.put("result", "already authenticated");
                 } catch (JSONException e) {
@@ -54,8 +54,7 @@ public class Authenticate extends HttpMethodAbstract {
 
             JSONObject jsonData = new JSONObject();
             jsonData.put("client_id", publicId);
-            //jsonData.put("client_secret", clientSecret);
-            jsonData.put("grant_type", "implicit");//"client_credentials");
+            jsonData.put("grant_type", "implicit");
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -77,7 +76,7 @@ public class Authenticate extends HttpMethodAbstract {
 
                         JSONObject response = (JSONObject)msg.obj;
 
-                        Log.i("RESPONSE AUTH", response.toString());
+                        if(!Constants.DISABLE_LOGGING) Log.i("RESPONSE AUTH", response.toString());
 
                         try {
                             preferences.setToken(response.getString("access_token"));

@@ -8,4 +8,6 @@ public class Constants {
     final public static String PREFERENCES_NAME = "moltin_android_sdk";
     final public static int RESULT_OK = 1;
     final public static int RESULT_NOT_OK = 0;
+
+    final public static boolean DISABLE_LOGGING = false;
 }

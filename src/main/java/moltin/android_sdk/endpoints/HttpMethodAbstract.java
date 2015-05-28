@@ -51,14 +51,13 @@ abstract class HttpMethodAbstract {
 
                     String key = (String)keys.next();
 
-                    Log.i("Key - Value", key + " - " + parameters.getString(key));
                     if( parameters.get(key) instanceof String){
                         stringParameters+=key + "=" + parameters.getString(key);
                         i++;
                     }
                 }
 
-                Log.i("REQUEST PARAMETERS", stringParameters);
+                if(!Constants.DISABLE_LOGGING) Log.i("REQUEST PARAMETERS", stringParameters);
 
                 return stringParameters;
             }
@@ -84,7 +83,6 @@ abstract class HttpMethodAbstract {
                 while( keys.hasNext() )
                 {
                     String key = (String)keys.next();
-                    Log.i("Key - Value", key + " - " + headers.getString(key));
                     if( headers.get(key) instanceof String){
                         httpGet.addHeader(key, headers.getString(key));
                     }
@@ -114,7 +112,6 @@ abstract class HttpMethodAbstract {
                 while( keys.hasNext() )
                 {
                     String key = (String)keys.next();
-                    Log.i("Key - Value", key + " - " + headers.getString(key));
                     if( headers.get(key) instanceof String){
                         httpPost.addHeader(key, headers.getString(key));
                     }
@@ -144,7 +141,6 @@ abstract class HttpMethodAbstract {
                 while( keys.hasNext() )
                 {
                     String key = (String)keys.next();
-                    Log.i("Key - Value", key + " - " + headers.getString(key));
                     if( headers.get(key) instanceof String){
                         httpPut.addHeader(key, headers.getString(key));
                     }
@@ -174,7 +170,6 @@ abstract class HttpMethodAbstract {
                 while( keys.hasNext() )
                 {
                     String key = (String)keys.next();
-                    Log.i("Key - Value", key + " - " + headers.getString(key));
                     if( headers.get(key) instanceof String){
                         httpDelete.addHeader(key, headers.getString(key));
                     }
@@ -211,7 +206,6 @@ abstract class HttpMethodAbstract {
                     String key = (String)keys.next();
                     if(data.get(key) instanceof String || data.get(key) instanceof Integer || data.get(key) instanceof Long || data.get(key) instanceof Float || data.get(key) instanceof Double){
                         nameValuePairs.add(new BasicNameValuePair(key, data.getString(key)));
-                        Log.i("Key - Value", key + " - " + data.getString(key));
                     }
                     else if(data.get(key) instanceof JSONObject)
                     {
@@ -246,7 +240,6 @@ abstract class HttpMethodAbstract {
                 String key = (String)keys.next();
                 if(json.get(key) instanceof String || json.get(key) instanceof Integer || json.get(key) instanceof Long || json.get(key) instanceof Float || json.get(key) instanceof Double){
                     nameValuePairs.add(new BasicNameValuePair(oldKey + "[" + key + "]", json.getString(key)));
-                    Log.i("Key - Value", oldKey + "[" + key + "]" + " - " + json.getString(key));
                 }
                 else if(json.get(key) instanceof JSONObject)
                 {
@@ -281,7 +274,7 @@ abstract class HttpMethodAbstract {
 
                     HttpGet get = new HttpGet(url + (version.length()>0 ? version + "/" : "") + endpoint + stringParameters);
 
-                    Log.i("REQUEST URL",get.getURI().toString());
+                    if(!Constants.DISABLE_LOGGING) Log.i("REQUEST URL",get.getURI().toString());
 
                     get = setHeaders(get, headers);
 
@@ -293,7 +286,7 @@ abstract class HttpMethodAbstract {
                     if (response != null) {
                         int responseCode = response.getStatusLine().getStatusCode();
 
-                        Log.i("RESPONSE CODE","" + responseCode);
+                        if(!Constants.DISABLE_LOGGING) Log.i("RESPONSE CODE","" + responseCode);
 
                         InputStream in = response.getEntity().getContent(); //Get the data in the entity
 
@@ -309,7 +302,7 @@ abstract class HttpMethodAbstract {
 
                             JSONObject jsonResponse = new JSONObject(sResponse);
 
-                            Log.i("RESPONSE",sResponse);
+                            if(!Constants.DISABLE_LOGGING) Log.i("RESPONSE",sResponse);
 
                             if (responseCode < 200 || responseCode >= 300) {
                                 callbackMessage.obj = jsonResponse;
@@ -377,7 +370,7 @@ abstract class HttpMethodAbstract {
 
                     HttpPost post = new HttpPost(url + (version.length()>0 ? version + "/" : "") + endpoint + stringParameters);
 
-                    Log.i("REQUEST URL",post.getURI().toString());
+                    if(!Constants.DISABLE_LOGGING) Log.i("REQUEST URL",post.getURI().toString());
 
                     post = setHeaders(post, headers);
 
@@ -386,7 +379,7 @@ abstract class HttpMethodAbstract {
 
                     if(json!=null)
                     {
-                        Log.i("REQUEST JSON", json.toString());
+                        if(!Constants.DISABLE_LOGGING) Log.i("REQUEST JSON", json.toString());
 
                         /*StringEntity se = new StringEntity(json.toString(),"UTF-8");
                         se.setContentEncoding(new BasicHeader(HTTP.CONTENT_ENCODING,"charset=utf-8"));
@@ -405,7 +398,7 @@ abstract class HttpMethodAbstract {
                     if (response != null) {
                         int responseCode = response.getStatusLine().getStatusCode();
 
-                        Log.i("RESPONSE CODE","" + responseCode);
+                        if(!Constants.DISABLE_LOGGING) Log.i("RESPONSE CODE","" + responseCode);
 
                         InputStream in = response.getEntity().getContent(); //Get the data in the entity
 
@@ -419,7 +412,7 @@ abstract class HttpMethodAbstract {
                                 sResponse = sResponse + sLine;
                             }
 
-                            Log.i("RESPONSE",sResponse);
+                            if(!Constants.DISABLE_LOGGING) Log.i("RESPONSE",sResponse);
 
                             JSONObject jsonResponse = new JSONObject(sResponse);
 
@@ -489,7 +482,7 @@ abstract class HttpMethodAbstract {
 
                     HttpPut put = new HttpPut(url + (version.length()>0 ? version + "/" : "") + endpoint + stringParameters);
 
-                    Log.i("REQUEST URL",put.getURI().toString());
+                    if(!Constants.DISABLE_LOGGING) Log.i("REQUEST URL",put.getURI().toString());
 
                     put = setHeaders(put, headers);
 
@@ -498,7 +491,7 @@ abstract class HttpMethodAbstract {
 
                     if(json!=null)
                     {
-                        Log.i("REQUEST JSON", json.toString());
+                        if(!Constants.DISABLE_LOGGING) Log.i("REQUEST JSON", json.toString());
 
                         /*StringEntity se = new StringEntity(json.toString(),"UTF-8");
                         se.setContentEncoding(new BasicHeader(HTTP.CONTENT_ENCODING,"charset=utf-8"));
@@ -517,7 +510,7 @@ abstract class HttpMethodAbstract {
                     if (response != null) {
                         int responseCode = response.getStatusLine().getStatusCode();
 
-                        Log.i("RESPONSE CODE","" + responseCode);
+                        if(!Constants.DISABLE_LOGGING) Log.i("RESPONSE CODE","" + responseCode);
 
                         InputStream in = response.getEntity().getContent(); //Get the data in the entity
 
@@ -531,7 +524,7 @@ abstract class HttpMethodAbstract {
                                 sResponse = sResponse + sLine;
                             }
 
-                            Log.i("RESPONSE",sResponse);
+                            if(!Constants.DISABLE_LOGGING) Log.i("RESPONSE",sResponse);
 
                             JSONObject jsonResponse = new JSONObject(sResponse);
 
@@ -601,7 +594,7 @@ abstract class HttpMethodAbstract {
 
                     HttpDelete delete = new HttpDelete(url + (version.length()>0 ? version + "/" : "") + endpoint + stringParameters);
 
-                    Log.i("REQUEST URL",delete.getURI().toString());
+                    if(!Constants.DISABLE_LOGGING) Log.i("REQUEST URL",delete.getURI().toString());
 
                     delete = setHeaders(delete, headers);
 
@@ -613,7 +606,7 @@ abstract class HttpMethodAbstract {
                     if (response != null) {
                         int responseCode = response.getStatusLine().getStatusCode();
 
-                        Log.i("RESPONSE CODE","" + responseCode);
+                        if(!Constants.DISABLE_LOGGING) Log.i("RESPONSE CODE","" + responseCode);
 
                         InputStream in = response.getEntity().getContent(); //Get the data in the entity
 
@@ -629,7 +622,7 @@ abstract class HttpMethodAbstract {
 
                             JSONObject jsonResponse = new JSONObject(sResponse);
 
-                            Log.i("RESPONSE",sResponse);
+                            if(!Constants.DISABLE_LOGGING) Log.i("RESPONSE",sResponse);
 
                             if (responseCode < 200 || responseCode >= 300) {
                                 callbackMessage.obj = jsonResponse;
