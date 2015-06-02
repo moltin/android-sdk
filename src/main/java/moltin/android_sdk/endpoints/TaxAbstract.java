@@ -4,6 +4,7 @@ import android.os.Handler;
 
 import org.json.JSONObject;
 
+import moltin.android_sdk.models.Pagination;
 import moltin.android_sdk.utilities.Constants;
 import moltin.android_sdk.utilities.Preferences;
 
@@ -36,7 +37,7 @@ public class TaxAbstract extends HttpMethodAbstract {
         }
     }
 
-    public void find(JSONObject terms, Handler.Callback callback) throws Exception {
+    public void find(moltin.android_sdk.models.Tax terms, Handler.Callback callback) throws Exception {
         try
         {
             String endpoint = "taxes";
@@ -47,7 +48,7 @@ public class TaxAbstract extends HttpMethodAbstract {
             if(preferences.getCurrencyId().length()>0)
                 jsonHeaders.put("X-Currency", preferences.getCurrencyId());
 
-            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, terms, callback);
+            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, (terms==null ? null : terms.getData()), callback);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -55,7 +56,7 @@ public class TaxAbstract extends HttpMethodAbstract {
         }
     }
 
-    public void list(JSONObject terms, Handler.Callback callback) throws Exception {
+    public void list(Pagination terms, Handler.Callback callback) throws Exception {
         try
         {
             String endpoint = "taxes";
@@ -66,7 +67,7 @@ public class TaxAbstract extends HttpMethodAbstract {
             if(preferences.getCurrencyId().length()>0)
                 jsonHeaders.put("X-Currency", preferences.getCurrencyId());
 
-            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, terms, callback);
+            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, (terms==null ? null : terms.getData()), callback);
         }
         catch (Exception e) {
             e.printStackTrace();

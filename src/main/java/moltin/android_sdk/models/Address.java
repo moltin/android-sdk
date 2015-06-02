@@ -1,6 +1,5 @@
 package moltin.android_sdk.models;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Address {
@@ -22,96 +21,6 @@ public class Address {
     public Address()
     {
 
-    }
-
-    public Address(Object object) throws Exception {
-        this((JSONObject)object);
-    }
-
-    public Address(JSONObject json) throws Exception {
-        try
-        {
-            if(json.has("status") && !json.isNull("status") && json.get("status") instanceof Boolean && json.getBoolean("status") && json.has("result") && !json.isNull("result") && json.get("result") instanceof JSONObject)
-            {
-                json = json.getJSONObject("result");
-            }
-            if(json.has("status") && !json.isNull("status") && json.get("status") instanceof Boolean && json.getBoolean("status") && json.has("result") && json.get("result") instanceof JSONArray && !json.isNull("result") && json.getJSONArray("result").length()==1)
-            {
-                json = json.getJSONArray("result").getJSONObject(0);
-            }
-            else if(json.has("status") && !json.isNull("status") && json.get("status") instanceof Boolean && json.getBoolean("status") && json.has("result") && json.get("result") instanceof JSONArray && !json.isNull("result") && json.getJSONArray("result").length()>1)
-            {
-                throw new Exception("multiple items, expected single item to parse");
-            }
-            else if(json.has("status") && !json.isNull("status") && json.get("status") instanceof Boolean && json.getBoolean("status") && json.has("result") && json.get("result") instanceof JSONArray && !json.isNull("result") && json.getJSONArray("result").length()<1)
-            {
-                throw new Exception("zero items, expected single item to parse");
-            }
-            else if(json.has("status") && !json.isNull("status") && json.get("status") instanceof Boolean && json.getBoolean("status") && json.has("result") && json.get("result") instanceof JSONArray && json.isNull("result"))
-            {
-                throw new Exception("no items to parse");
-            }
-            else if(json.has("status") && !json.isNull("status") && json.get("status") instanceof Boolean && !json.getBoolean("status") && json.has("errors") && !json.isNull("errors"))
-            {
-                String errors="status is false";
-                for(int i=0;i<json.getJSONArray("errors").length();i++)
-                {
-                    errors += "\n" + json.getJSONArray("errors").getString(i);
-                }
-                throw new Exception(errors);
-            }
-            else if(json.has("status") && !json.isNull("status") && json.get("status") instanceof Boolean && !json.getBoolean("status") && json.has("error") && !json.isNull("error"))
-            {
-                throw new Exception(json.getString("error"));
-            }
-
-            if(json.has("id") && !json.isNull("id"))
-                id = (String)json.get("id");
-
-            if(json.has("save_as") && !json.isNull("save_as"))
-                save_as = (String)json.get("save_as");
-
-            if(json.has("company") && !json.isNull("company"))
-                company = (String)json.get("company");
-
-            if(json.has("first_name") && !json.isNull("first_name"))
-                first_name = (String)json.get("first_name");
-
-            if(json.has("last_name") && !json.isNull("last_name"))
-                last_name = (String)json.get("last_name");
-
-            if(json.has("email") && !json.isNull("email"))
-                email = (String)json.get("email");
-
-            if(json.has("phone") && !json.isNull("phone"))
-                phone = (String)json.get("phone");
-
-            if(json.has("address_1") && !json.isNull("address_1"))
-                address_1 = (String)json.get("address_1");
-
-            if(json.has("address_2") && !json.isNull("address_2"))
-                address_2 = (String)json.get("address_2");
-
-            if(json.has("city") && !json.isNull("city"))
-                city = (String)json.get("city");
-
-            if(json.has("county") && !json.isNull("county"))
-                county = (String)json.get("county");
-
-            if(json.has("postcode") && !json.isNull("postcode"))
-                postcode = (String)json.get("postcode");
-
-            /*if(json.has("country") && !json.isNull("country"))
-                country = new Country(json.getJSONObject("country"));*/
-
-            /*if(json.has("customer") && !json.isNull("customer"))
-                customer = new Customer(json.getJSONObject("customer"));*/
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            throw e;
-        }
     }
 
     public JSONObject getData()
