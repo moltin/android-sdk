@@ -1,6 +1,5 @@
 package moltin.android_sdk.models;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Currency {
@@ -20,86 +19,6 @@ public class Currency {
     public Currency()
     {
 
-    }
-
-    public Currency(Object object) throws Exception {
-        this((JSONObject)object);
-    }
-
-    public Currency(JSONObject json) throws Exception {
-        try
-        {
-            if(json.has("status") && !json.isNull("status") && json.get("status") instanceof Boolean && json.getBoolean("status") && json.has("result") && !json.isNull("result") && json.get("result") instanceof JSONObject)
-            {
-                json = json.getJSONObject("result");
-            }
-            if(json.has("status") && !json.isNull("status") && json.get("status") instanceof Boolean && json.getBoolean("status") && json.has("result") && json.get("result") instanceof JSONArray && !json.isNull("result") && json.getJSONArray("result").length()==1)
-            {
-                json = json.getJSONArray("result").getJSONObject(0);
-            }
-            else if(json.has("status") && !json.isNull("status") && json.get("status") instanceof Boolean && json.getBoolean("status") && json.has("result") && json.get("result") instanceof JSONArray && !json.isNull("result") && json.getJSONArray("result").length()>1)
-            {
-                throw new Exception("multiple items, expected single item to parse");
-            }else if(json.has("status") && !json.isNull("status") && json.get("status") instanceof Boolean && json.getBoolean("status") && json.has("result") && json.get("result") instanceof JSONArray && !json.isNull("result") && json.getJSONArray("result").length()<1)
-            {
-                throw new Exception("zero items, expected single item to parse");
-            }
-            else if(json.has("status") && !json.isNull("status") && json.get("status") instanceof Boolean && json.getBoolean("status") && json.has("result") && json.get("result") instanceof JSONArray && json.isNull("result"))
-            {
-                throw new Exception("no items to parse");
-            }
-            else if(json.has("status") && !json.isNull("status") && json.get("status") instanceof Boolean && !json.getBoolean("status") && json.has("errors") && !json.isNull("errors"))
-            {
-                String errors="status is false";
-                for(int i=0;i<json.getJSONArray("errors").length();i++)
-                {
-                    errors += "\n" + json.getJSONArray("errors").getString(i);
-                }
-                throw new Exception(errors);
-            }
-            else if(json.has("status") && !json.isNull("status") && json.get("status") instanceof Boolean && !json.getBoolean("status") && json.has("error") && !json.isNull("error"))
-            {
-                throw new Exception(json.getString("error"));
-            }
-
-            if(json.has("id") && !json.isNull("id"))
-                id = (String)json.get("id");
-
-            if(json.has("code") && !json.isNull("code"))
-                code = (String)json.get("code");
-
-            if(json.has("title") && !json.isNull("title"))
-                title = (String)json.get("title");
-
-            if(json.has("enabled") && !json.isNull("enabled"))
-                enabled = (Boolean)json.get("enabled");
-
-            if(json.has("modifier") && !json.isNull("modifier"))
-                modifier = (String)json.get("modifier");
-
-            if(json.has("exchange_rate") && !json.isNull("exchange_rate"))
-                exchange_rate = (Float)json.get("exchange_rate");
-
-            if(json.has("format") && !json.isNull("format"))
-                format = (String)json.get("format");
-
-            if(json.has("decimal_point") && !json.isNull("decimal_point"))
-                decimal_point = (String)json.get("decimal_point");
-
-            if(json.has("thousand_point") && !json.isNull("thousand_point"))
-                thousand_point = (String)json.get("thousand_point");
-
-            if(json.has("rounding") && !json.isNull("rounding"))
-                rounding = (String)json.get("rounding");
-
-            if(json.has("default") && !json.isNull("default"))
-                default_usage = (Boolean)json.get("default");
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            throw e;
-        }
     }
 
     public JSONObject getData()
