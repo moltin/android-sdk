@@ -20,7 +20,7 @@ public class TaxAbstract extends HttpMethodAbstract {
     public void get(String id, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "tax/" + id;
+            String endpoint = "taxes/" + id;
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -39,7 +39,7 @@ public class TaxAbstract extends HttpMethodAbstract {
     public void find(JSONObject terms, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "tax";
+            String endpoint = "taxes";
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -83,7 +83,7 @@ public class TaxAbstract extends HttpMethodAbstract {
                 id = "";
             }
 
-            endpoint = "tax/" + (id.length()>0 ? id + "/fields" : "fields");
+            endpoint = "taxes/" + (id.length()>0 ? id + "/fields" : "fields");
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");

@@ -3,8 +3,6 @@ package moltin.android_sdk.endpoints;
 import android.os.Handler;
 import android.os.Message;
 
-import org.json.JSONObject;
-
 import moltin.android_sdk.utilities.Constants;
 import moltin.android_sdk.utilities.Preferences;
 
@@ -55,7 +53,7 @@ public class Address extends AddressAbstract {
     }
 
     @Override
-    public void find(final String customer, final JSONObject terms, final Handler.Callback callback) throws Exception {
+    public void find(final String customer, final moltin.android_sdk.models.Address terms, final Handler.Callback callback) throws Exception {
         if(preferences.isExpired())
         {
             Authenticate authenticate = new Authenticate(preferences);
@@ -93,7 +91,7 @@ public class Address extends AddressAbstract {
     }
 
     @Override
-    public void list(final String customer, final JSONObject terms, final Handler.Callback callback) throws Exception {
+    public void list(final String customer, final moltin.android_sdk.models.Address terms, final Handler.Callback callback) throws Exception {
         if(preferences.isExpired())
         {
             Authenticate authenticate = new Authenticate(preferences);
@@ -131,7 +129,7 @@ public class Address extends AddressAbstract {
     }
 
     @Override
-    public void create(final String customer, final JSONObject data, final Handler.Callback callback) throws Exception {
+    public void create(final String customer, final moltin.android_sdk.models.Address data, final Handler.Callback callback) throws Exception {
         if(preferences.isExpired())
         {
             Authenticate authenticate = new Authenticate(preferences);

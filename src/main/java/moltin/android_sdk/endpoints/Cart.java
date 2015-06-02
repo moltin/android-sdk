@@ -4,8 +4,8 @@ package moltin.android_sdk.endpoints;
 import android.os.Handler;
 import android.os.Message;
 
-import org.json.JSONObject;
-
+import moltin.android_sdk.models.CartCustomerCheckout;
+import moltin.android_sdk.models.CartItemVariation;
 import moltin.android_sdk.utilities.Constants;
 import moltin.android_sdk.utilities.Preferences;
 
@@ -56,7 +56,7 @@ public class Cart extends CartAbstract {
     }
 
     @Override
-    public void insert(final String id, final Integer qty, final String mods, final Handler.Callback callback) throws Exception {
+    public void insertItem(final moltin.android_sdk.models.Cart data, final Handler.Callback callback) throws Exception {
         if(preferences.isExpired())
         {
             Authenticate authenticate = new Authenticate(preferences);
@@ -67,7 +67,7 @@ public class Cart extends CartAbstract {
                     if (msg.what == Constants.RESULT_OK)
                     {
                         try {
-                            Cart.super.insert(id, qty, mods, callback);
+                            Cart.super.insertItem(data, callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -76,7 +76,7 @@ public class Cart extends CartAbstract {
                     else
                     {
                         try {
-                            Cart.super.insert(id, qty, mods, callback);
+                            Cart.super.insertItem(data, callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -89,12 +89,50 @@ public class Cart extends CartAbstract {
         }
         else
         {
-            super.insert(id, qty, mods, callback);
+            super.insertItem(data, callback);
         }
     }
 
     @Override
-    public void update(final String id, final JSONObject data, final Handler.Callback callback) throws Exception {
+    public void insertVariation(final String id, final Integer qty, final CartItemVariation[] mods, final Handler.Callback callback) throws Exception {
+        if(preferences.isExpired())
+        {
+            Authenticate authenticate = new Authenticate(preferences);
+
+            Handler.Callback callbackForAuth = new Handler.Callback() {
+                @Override
+                public boolean handleMessage(Message msg) {
+                    if (msg.what == Constants.RESULT_OK)
+                    {
+                        try {
+                            Cart.super.insertVariation(id, qty, mods, callback);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return true;
+                    }
+                    else
+                    {
+                        try {
+                            Cart.super.insertVariation(id, qty, mods, callback);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return false;
+                    }
+                }
+            };
+
+            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
+        }
+        else
+        {
+            super.insertVariation(id, qty, mods, callback);
+        }
+    }
+
+    @Override
+    public void update(final String id, final moltin.android_sdk.models.Cart data, final Handler.Callback callback) throws Exception {
         if(preferences.isExpired())
         {
             Authenticate authenticate = new Authenticate(preferences);
@@ -284,7 +322,7 @@ public class Cart extends CartAbstract {
     }
 
     @Override
-    public void checkout(final Handler.Callback callback) throws Exception {
+    public void checkout(final CartCustomerCheckout data, final Handler.Callback callback) throws Exception {
         if(preferences.isExpired())
         {
             Authenticate authenticate = new Authenticate(preferences);
@@ -295,7 +333,7 @@ public class Cart extends CartAbstract {
                     if (msg.what == Constants.RESULT_OK)
                     {
                         try {
-                            Cart.super.checkout(callback);
+                            Cart.super.checkout(data, callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -304,7 +342,7 @@ public class Cart extends CartAbstract {
                     else
                     {
                         try {
-                            Cart.super.checkout(callback);
+                            Cart.super.checkout(data, callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -317,12 +355,12 @@ public class Cart extends CartAbstract {
         }
         else
         {
-            super.checkout(callback);
+            super.checkout(data, callback);
         }
     }
 
     @Override
-    public void complete(final JSONObject data, final Handler.Callback callback) throws Exception {
+    public void complete(final CartCustomerCheckout data, final Handler.Callback callback) throws Exception {
         if(preferences.isExpired())
         {
             Authenticate authenticate = new Authenticate(preferences);

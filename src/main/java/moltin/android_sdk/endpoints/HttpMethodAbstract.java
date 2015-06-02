@@ -206,7 +206,8 @@ abstract class HttpMethodAbstract {
                 {
                     String key = (String)keys.next();
                     if(data.get(key) instanceof String || data.get(key) instanceof Integer || data.get(key) instanceof Long || data.get(key) instanceof Float || data.get(key) instanceof Double || data.get(key) instanceof Boolean){
-                        nameValuePairs.add(new BasicNameValuePair(URLEncoder.encode(key, "utf-8"), URLEncoder.encode(data.getString(key), "utf-8")));
+                        nameValuePairs.add(new BasicNameValuePair(key, data.getString(key)));
+                        if(!Constants.DISABLE_LOGGING) Log.i("REQUEST DATA", key + "=" + data.getString(key));
                     }
                     else if(data.get(key) instanceof JSONObject)
                     {
@@ -240,7 +241,8 @@ abstract class HttpMethodAbstract {
             {
                 String key = (String)keys.next();
                 if(json.get(key) instanceof String || json.get(key) instanceof Integer || json.get(key) instanceof Long || json.get(key) instanceof Float || json.get(key) instanceof Double || json.get(key) instanceof Boolean) {
-                    nameValuePairs.add(new BasicNameValuePair(oldKey + "[" + URLEncoder.encode(key, "utf-8") + "]", URLEncoder.encode(json.getString(key), "utf-8")));
+                    nameValuePairs.add(new BasicNameValuePair(oldKey + "[" + key + "]", json.getString(key)));
+                    if(!Constants.DISABLE_LOGGING) Log.i("REQUEST DATA", oldKey + "[" + key + "]" + "=" + json.getString(key));
                 }
                 else if(json.get(key) instanceof JSONObject)
                 {
@@ -301,9 +303,18 @@ abstract class HttpMethodAbstract {
                                 sResponse = sResponse + sLine;
                             }
 
-                            JSONObject jsonResponse = new JSONObject(sResponse);
-
                             if(!Constants.DISABLE_LOGGING) Log.i("RESPONSE",sResponse);
+
+                            JSONObject jsonResponse;
+                            try
+                            {
+                                jsonResponse = new JSONObject(sResponse);
+                            }
+                            catch (Exception e)
+                            {
+                                jsonResponse = new JSONObject();
+                                jsonResponse.put("response",sResponse);
+                            }
 
                             if (responseCode < 200 || responseCode >= 300) {
                                 callbackMessage.obj = jsonResponse;
@@ -415,7 +426,16 @@ abstract class HttpMethodAbstract {
 
                             if(!Constants.DISABLE_LOGGING) Log.i("RESPONSE",sResponse);
 
-                            JSONObject jsonResponse = new JSONObject(sResponse);
+                            JSONObject jsonResponse;
+                            try
+                            {
+                                jsonResponse = new JSONObject(sResponse);
+                            }
+                            catch (Exception e)
+                            {
+                                jsonResponse = new JSONObject();
+                                jsonResponse.put("response",sResponse);
+                            }
 
                             if (responseCode < 200 || responseCode >= 300) {
                                 callbackMessage.obj = jsonResponse;
@@ -527,7 +547,16 @@ abstract class HttpMethodAbstract {
 
                             if(!Constants.DISABLE_LOGGING) Log.i("RESPONSE",sResponse);
 
-                            JSONObject jsonResponse = new JSONObject(sResponse);
+                            JSONObject jsonResponse;
+                            try
+                            {
+                                jsonResponse = new JSONObject(sResponse);
+                            }
+                            catch (Exception e)
+                            {
+                                jsonResponse = new JSONObject();
+                                jsonResponse.put("response",sResponse);
+                            }
 
                             if (responseCode < 200 || responseCode >= 300) {
                                 callbackMessage.obj = jsonResponse;
@@ -621,9 +650,18 @@ abstract class HttpMethodAbstract {
                                 sResponse = sResponse + sLine;
                             }
 
-                            JSONObject jsonResponse = new JSONObject(sResponse);
-
                             if(!Constants.DISABLE_LOGGING) Log.i("RESPONSE",sResponse);
+
+                            JSONObject jsonResponse;
+                            try
+                            {
+                                jsonResponse = new JSONObject(sResponse);
+                            }
+                            catch (Exception e)
+                            {
+                                jsonResponse = new JSONObject();
+                                jsonResponse.put("response",sResponse);
+                            }
 
                             if (responseCode < 200 || responseCode >= 300) {
                                 callbackMessage.obj = jsonResponse;

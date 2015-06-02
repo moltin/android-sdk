@@ -3,8 +3,7 @@ package moltin.android_sdk.endpoints;
 import android.os.Handler;
 import android.os.Message;
 
-import org.json.JSONObject;
-
+import moltin.android_sdk.models.Pagination;
 import moltin.android_sdk.utilities.Constants;
 import moltin.android_sdk.utilities.Preferences;
 
@@ -55,7 +54,7 @@ public class Entry extends EntryAbstract {
     }
 
     @Override
-    public void find(final String flow, final JSONObject terms, final Handler.Callback callback) throws Exception {
+    public void find(final String flow, final Pagination terms, final Handler.Callback callback) throws Exception {
         if(preferences.isExpired())
         {
             Authenticate authenticate = new Authenticate(preferences);
@@ -93,7 +92,7 @@ public class Entry extends EntryAbstract {
     }
 
     @Override
-    public void list(final String flow, final JSONObject terms, final Handler.Callback callback) throws Exception {
+    public void list(final String flow, final Handler.Callback callback) throws Exception {
         if(preferences.isExpired())
         {
             Authenticate authenticate = new Authenticate(preferences);
@@ -104,7 +103,7 @@ public class Entry extends EntryAbstract {
                     if (msg.what == Constants.RESULT_OK)
                     {
                         try {
-                            Entry.super.list(flow, terms, callback);
+                            Entry.super.list(flow, callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -113,7 +112,7 @@ public class Entry extends EntryAbstract {
                     else
                     {
                         try {
-                            Entry.super.list(flow, terms, callback);
+                            Entry.super.list(flow, callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -126,7 +125,7 @@ public class Entry extends EntryAbstract {
         }
         else
         {
-            super.list(flow, terms, callback);
+            super.list(flow, callback);
         }
     }
 }

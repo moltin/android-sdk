@@ -20,7 +20,7 @@ public class GatewayAbstract extends HttpMethodAbstract {
     public void get(String slug, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "gateway/" + slug;
+            String endpoint = "gateways/" + slug;
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -36,7 +36,7 @@ public class GatewayAbstract extends HttpMethodAbstract {
         }
     }
 
-    public void list(JSONObject terms, Handler.Callback callback) throws Exception {
+    public void list(Handler.Callback callback) throws Exception {
         try
         {
             String endpoint = "gateways";
@@ -47,7 +47,7 @@ public class GatewayAbstract extends HttpMethodAbstract {
             if(preferences.getCurrencyId().length()>0)
                 jsonHeaders.put("X-Currency", preferences.getCurrencyId());
 
-            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, terms, callback);
+            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, null, callback);
         }
         catch (Exception e) {
             e.printStackTrace();

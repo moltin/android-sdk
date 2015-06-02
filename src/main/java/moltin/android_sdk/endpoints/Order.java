@@ -3,8 +3,7 @@ package moltin.android_sdk.endpoints;
 import android.os.Handler;
 import android.os.Message;
 
-import org.json.JSONObject;
-
+import moltin.android_sdk.models.Pagination;
 import moltin.android_sdk.utilities.Constants;
 import moltin.android_sdk.utilities.Preferences;
 
@@ -55,7 +54,7 @@ public class Order extends OrderAbstract {
     }
 
     @Override
-    public void find(final JSONObject terms, final Handler.Callback callback) throws Exception {
+    public void find(final moltin.android_sdk.models.Order terms, final Handler.Callback callback) throws Exception {
         if(preferences.isExpired())
         {
             Authenticate authenticate = new Authenticate(preferences);
@@ -93,7 +92,7 @@ public class Order extends OrderAbstract {
     }
 
     @Override
-    public void list(final JSONObject terms, final Handler.Callback callback) throws Exception {
+    public void list(final Pagination terms, final Handler.Callback callback) throws Exception {
         if(preferences.isExpired())
         {
             Authenticate authenticate = new Authenticate(preferences);
@@ -131,7 +130,7 @@ public class Order extends OrderAbstract {
     }
 
     @Override
-    public void create(final JSONObject data, final Handler.Callback callback) throws Exception {
+    public void create(final moltin.android_sdk.models.Order data, final Handler.Callback callback) throws Exception {
         if(preferences.isExpired())
         {
             Authenticate authenticate = new Authenticate(preferences);

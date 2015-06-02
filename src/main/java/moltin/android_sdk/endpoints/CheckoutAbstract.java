@@ -4,6 +4,7 @@ import android.os.Handler;
 
 import org.json.JSONObject;
 
+import moltin.android_sdk.models.Checkout;
 import moltin.android_sdk.utilities.Constants;
 import moltin.android_sdk.utilities.Preferences;
 
@@ -17,7 +18,7 @@ public class CheckoutAbstract extends HttpMethodAbstract {
         this.preferences = preferences;
     }
 
-    public void payment(String method, String order, JSONObject data, Handler.Callback callback) throws Exception {
+    public void payment(String method, String order, Checkout data, Handler.Callback callback) throws Exception {
         try
         {
             String endpoint = "checkout/payment/" + method + "/" + order;
@@ -28,7 +29,7 @@ public class CheckoutAbstract extends HttpMethodAbstract {
             if(preferences.getCurrencyId().length()>0)
                 jsonHeaders.put("X-Currency", preferences.getCurrencyId());
 
-            super.httpPostAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, null, data, callback);
+            super.httpPostAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, null, (data==null ? null : data.getData()), callback);
         }
         catch (Exception e) {
             e.printStackTrace();

@@ -6,6 +6,8 @@ import org.json.JSONObject;
 
 import java.util.UUID;
 
+import moltin.android_sdk.models.CartCustomerCheckout;
+import moltin.android_sdk.models.CartItemVariation;
 import moltin.android_sdk.utilities.Constants;
 import moltin.android_sdk.utilities.Preferences;
 
@@ -38,10 +40,20 @@ public class CartAbstract extends HttpMethodAbstract {
         }
     }
 
+    public void setIdentifier(String cartId){
+        try
+        {
+            preferences.setCartId(cartId);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void contents(Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "cart/" + getIdentifier();
+            String endpoint = "carts/" + getIdentifier();
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -57,18 +69,46 @@ public class CartAbstract extends HttpMethodAbstract {
         }
     }
 
-    public void insert(String id, Integer qty, String mods, Handler.Callback callback) throws Exception {
+    public void insertItem(moltin.android_sdk.models.Cart data, Handler.Callback callback) throws Exception {
+        try
+        {
+            String endpoint = "carts/" + getIdentifier();
+
+            JSONObject jsonHeaders = new JSONObject();
+            jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
+            jsonHeaders.put("Authorization", "Bearer " + preferences.getToken());
+            if(preferences.getCurrencyId().length()>0)
+                jsonHeaders.put("X-Currency", preferences.getCurrencyId());
+
+            super.httpPostAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, null, (data==null ? null : data.getData()), callback);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    public void insertVariation(String id, Integer qty, CartItemVariation[] mods, Handler.Callback callback) throws Exception {
         try
         {
             if(qty==null || qty<0)
                 qty=1;
 
             JSONObject jsonData = new JSONObject();
-            jsonData.put("id",id);
-            jsonData.put("quantity",qty);
-            jsonData.put("modifier",mods);
+            if(id!=null)
+                jsonData.put("id",id);
 
-            String endpoint = "cart/" + getIdentifier();
+            jsonData.put("quantity",qty);
+
+            JSONObject jsonMods = new JSONObject();
+            for(int i=0;i<mods.length;i++)
+            {
+                jsonMods.put("modifier["+mods[i].getModifierId()+"]",mods[i].getVariationId());
+            }
+            if(jsonMods!=null)
+                jsonData.put("modifier",mods);
+
+            String endpoint = "carts/" + getIdentifier();
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -84,10 +124,10 @@ public class CartAbstract extends HttpMethodAbstract {
         }
     }
 
-    public void update(String id, JSONObject data, Handler.Callback callback) throws Exception {
+    public void update(String id, moltin.android_sdk.models.Cart data, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "cart/" + getIdentifier() + "/item/" + id;
+            String endpoint = "carts/" + getIdentifier() + "/items/" + id;
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -95,7 +135,7 @@ public class CartAbstract extends HttpMethodAbstract {
             if(preferences.getCurrencyId().length()>0)
                 jsonHeaders.put("X-Currency", preferences.getCurrencyId());
 
-            super.httpPutAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, null, data, callback);
+            super.httpPutAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, null, (data==null ? null : data.getData()), callback);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -106,7 +146,7 @@ public class CartAbstract extends HttpMethodAbstract {
     public void delete(Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "cart/" + preferences.getCartId();
+            String endpoint = "carts/" + preferences.getCartId();
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -125,7 +165,7 @@ public class CartAbstract extends HttpMethodAbstract {
     public void remove(String id, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "cart/" + getIdentifier() + "/item/" + id;
+            String endpoint = "carts/" + getIdentifier() + "/items/" + id;
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -144,7 +184,7 @@ public class CartAbstract extends HttpMethodAbstract {
     public void item(String id, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "cart/" + getIdentifier() + "/item/" + id;
+            String endpoint = "carts/" + getIdentifier() + "/items/" + id;
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -163,7 +203,7 @@ public class CartAbstract extends HttpMethodAbstract {
     public void inCart(String id, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "cart/" + getIdentifier() + "/has/" + id;
+            String endpoint = "carts/" + getIdentifier() + "/has/" + id;
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -179,10 +219,10 @@ public class CartAbstract extends HttpMethodAbstract {
         }
     }
 
-    public void checkout(Handler.Callback callback) throws Exception {
+    public void checkout(CartCustomerCheckout data, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "cart/" + getIdentifier() + "/checkout";
+            String endpoint = "carts/" + getIdentifier() + "/checkout";
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -190,7 +230,7 @@ public class CartAbstract extends HttpMethodAbstract {
             if(preferences.getCurrencyId().length()>0)
                 jsonHeaders.put("X-Currency", preferences.getCurrencyId());
 
-            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, null, callback);
+            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, (data==null ? null : data.getData()), callback);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -198,10 +238,10 @@ public class CartAbstract extends HttpMethodAbstract {
         }
     }
 
-    public void complete(JSONObject data, Handler.Callback callback) throws Exception {
+    public void complete(CartCustomerCheckout data, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "cart/" + getIdentifier() + "/checkout";
+            String endpoint = "carts/" + getIdentifier() + "/checkout";
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -209,7 +249,7 @@ public class CartAbstract extends HttpMethodAbstract {
             if(preferences.getCurrencyId().length()>0)
                 jsonHeaders.put("X-Currency", preferences.getCurrencyId());
 
-            super.httpPostAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, null, data, callback);
+            super.httpPostAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, null, (data==null ? null : data.getData()), callback);
         }
         catch (Exception e) {
             e.printStackTrace();

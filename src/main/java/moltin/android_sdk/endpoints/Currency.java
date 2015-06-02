@@ -3,8 +3,6 @@ package moltin.android_sdk.endpoints;
 import android.os.Handler;
 import android.os.Message;
 
-import org.json.JSONObject;
-
 import moltin.android_sdk.utilities.Constants;
 import moltin.android_sdk.utilities.Preferences;
 
@@ -55,7 +53,7 @@ public class Currency extends CurrencyAbstract {
     }
 
     @Override
-    public void find(final JSONObject terms, final Handler.Callback callback) throws Exception {
+    public void find(final moltin.android_sdk.models.Currency terms, final Handler.Callback callback) throws Exception {
         if(preferences.isExpired())
         {
             Authenticate authenticate = new Authenticate(preferences);
@@ -93,7 +91,7 @@ public class Currency extends CurrencyAbstract {
     }
 
     @Override
-    public void list(final JSONObject terms, final Handler.Callback callback) throws Exception {
+    public void list(final Handler.Callback callback) throws Exception {
         if(preferences.isExpired())
         {
             Authenticate authenticate = new Authenticate(preferences);
@@ -104,7 +102,7 @@ public class Currency extends CurrencyAbstract {
                     if (msg.what == Constants.RESULT_OK)
                     {
                         try {
-                            Currency.super.list(terms, callback);
+                            Currency.super.list(callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -113,7 +111,7 @@ public class Currency extends CurrencyAbstract {
                     else
                     {
                         try {
-                            Currency.super.list(terms, callback);
+                            Currency.super.list(callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -126,7 +124,7 @@ public class Currency extends CurrencyAbstract {
         }
         else
         {
-            super.list(terms, callback);
+            super.list(callback);
         }
     }
 

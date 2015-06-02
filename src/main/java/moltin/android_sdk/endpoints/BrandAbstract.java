@@ -20,7 +20,7 @@ public class BrandAbstract extends HttpMethodAbstract {
     public void get(String id, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "brand/" + id;
+            String endpoint = "brands/" + id;
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -36,26 +36,7 @@ public class BrandAbstract extends HttpMethodAbstract {
         }
     }
 
-    public void find(JSONObject terms, Handler.Callback callback) throws Exception {
-        try
-        {
-            String endpoint = "brand";
-
-            JSONObject jsonHeaders = new JSONObject();
-            jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
-            jsonHeaders.put("Authorization", "Bearer " + preferences.getToken());
-            if(preferences.getCurrencyId().length()>0)
-                jsonHeaders.put("X-Currency", preferences.getCurrencyId());
-
-            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, terms, callback);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
-    }
-
-    public void list(JSONObject terms, Handler.Callback callback) throws Exception {
+    public void find(moltin.android_sdk.models.Brand terms, Handler.Callback callback) throws Exception {
         try
         {
             String endpoint = "brands";
@@ -66,7 +47,26 @@ public class BrandAbstract extends HttpMethodAbstract {
             if(preferences.getCurrencyId().length()>0)
                 jsonHeaders.put("X-Currency", preferences.getCurrencyId());
 
-            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, terms, callback);
+            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, (terms==null ? null : terms.getData()), callback);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    public void list(moltin.android_sdk.models.Brand terms, Handler.Callback callback) throws Exception {
+        try
+        {
+            String endpoint = "brands";
+
+            JSONObject jsonHeaders = new JSONObject();
+            jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
+            jsonHeaders.put("Authorization", "Bearer " + preferences.getToken());
+            if(preferences.getCurrencyId().length()>0)
+                jsonHeaders.put("X-Currency", preferences.getCurrencyId());
+
+            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, (terms==null ? null : terms.getData()), callback);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -83,7 +83,7 @@ public class BrandAbstract extends HttpMethodAbstract {
                 id = "";
             }
 
-            endpoint = "brand/" + (id.length()>0 ? id + "/fields" : "fields");
+            endpoint = "brands/" + (id.length()>0 ? id + "/fields" : "fields");
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");

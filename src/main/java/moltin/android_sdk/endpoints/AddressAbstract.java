@@ -20,7 +20,7 @@ public class AddressAbstract extends HttpMethodAbstract {
     public void get(String customer, String id, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "customer/" + customer + "/address/" + id;
+            String endpoint = "customers/" + customer + "/addresses/" + id;
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -36,10 +36,10 @@ public class AddressAbstract extends HttpMethodAbstract {
         }
     }
 
-    public void find(String customer, JSONObject terms, Handler.Callback callback) throws Exception {
+    public void find(String customer, moltin.android_sdk.models.Address terms, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "customer/" + customer + "/address";
+            String endpoint = "customers/" + customer + "/addresses";
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -47,7 +47,7 @@ public class AddressAbstract extends HttpMethodAbstract {
             if(preferences.getCurrencyId().length()>0)
                 jsonHeaders.put("X-Currency", preferences.getCurrencyId());
 
-            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, terms, callback);
+            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, (terms==null ? null : terms.getData()), callback);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -55,10 +55,10 @@ public class AddressAbstract extends HttpMethodAbstract {
         }
     }
 
-    public void list(String customer, JSONObject terms, Handler.Callback callback) throws Exception {
+    public void list(String customer, moltin.android_sdk.models.Address terms, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "customer/" + customer + "/addresses";
+            String endpoint = "customers/" + customer + "/addresses";
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -66,7 +66,7 @@ public class AddressAbstract extends HttpMethodAbstract {
             if(preferences.getCurrencyId().length()>0)
                 jsonHeaders.put("X-Currency", preferences.getCurrencyId());
 
-            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, terms, callback);
+            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, (terms==null ? null : terms.getData()), callback);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -74,10 +74,10 @@ public class AddressAbstract extends HttpMethodAbstract {
         }
     }
 
-    public void create(String customer, JSONObject data, Handler.Callback callback) throws Exception {
+    public void create(String customer, moltin.android_sdk.models.Address data, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "customer/" + customer + "/address";
+            String endpoint = "customers/" + customer + "/addresses";
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -85,7 +85,7 @@ public class AddressAbstract extends HttpMethodAbstract {
             if(preferences.getCurrencyId().length()>0)
                 jsonHeaders.put("X-Currency", preferences.getCurrencyId());
 
-            super.httpPostAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, null, data, callback);
+            super.httpPostAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, null, (data==null ? null : data.getData()), callback);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -105,11 +105,11 @@ public class AddressAbstract extends HttpMethodAbstract {
                 id = "";
             }
             if (customer.length()>0 && id.length()==0) {
-                endpoint = "customer/" + customer + "/address/fields";
+                endpoint = "customers/" + customer + "/addresses/fields";
             } else if (customer.length()>0 && id.length()>0) {
-                endpoint = "customer/" + customer + "/address/" + id + "/fields";
+                endpoint = "customers/" + customer + "/addresses/" + id + "/fields";
             } else {
-                endpoint = "address/fields";
+                endpoint = "addresses/fields";
             }
 
             JSONObject jsonHeaders = new JSONObject();

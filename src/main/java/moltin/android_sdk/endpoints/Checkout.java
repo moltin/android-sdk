@@ -3,8 +3,6 @@ package moltin.android_sdk.endpoints;
 import android.os.Handler;
 import android.os.Message;
 
-import org.json.JSONObject;
-
 import moltin.android_sdk.utilities.Constants;
 import moltin.android_sdk.utilities.Preferences;
 
@@ -17,7 +15,7 @@ public class Checkout extends CheckoutAbstract {
     }
 
     @Override
-    public void payment(final String method, final String order, final JSONObject data, final Handler.Callback callback) throws Exception {
+    public void payment(final String method, final String order, final moltin.android_sdk.models.Checkout data, final Handler.Callback callback) throws Exception {
         if(preferences.isExpired())
         {
             Authenticate authenticate = new Authenticate(preferences);

@@ -4,6 +4,7 @@ import android.os.Handler;
 
 import org.json.JSONObject;
 
+import moltin.android_sdk.models.Pagination;
 import moltin.android_sdk.utilities.Constants;
 import moltin.android_sdk.utilities.Preferences;
 
@@ -20,7 +21,7 @@ public class EntryAbstract extends HttpMethodAbstract {
     public void get(String flow, String id, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "flow/" + flow + "/entry/" + id;
+            String endpoint = "flows/" + flow + "/entries/" + id;
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -36,10 +37,10 @@ public class EntryAbstract extends HttpMethodAbstract {
         }
     }
 
-    public void find(String flow, JSONObject terms, Handler.Callback callback) throws Exception {
+    public void find(String flow, Pagination terms, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "flow/" + flow + "/entry";
+            String endpoint = "flows/" + flow + "/entries";
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -47,7 +48,7 @@ public class EntryAbstract extends HttpMethodAbstract {
             if(preferences.getCurrencyId().length()>0)
                 jsonHeaders.put("X-Currency", preferences.getCurrencyId());
 
-            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, terms, callback);
+            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, (terms==null ? null : terms.getData()), callback);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -55,10 +56,10 @@ public class EntryAbstract extends HttpMethodAbstract {
         }
     }
 
-    public void list(String flow, JSONObject terms, Handler.Callback callback) throws Exception {
+    public void list(String flow, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "flow/" + flow + "/entries";
+            String endpoint = "flows/" + flow + "/entries";
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -66,7 +67,7 @@ public class EntryAbstract extends HttpMethodAbstract {
             if(preferences.getCurrencyId().length()>0)
                 jsonHeaders.put("X-Currency", preferences.getCurrencyId());
 
-            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, terms, callback);
+            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, null, callback);
         }
         catch (Exception e) {
             e.printStackTrace();

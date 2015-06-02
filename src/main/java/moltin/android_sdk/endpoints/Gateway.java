@@ -3,8 +3,6 @@ package moltin.android_sdk.endpoints;
 import android.os.Handler;
 import android.os.Message;
 
-import org.json.JSONObject;
-
 import moltin.android_sdk.utilities.Constants;
 import moltin.android_sdk.utilities.Preferences;
 
@@ -55,7 +53,7 @@ public class Gateway extends GatewayAbstract {
     }
 
     @Override
-    public void list(final JSONObject terms, final Handler.Callback callback) throws Exception {
+    public void list(final Handler.Callback callback) throws Exception {
         if(preferences.isExpired())
         {
             Authenticate authenticate = new Authenticate(preferences);
@@ -66,7 +64,7 @@ public class Gateway extends GatewayAbstract {
                     if (msg.what == Constants.RESULT_OK)
                     {
                         try {
-                            Gateway.super.list(terms, callback);
+                            Gateway.super.list(callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -75,7 +73,7 @@ public class Gateway extends GatewayAbstract {
                     else
                     {
                         try {
-                            Gateway.super.list(terms, callback);
+                            Gateway.super.list(callback);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -88,7 +86,7 @@ public class Gateway extends GatewayAbstract {
         }
         else
         {
-            super.list(terms, callback);
+            super.list(callback);
         }
     }
 }

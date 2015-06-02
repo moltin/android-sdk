@@ -20,7 +20,7 @@ public class CurrencyAbstract extends HttpMethodAbstract {
     public void get(String id, Handler.Callback callback) throws Exception {
         try
         {
-            String endpoint = "currency/" + id;
+            String endpoint = "currencies/" + id;
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -47,26 +47,7 @@ public class CurrencyAbstract extends HttpMethodAbstract {
         }
     }
 
-    public void find(JSONObject terms, Handler.Callback callback) throws Exception {
-        try
-        {
-            String endpoint = "currency";
-
-            JSONObject jsonHeaders = new JSONObject();
-            jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
-            jsonHeaders.put("Authorization", "Bearer " + preferences.getToken());
-            if(preferences.getCurrencyId().length()>0)
-                jsonHeaders.put("X-Currency", preferences.getCurrencyId());
-
-            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, terms, callback);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
-    }
-
-    public void list(JSONObject terms, Handler.Callback callback) throws Exception {
+    public void find(moltin.android_sdk.models.Currency terms, Handler.Callback callback) throws Exception {
         try
         {
             String endpoint = "currencies";
@@ -77,7 +58,26 @@ public class CurrencyAbstract extends HttpMethodAbstract {
             if(preferences.getCurrencyId().length()>0)
                 jsonHeaders.put("X-Currency", preferences.getCurrencyId());
 
-            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, terms, callback);
+            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, (terms==null ? null : terms.getData()), callback);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    public void list(Handler.Callback callback) throws Exception {
+        try
+        {
+            String endpoint = "currencies";
+
+            JSONObject jsonHeaders = new JSONObject();
+            jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
+            jsonHeaders.put("Authorization", "Bearer " + preferences.getToken());
+            if(preferences.getCurrencyId().length()>0)
+                jsonHeaders.put("X-Currency", preferences.getCurrencyId());
+
+            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, null, callback);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -94,7 +94,7 @@ public class CurrencyAbstract extends HttpMethodAbstract {
                 id = "";
             }
 
-            endpoint = "currency/" + (id.length()>0 ? id + "/fields" : "fields");
+            endpoint = "currencies/" + (id.length()>0 ? id + "/fields" : "fields");
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
