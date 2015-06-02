@@ -2,17 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4b2188f0-aabc-41e2-b12b-a35c142f081f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileHashes.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/outputFileStates.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/moltin/android_sdk/models/Brand.java" afterPath="$PROJECT_DIR$/src/main/java/moltin/android_sdk/models/Brand.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/moltin/android_sdk/models/Cart.java" afterPath="$PROJECT_DIR$/src/main/java/moltin/android_sdk/models/Cart.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/moltin/android_sdk/models/Category.java" afterPath="$PROJECT_DIR$/src/main/java/moltin/android_sdk/models/Category.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/moltin/android_sdk/models/Collection.java" afterPath="$PROJECT_DIR$/src/main/java/moltin/android_sdk/models/Collection.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/moltin/android_sdk/models/Currency.java" afterPath="$PROJECT_DIR$/src/main/java/moltin/android_sdk/models/Currency.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/moltin/android_sdk/endpoints/Shipping.java" afterPath="$PROJECT_DIR$/src/main/java/moltin/android_sdk/endpoints/Shipping.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/moltin/android_sdk/endpoints/ShippingAbstract.java" afterPath="$PROJECT_DIR$/src/main/java/moltin/android_sdk/endpoints/ShippingAbstract.java" />
     </list>
     <ignored path="android-sdk.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -61,49 +52,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Category.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/moltin/android_sdk/models/Category.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
-              <folding>
-                <element signature="e#1707#1708#0" expanded="true" />
-                <element signature="e#1743#1744#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Checkout.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/moltin/android_sdk/models/Checkout.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="21" column="71" selection-start-line="21" selection-start-column="71" selection-end-line="21" selection-end-column="71" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CheckoutPayment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/moltin/android_sdk/models/CheckoutPayment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Collection.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/moltin/android_sdk/models/Collection.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="15" column="5" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="Currency.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/moltin/android_sdk/models/Currency.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -157,11 +105,51 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Tax.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Tax.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/moltin/android_sdk/models/Tax.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.39430448">
+            <state vertical-scroll-proportion="0.0">
               <caret line="24" column="47" selection-start-line="24" selection-start-column="47" selection-end-line="24" selection-end-column="47" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CartCustomerCheckout.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/moltin/android_sdk/models/CartCustomerCheckout.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProductAbstract.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/moltin/android_sdk/endpoints/ProductAbstract.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="52" column="126" selection-start-line="52" selection-start-column="88" selection-end-line="52" selection-end-column="126" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Shipping.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/moltin/android_sdk/endpoints/Shipping.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.73932093">
+              <caret line="55" column="61" selection-start-line="55" selection-start-column="61" selection-end-line="55" selection-end-column="61" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ShippingAbstract.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/moltin/android_sdk/endpoints/ShippingAbstract.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="49" column="126" selection-start-line="49" selection-start-column="126" selection-end-line="49" selection-end-column="126" />
               <folding />
             </state>
           </provider>
@@ -849,14 +837,12 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/src/main/java/moltin/android_sdk/models/History.java" />
         <option value="$PROJECT_DIR$/src/main/java/moltin/android_sdk/endpoints/HttpMethodAbstract.java" />
         <option value="$PROJECT_DIR$/src/main/java/moltin/android_sdk/endpoints/Authenticate.java" />
         <option value="$PROJECT_DIR$/src/main/java/moltin/android_sdk/utilities/Constants.java" />
         <option value="$PROJECT_DIR$/src/main/java/moltin/android_sdk/endpoints/Address.java" />
         <option value="$PROJECT_DIR$/src/main/java/moltin/android_sdk/endpoints/AddressAbstract.java" />
-        <option value="$PROJECT_DIR$/src/main/java/moltin/android_sdk/endpoints/ShippingAbstract.java" />
         <option value="$PROJECT_DIR$/src/main/java/moltin/android_sdk/endpoints/BrandAbstract.java" />
         <option value="$PROJECT_DIR$/src/main/java/moltin/android_sdk/endpoints/Brand.java" />
         <option value="$PROJECT_DIR$/src/main/java/moltin/android_sdk/models/Pagination.java" />
@@ -900,6 +886,8 @@
         <option value="$PROJECT_DIR$/src/main/java/moltin/android_sdk/models/Category.java" />
         <option value="$PROJECT_DIR$/src/main/java/moltin/android_sdk/models/Collection.java" />
         <option value="$PROJECT_DIR$/src/main/java/moltin/android_sdk/models/Currency.java" />
+        <option value="$PROJECT_DIR$/src/main/java/moltin/android_sdk/endpoints/ShippingAbstract.java" />
+        <option value="$PROJECT_DIR$/src/main/java/moltin/android_sdk/endpoints/Shipping.java" />
       </list>
     </option>
   </component>
@@ -1589,34 +1577,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/moltin/android_sdk/endpoints/ProductAbstract.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="41" column="21" selection-start-line="41" selection-start-column="21" selection-end-line="41" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/moltin/android_sdk/endpoints/Product.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="164" column="54" selection-start-line="164" selection-start-column="54" selection-end-line="164" selection-end-column="54" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/moltin/android_sdk/endpoints/Shipping.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/moltin/android_sdk/endpoints/ShippingAbstract.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="41" column="39" selection-start-line="41" selection-start-column="39" selection-end-line="41" selection-end-column="39" />
           <folding />
         </state>
       </provider>
@@ -1674,17 +1638,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
           <folding>
-            <element signature="e#2098#2099#0" expanded="true" />
-            <element signature="e#2130#2131#0" expanded="true" />
+            <element signature="e#2098#2099#0" expanded="false" />
+            <element signature="e#2130#2131#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/moltin/android_sdk/models/CartCustomerCheckout.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1701,8 +1657,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="16" column="5" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
           <folding>
-            <element signature="e#1707#1708#0" expanded="true" />
-            <element signature="e#1743#1744#0" expanded="true" />
+            <element signature="e#1707#1708#0" expanded="false" />
+            <element signature="e#1743#1744#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1776,8 +1732,40 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/moltin/android_sdk/models/Tax.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.39430448">
+        <state vertical-scroll-proportion="0.0">
           <caret line="24" column="47" selection-start-line="24" selection-start-column="47" selection-end-line="24" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/moltin/android_sdk/models/CartCustomerCheckout.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/moltin/android_sdk/endpoints/ProductAbstract.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="52" column="126" selection-start-line="52" selection-start-column="88" selection-end-line="52" selection-end-column="126" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/moltin/android_sdk/endpoints/ShippingAbstract.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="49" column="126" selection-start-line="49" selection-start-column="126" selection-end-line="49" selection-end-column="126" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/moltin/android_sdk/endpoints/Shipping.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.73932093">
+          <caret line="55" column="61" selection-start-line="55" selection-start-column="61" selection-end-line="55" selection-end-column="61" />
           <folding />
         </state>
       </provider>

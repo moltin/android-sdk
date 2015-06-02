@@ -36,7 +36,7 @@ public class ShippingAbstract extends HttpMethodAbstract {
         }
     }
 
-    public void list(JSONObject terms, Handler.Callback callback) throws Exception {
+    public void list(moltin.android_sdk.models.Shipping terms, Handler.Callback callback) throws Exception {
         try
         {
             String endpoint = "shipping";
@@ -47,7 +47,7 @@ public class ShippingAbstract extends HttpMethodAbstract {
             if(preferences.getCurrencyId().length()>0)
                 jsonHeaders.put("X-Currency", preferences.getCurrencyId());
 
-            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, terms, callback);
+            super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, jsonHeaders, (terms==null ? null : terms.getData()), callback);
         }
         catch (Exception e) {
             e.printStackTrace();
