@@ -103,10 +103,11 @@ public class CartAbstract extends HttpMethodAbstract {
             JSONObject jsonMods = new JSONObject();
             for(int i=0;i<mods.length;i++)
             {
-                jsonMods.put("modifier["+mods[i].getModifierId()+"]",mods[i].getVariationId());
+                //jsonMods.put("modifier["+mods[i].getModifierId()+"]",mods[i].getVariationId());
+                jsonMods.put(mods[i].getModifierId(),mods[i].getVariationId());
             }
             if(jsonMods!=null)
-                jsonData.put("modifier",mods);
+                jsonData.put("modifier",jsonMods);
 
             String endpoint = "carts/" + getIdentifier();
 
