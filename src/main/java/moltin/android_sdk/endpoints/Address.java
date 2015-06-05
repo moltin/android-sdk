@@ -3,204 +3,213 @@ package moltin.android_sdk.endpoints;
 import android.os.Handler;
 import android.os.Message;
 
+import org.json.JSONObject;
+
 import moltin.android_sdk.utilities.Constants;
 import moltin.android_sdk.utilities.Preferences;
 
-//handling the token expiration when calling endpoint
-public class Address extends AddressAbstract {
+//handling the token expiration when calling endpoint or calling Facede abstract methods
+public class Address extends Facade {
 
     public Address(Preferences preferences)
     {
-        super(preferences);
+        super("addresses","addresses",preferences);
     }
 
-    @Override
     public void get(final String customer, final  String id, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
+        Handler.Callback callbackForAuth = new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (msg.what == Constants.RESULT_OK)
+                {
+                    try {
+                        String endpoint = "customers/" + customer + "/addresses/" + id;
 
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Address.super.get(customer, id, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
+                        Address.super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, Address.super.getHeaders(), null, callback);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    else
-                    {
-                        try {
-                            Address.super.get(customer, id, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
+                    return true;
                 }
-            };
+                else
+                {
+                    callback.handleMessage(msg);
+                    return false;
+                }
+            }
+        };
 
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
+        if(Address.super.getPreferences().isExpired() && !Address.super.getPreferences().getToken().equals(""))
+        {
+            new Authenticate(Address.super.getPreferences()).authenticateAsync(Address.super.getPreferences().getPublicId(),callbackForAuth);
         }
         else
         {
-            super.get(customer, id, callback);
+            final Message callbackMessage = new Message();
+            callbackMessage.what = Constants.RESULT_OK;
+            callbackForAuth.handleMessage(callbackMessage);
         }
     }
 
-    @Override
-    public void find(final String customer, final moltin.android_sdk.models.Address terms, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
+    public void find(String customer, String[][] terms, Handler.Callback callback) throws Exception {
+        find(customer,super.getJsonFromArray(terms),callback);
+    }
 
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Address.super.find(customer, terms, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
+    public void find(final String customer, final JSONObject terms, final Handler.Callback callback) throws Exception {
+        Handler.Callback callbackForAuth = new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (msg.what == Constants.RESULT_OK)
+                {
+                    try {
+                        String endpoint = "customers/" + customer + "/addresses";
+
+                        Address.super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, Address.super.getHeaders(), terms, callback);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    else
-                    {
-                        try {
-                            Address.super.find(customer, terms, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
+                    return true;
                 }
-            };
+                else
+                {
+                    callback.handleMessage(msg);
+                    return false;
+                }
+            }
+        };
 
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
+        if(Address.super.getPreferences().isExpired() && !Address.super.getPreferences().getToken().equals(""))
+        {
+            new Authenticate(Address.super.getPreferences()).authenticateAsync(Address.super.getPreferences().getPublicId(), callbackForAuth);
         }
         else
         {
-            super.find(customer, terms, callback);
+            final Message callbackMessage = new Message();
+            callbackMessage.what = Constants.RESULT_OK;
+            callbackForAuth.handleMessage(callbackMessage);
         }
     }
 
-    @Override
-    public void list(final String customer, final moltin.android_sdk.models.Address terms, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
+    public void listing(String customer, String[][] terms, Handler.Callback callback) throws Exception {
+        listing(customer, super.getJsonFromArray(terms), callback);
+    }
 
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Address.super.list(customer, terms, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
+    public void listing(final String customer, final JSONObject terms, final Handler.Callback callback) throws Exception {
+        Handler.Callback callbackForAuth = new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (msg.what == Constants.RESULT_OK)
+                {
+                    try {
+                        String endpoint = "customers/" + customer + "/addresses";
+
+                        Address.super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, Address.super.getHeaders(), terms, callback);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    else
-                    {
-                        try {
-                            Address.super.list(customer, terms, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
+                    return true;
                 }
-            };
+                else
+                {
+                    callback.handleMessage(msg);
+                    return false;
+                }
+            }
+        };
 
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
+        if(Address.super.getPreferences().isExpired() && !Address.super.getPreferences().getToken().equals(""))
+        {
+            new Authenticate(Address.super.getPreferences()).authenticateAsync(Address.super.getPreferences().getPublicId(), callbackForAuth);
         }
         else
         {
-            super.list(customer, terms, callback);
+            final Message callbackMessage = new Message();
+            callbackMessage.what = Constants.RESULT_OK;
+            callbackForAuth.handleMessage(callbackMessage);
         }
     }
 
-    @Override
-    public void create(final String customer, final moltin.android_sdk.models.Address data, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
+    public void create(String customer, String[][] data, Handler.Callback callback) throws Exception {
+        create(customer,super.getJsonFromArray(data),callback);
+    }
 
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Address.super.create(customer, data, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
+    public void create(final String customer, final JSONObject data, final Handler.Callback callback) throws Exception {
+        Handler.Callback callbackForAuth = new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (msg.what == Constants.RESULT_OK)
+                {
+                    try {
+                        String endpoint = "customers/" + customer + "/addresses";
+
+                        Address.super.httpPostAsync(Constants.URL, Constants.VERSION, endpoint, Address.super.getHeaders(), null, data, callback);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    else
-                    {
-                        try {
-                            Address.super.create(customer, data, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
+                    return true;
                 }
-            };
+                else
+                {
+                    callback.handleMessage(msg);
+                    return false;
+                }
+            }
+        };
 
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
+        if(Address.super.getPreferences().isExpired() && !Address.super.getPreferences().getToken().equals(""))
+        {
+            new Authenticate(Address.super.getPreferences()).authenticateAsync(Address.super.getPreferences().getPublicId(), callbackForAuth);
         }
         else
         {
-            super.create(customer, data, callback);
+            final Message callbackMessage = new Message();
+            callbackMessage.what = Constants.RESULT_OK;
+            callbackForAuth.handleMessage(callbackMessage);
         }
     }
 
-    @Override
     public void fields(final String customer, final  String id, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
+        Handler.Callback callbackForAuth = new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (msg.what == Constants.RESULT_OK)
+                {
+                    try {
+                        String endpoint = "";
 
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Address.super.fields(customer, id, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        if (customer!=null && customer.length()>0 && (id==null || id.length()==0)) {
+                            endpoint = "customers/" + customer + "/addresses/fields";
+                        } else if (customer!=null && customer.length()>0 && id!= null && id.length()>0) {
+                            endpoint = "customers/" + customer + "/addresses/" + id + "/fields";
+                        } else if ((customer==null || customer.length()==0) && id!= null && id.length()>0) {
+                            endpoint = "addresses/" + id + "/fields";
+                        }  else {
+                            endpoint = "addresses/fields";
                         }
-                        return true;
+
+                        Address.super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, Address.super.getHeaders(), null, callback);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    else
-                    {
-                        try {
-                            Address.super.fields(customer, id, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
+                    return true;
                 }
-            };
+                else
+                {
+                    callback.handleMessage(msg);
+                    return false;
+                }
+            }
+        };
 
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
+        if(Address.super.getPreferences().isExpired() && !Address.super.getPreferences().getToken().equals(""))
+        {
+            new Authenticate(Address.super.getPreferences()).authenticateAsync(Address.super.getPreferences().getPublicId(), callbackForAuth);
         }
         else
         {
-            super.fields(customer, id, callback);
+            final Message callbackMessage = new Message();
+            callbackMessage.what = Constants.RESULT_OK;
+            callbackForAuth.handleMessage(callbackMessage);
         }
     }
 }

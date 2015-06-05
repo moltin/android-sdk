@@ -63,20 +63,19 @@ moltin.product.get("6", new Handler.Callback() {
 
 Creating a user's address
 ```
-Address address = new Address();
-address.setSave_as("3");
-address.setFirst_name("Joe");
-address.setLast_name("Black");
-address.setAddress_1("High Street");
-address.setAddress_2("Example Village");
-address.setPostcode("1000");
-address.setCountry("GB");
-
-moltin.address.create("0", address, new Handler.Callback() {
+moltin.address.create("0", new String[][]{
+		{"save_as","3"},
+		{"first_name","Joe"},
+		{"last_name","Black"},
+		{"address_1","Example Village"},
+		{"address_2","Lower street"},
+		{"country","GB"},
+        {"postcode","1000"}
+	}, new Handler.Callback() {
 	@Override
 	public boolean handleMessage(Message msg) {
+		showPopup(msg.obj.toString());
 		if (msg.what == Constants.RESULT_OK) {
-			JSONObject jsonResponse = (JSONObject) msg.obj;
 			return true;
 		} else {
 			return false;

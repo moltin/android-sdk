@@ -1,92 +1,30 @@
 package moltin.android_sdk.endpoints;
 
 import android.os.Handler;
-import android.os.Message;
 
-import moltin.android_sdk.utilities.Constants;
+import org.json.JSONObject;
+
 import moltin.android_sdk.utilities.Preferences;
 
-//handling the token expiration when calling endpoint
-public class Shipping extends ShippingAbstract {
+//handling the token expiration when calling endpoint or calling Facede abstract methods
+public class Shipping extends Facade {
 
     public Shipping(Preferences preferences)
     {
-        super(preferences);
+        super("shipping","shipping",preferences);
     }
 
     @Override
     public void get(final String id, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
+        super.get(id, callback);
+    }
 
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Shipping.super.get(id, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
-                    }
-                    else
-                    {
-                        try {
-                            Shipping.super.get(id, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
-                }
-            };
-
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
-        }
-        else
-        {
-            super.get(id, callback);
-        }
+    public void listing(String[][] terms, Handler.Callback callback) throws Exception {
+        listing(super.getJsonFromArray(terms), callback);
     }
 
     @Override
-    public void list(final moltin.android_sdk.models.Shipping terms, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
-
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Shipping.super.list(terms, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
-                    }
-                    else
-                    {
-                        try {
-                            Shipping.super.list(terms, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
-                }
-            };
-
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
-        }
-        else
-        {
-            super.list(terms, callback);
-        }
+    public void listing(final JSONObject terms, final Handler.Callback callback) throws Exception {
+        super.listing(terms, callback);
     }
 }

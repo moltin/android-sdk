@@ -3,204 +3,83 @@ package moltin.android_sdk.endpoints;
 import android.os.Handler;
 import android.os.Message;
 
+import org.json.JSONObject;
+
 import moltin.android_sdk.utilities.Constants;
 import moltin.android_sdk.utilities.Preferences;
 
-//handling the token expiration when calling endpoint
-public class Category extends CategoryAbstract {
+//handling the token expiration when calling endpoint or calling Facede abstract methods
+public class Category extends Facade {
 
     public Category(Preferences preferences)
     {
-        super(preferences);
+        super("categories","categories",preferences);
     }
 
     @Override
     public void get(final String id, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
+        Category.super.get(id, callback);
+    }
 
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Category.super.get(id, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
-                    }
-                    else
-                    {
-                        try {
-                            Category.super.get(id, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
-                }
-            };
-
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
-        }
-        else
-        {
-            super.get(id, callback);
-        }
+    public void find(String[][] terms, Handler.Callback callback) throws Exception {
+        find(super.getJsonFromArray(terms), callback);
     }
 
     @Override
-    public void find(final moltin.android_sdk.models.Category terms, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
+    public void find(final JSONObject terms, final Handler.Callback callback) throws Exception {
+        Category.super.find(terms, callback);
+    }
 
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Category.super.find(terms, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
-                    }
-                    else
-                    {
-                        try {
-                            Category.super.find(terms, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
-                }
-            };
-
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
-        }
-        else
-        {
-            super.find(terms, callback);
-        }
+    public void listing(String[][] terms, Handler.Callback callback) throws Exception {
+        listing(super.getJsonFromArray(terms), callback);
     }
 
     @Override
-    public void list(final moltin.android_sdk.models.Pagination terms, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
-
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Category.super.list(terms, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
-                    }
-                    else
-                    {
-                        try {
-                            Category.super.list(terms, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
-                }
-            };
-
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
-        }
-        else
-        {
-            super.list(terms, callback);
-        }
+    public void listing(final JSONObject terms, final Handler.Callback callback) throws Exception {
+        super.listing(terms, callback);
     }
 
-    @Override
-    public void tree(final moltin.android_sdk.models.Category terms, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
+    public void tree(String[][] terms, Handler.Callback callback) throws Exception {
+        tree(super.getJsonFromArray(terms), callback);
+    }
 
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Category.super.tree(terms, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
+    public void tree(final JSONObject terms, final Handler.Callback callback) throws Exception {
+        Handler.Callback callbackForAuth = new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (msg.what == Constants.RESULT_OK)
+                {
+                    try {
+                        String endpoint = Category.super.getPlural() + "/tree";
+
+                        Category.super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, Category.super.getHeaders(), terms, callback);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    else
-                    {
-                        try {
-                            Category.super.tree(terms, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
+                    return true;
                 }
-            };
+                else
+                {
+                    callback.handleMessage(msg);
+                    return false;
+                }
+            }
+        };
 
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
+        if(Category.super.getPreferences().isExpired() && !Category.super.getPreferences().getToken().equals(""))
+        {
+            new Authenticate(Category.super.getPreferences()).authenticateAsync(Category.super.getPreferences().getPublicId(), callbackForAuth);
         }
         else
         {
-            super.tree(terms, callback);
+            final Message callbackMessage = new Message();
+            callbackMessage.what = Constants.RESULT_OK;
+            callbackForAuth.handleMessage(callbackMessage);
         }
     }
 
     @Override
     public void fields(final String id, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
-
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Category.super.fields(id, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
-                    }
-                    else
-                    {
-                        try {
-                            Category.super.fields(id, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
-                }
-            };
-
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
-        }
-        else
-        {
-            super.fields(id, callback);
-        }
+        super.fields(id, callback);
     }
 }

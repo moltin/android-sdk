@@ -3,129 +3,129 @@ package moltin.android_sdk.endpoints;
 import android.os.Handler;
 import android.os.Message;
 
-import moltin.android_sdk.models.Pagination;
+import org.json.JSONObject;
+
 import moltin.android_sdk.utilities.Constants;
 import moltin.android_sdk.utilities.Preferences;
 
-//handling the token expiration when calling endpoint
-public class Entry extends EntryAbstract {
+//handling the token expiration when calling endpoint or calling Facede abstract methods
+public class Entry extends Facade {
 
     public Entry(Preferences preferences)
     {
-        super(preferences);
+        super("flows","flows",preferences);
     }
 
-    @Override
     public void get(final String flow, final String id, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
+        Handler.Callback callbackForAuth = new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (msg.what == Constants.RESULT_OK)
+                {
+                    try {
+                        String endpoint = "flows/" + flow + "/entries/" + id;
 
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Entry.super.get(flow, id, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
+                        Entry.super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, Entry.super.getHeaders(), null, callback);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    else
-                    {
-                        try {
-                            Entry.super.get(flow, id, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
+                    return true;
                 }
-            };
+                else
+                {
+                    callback.handleMessage(msg);
+                    return false;
+                }
+            }
+        };
 
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
+        if(Entry.super.getPreferences().isExpired() && !Entry.super.getPreferences().getToken().equals(""))
+        {
+            new Authenticate(Entry.super.getPreferences()).authenticateAsync(Entry.super.getPreferences().getPublicId(), callbackForAuth);
         }
         else
         {
-            super.get(flow, id, callback);
+            final Message callbackMessage = new Message();
+            callbackMessage.what = Constants.RESULT_OK;
+            callbackForAuth.handleMessage(callbackMessage);
         }
     }
 
-    @Override
-    public void find(final String flow, final Pagination terms, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
+    public void find(String flow, String[][] terms, Handler.Callback callback) throws Exception {
+        find(flow, super.getJsonFromArray(terms), callback);
+    }
 
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Entry.super.find(flow, terms, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
+    public void find(final String flow, final JSONObject terms, final Handler.Callback callback) throws Exception {
+        Handler.Callback callbackForAuth = new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (msg.what == Constants.RESULT_OK)
+                {
+                    try {
+                        String endpoint = "flows/" + flow + "/entries/search";
+
+                        Entry.super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, Entry.super.getHeaders(), terms, callback);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    else
-                    {
-                        try {
-                            Entry.super.find(flow, terms, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
+                    return true;
                 }
-            };
+                else
+                {
+                    callback.handleMessage(msg);
+                    return false;
+                }
+            }
+        };
 
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
+        if(Entry.super.getPreferences().isExpired() && !Entry.super.getPreferences().getToken().equals(""))
+        {
+            new Authenticate(Entry.super.getPreferences()).authenticateAsync(Entry.super.getPreferences().getPublicId(), callbackForAuth);
         }
         else
         {
-            super.find(flow, terms, callback);
+            final Message callbackMessage = new Message();
+            callbackMessage.what = Constants.RESULT_OK;
+            callbackForAuth.handleMessage(callbackMessage);
         }
     }
 
-    @Override
-    public void list(final String flow, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
+    public void listing(String flow, String[][] terms, Handler.Callback callback) throws Exception {
+        listing(flow, super.getJsonFromArray(terms), callback);
+    }
 
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Entry.super.list(flow, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
+    public void listing(final String flow, final JSONObject terms, final Handler.Callback callback) throws Exception {
+        Handler.Callback callbackForAuth = new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (msg.what == Constants.RESULT_OK)
+                {
+                    try {
+                        String endpoint = "flows/" + flow + "/entries";
+
+                        Entry.super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, Entry.super.getHeaders(), terms, callback);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    else
-                    {
-                        try {
-                            Entry.super.list(flow, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
+                    return true;
                 }
-            };
+                else
+                {
+                    callback.handleMessage(msg);
+                    return false;
+                }
+            }
+        };
 
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
+        if(Entry.super.getPreferences().isExpired() && !Entry.super.getPreferences().getToken().equals(""))
+        {
+            new Authenticate(Entry.super.getPreferences()).authenticateAsync(Entry.super.getPreferences().getPublicId(), callbackForAuth);
         }
         else
         {
-            super.list(flow, callback);
+            final Message callbackMessage = new Message();
+            callbackMessage.what = Constants.RESULT_OK;
+            callbackForAuth.handleMessage(callbackMessage);
         }
     }
 }

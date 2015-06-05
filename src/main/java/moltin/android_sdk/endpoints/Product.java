@@ -3,280 +3,153 @@ package moltin.android_sdk.endpoints;
 import android.os.Handler;
 import android.os.Message;
 
+import org.json.JSONObject;
+
 import moltin.android_sdk.utilities.Constants;
 import moltin.android_sdk.utilities.Preferences;
 
-//handling the token expiration when calling endpoint
-public class Product extends ProductAbstract {
+//handling the token expiration when calling endpoint or calling Facede abstract methods
+public class Product extends Facade {
 
     public Product(Preferences preferences)
     {
-        super(preferences);
+        super("products","products",preferences);
     }
 
     @Override
     public void get(final String id, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
+        super.get(id, callback);
+    }
 
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Product.super.get(id, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
-                    }
-                    else
-                    {
-                        try {
-                            Product.super.get(id, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
-                }
-            };
-
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
-        }
-        else
-        {
-            super.get(id, callback);
-        }
+    public void find(String[][] terms, Handler.Callback callback) throws Exception {
+        find(super.getJsonFromArray(terms), callback);
     }
 
     @Override
-    public void find(final moltin.android_sdk.models.Product terms, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
+    public void find(final JSONObject terms, final Handler.Callback callback) throws Exception {
+        super.find(terms, callback);
+    }
 
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Product.super.find(terms, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
-                    }
-                    else
-                    {
-                        try {
-                            Product.super.find(terms, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
-                }
-            };
-
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
-        }
-        else
-        {
-            super.find(terms, callback);
-        }
+    public void listing(String[][] terms, Handler.Callback callback) throws Exception {
+        listing(super.getJsonFromArray(terms), callback);
     }
 
     @Override
-    public void list(final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
-
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Product.super.list(callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
-                    }
-                    else
-                    {
-                        try {
-                            Product.super.list(callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
-                }
-            };
-
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
-        }
-        else
-        {
-            super.list(callback);
-        }
+    public void listing(final JSONObject terms, final Handler.Callback callback) throws Exception {
+        super.listing(terms, callback);
     }
 
-    @Override
-    public void search(final moltin.android_sdk.models.Pagination termsPagination, final moltin.android_sdk.models.Product termsProduct, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
+    public void search(String[][] terms, Handler.Callback callback) throws Exception {
+        search(super.getJsonFromArray(terms), callback);
+    }
 
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Product.super.search(termsPagination, termsProduct, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
+    public void search(final JSONObject terms, final Handler.Callback callback) throws Exception {
+        Handler.Callback callbackForAuth = new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (msg.what == Constants.RESULT_OK)
+                {
+                    try {
+                        String endpoint = Product.super.getPlural() + "/search";
+
+                        Product.super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, Product.super.getHeaders(), terms, callback);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    else
-                    {
-                        try {
-                            Product.super.search(termsPagination, termsProduct, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
+                    return true;
                 }
-            };
+                else
+                {
+                    callback.handleMessage(msg);
+                    return false;
+                }
+            }
+        };
 
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
+        if(Product.super.getPreferences().isExpired() && !Product.super.getPreferences().getToken().equals(""))
+        {
+            new Authenticate(Product.super.getPreferences()).authenticateAsync(Product.super.getPreferences().getPublicId(), callbackForAuth);
         }
         else
         {
-            super.search(termsPagination, termsProduct, callback);
+            final Message callbackMessage = new Message();
+            callbackMessage.what = Constants.RESULT_OK;
+            callbackForAuth.handleMessage(callbackMessage);
         }
     }
 
     @Override
     public void fields(final String id, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
-
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Product.super.fields(id, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
-                    }
-                    else
-                    {
-                        try {
-                            Product.super.fields(id, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
-                }
-            };
-
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
-        }
-        else
-        {
-            super.fields(id, callback);
-        }
+        super.fields(id, callback);
     }
 
-    @Override
     public void modifiers(final String id, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
+        Handler.Callback callbackForAuth = new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (msg.what == Constants.RESULT_OK)
+                {
+                    try {
+                        String endpoint = Product.super.getSingle() + "/" + id + "/modifiers";
 
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Product.super.modifiers(id, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
+                        Product.super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, Product.super.getHeaders(), null, callback);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    else
-                    {
-                        try {
-                            Product.super.modifiers(id, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
+                    return true;
                 }
-            };
+                else
+                {
+                    callback.handleMessage(msg);
+                    return false;
+                }
+            }
+        };
 
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
+        if(Product.super.getPreferences().isExpired() && !Product.super.getPreferences().getToken().equals(""))
+        {
+            new Authenticate(Product.super.getPreferences()).authenticateAsync(Product.super.getPreferences().getPublicId(), callbackForAuth);
         }
         else
         {
-            super.modifiers(id, callback);
+            final Message callbackMessage = new Message();
+            callbackMessage.what = Constants.RESULT_OK;
+            callbackForAuth.handleMessage(callbackMessage);
         }
     }
 
-    @Override
     public void variations(final String id, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
+        Handler.Callback callbackForAuth = new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (msg.what == Constants.RESULT_OK)
+                {
+                    try {
+                        String endpoint = Product.super.getSingle() + "/" + id + "/variations";
 
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Product.super.variations(id, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
+                        Product.super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, Product.super.getHeaders(), null, callback);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    else
-                    {
-                        try {
-                            Product.super.variations(id, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
+                    return true;
                 }
-            };
+                else
+                {
+                    callback.handleMessage(msg);
+                    return false;
+                }
+            }
+        };
 
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
+        if(Product.super.getPreferences().isExpired() && !Product.super.getPreferences().getToken().equals(""))
+        {
+            new Authenticate(Product.super.getPreferences()).authenticateAsync(Product.super.getPreferences().getPublicId(), callbackForAuth);
         }
         else
         {
-            super.variations(id, callback);
+            final Message callbackMessage = new Message();
+            callbackMessage.what = Constants.RESULT_OK;
+            callbackForAuth.handleMessage(callbackMessage);
         }
     }
 }

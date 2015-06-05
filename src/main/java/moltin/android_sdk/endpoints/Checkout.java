@@ -3,52 +3,55 @@ package moltin.android_sdk.endpoints;
 import android.os.Handler;
 import android.os.Message;
 
+import org.json.JSONObject;
+
 import moltin.android_sdk.utilities.Constants;
 import moltin.android_sdk.utilities.Preferences;
 
-//handling the token expiration when calling endpoint
-public class Checkout extends CheckoutAbstract {
+//handling the token expiration when calling endpoint or calling Facede abstract methods
+public class Checkout extends Facade {
 
     public Checkout(Preferences preferences)
     {
-        super(preferences);
+        super("checkout","checkout",preferences);
     }
 
-    @Override
-    public void payment(final String method, final String order, final moltin.android_sdk.models.Checkout data, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
+    public void payment(String method, String order, String[][] data, Handler.Callback callback) throws Exception {
+        payment(method, order, super.getJsonFromArray(data), callback);
+    }
 
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Checkout.super.payment(method, order, data, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
+    public void payment(final String method, final String order, final JSONObject data, final Handler.Callback callback) throws Exception {
+        Handler.Callback callbackForAuth = new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (msg.what == Constants.RESULT_OK)
+                {
+                    try {
+                        String endpoint = "checkout/payment/" + method + "/" + order;
+
+                        Checkout.super.httpPostAsync(Constants.URL, Constants.VERSION, endpoint, Checkout.super.getHeaders(), null, data, callback);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    else
-                    {
-                        try {
-                            Checkout.super.payment(method, order, data, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
+                    return true;
                 }
-            };
+                else
+                {
+                    callback.handleMessage(msg);
+                    return false;
+                }
+            }
+        };
 
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
+        if(Checkout.super.getPreferences().isExpired() && !Checkout.super.getPreferences().getToken().equals(""))
+        {
+            new Authenticate(Checkout.super.getPreferences()).authenticateAsync(Checkout.super.getPreferences().getPublicId(), callbackForAuth);
         }
         else
         {
-            super.payment(method, order, data, callback);
+            final Message callbackMessage = new Message();
+            callbackMessage.what = Constants.RESULT_OK;
+            callbackForAuth.handleMessage(callbackMessage);
         }
     }
 }

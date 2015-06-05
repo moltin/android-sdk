@@ -6,87 +6,82 @@ import android.os.Message;
 import moltin.android_sdk.utilities.Constants;
 import moltin.android_sdk.utilities.Preferences;
 
-//handling the token expiration when calling endpoint
-public class Gateway extends GatewayAbstract {
+//handling the token expiration when calling endpoint or calling Facede abstract methods
+public class Gateway extends Facade {
 
     public Gateway(Preferences preferences)
     {
-        super(preferences);
+        super("gateways","gateways",preferences);
     }
 
     @Override
     public void get(final String slug, final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
+        Handler.Callback callbackForAuth = new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (msg.what == Constants.RESULT_OK)
+                {
+                    try {
+                        String endpoint = "gateways/" + slug;
 
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Gateway.super.get(slug, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
+                        Gateway.super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, Gateway.super.getHeaders(), null, callback);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    else
-                    {
-                        try {
-                            Gateway.super.get(slug, callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
+                    return true;
                 }
-            };
+                else
+                {
+                    callback.handleMessage(msg);
+                    return false;
+                }
+            }
+        };
 
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
+        if(Gateway.super.getPreferences().isExpired() && !Gateway.super.getPreferences().getToken().equals(""))
+        {
+            new Authenticate(Gateway.super.getPreferences()).authenticateAsync(Gateway.super.getPreferences().getPublicId(), callbackForAuth);
         }
         else
         {
-            super.get(slug, callback);
+            final Message callbackMessage = new Message();
+            callbackMessage.what = Constants.RESULT_OK;
+            callbackForAuth.handleMessage(callbackMessage);
         }
     }
 
-    @Override
-    public void list(final Handler.Callback callback) throws Exception {
-        if(preferences.isExpired())
-        {
-            Authenticate authenticate = new Authenticate(preferences);
+    public void listing(final Handler.Callback callback) throws Exception {
+        Handler.Callback callbackForAuth = new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (msg.what == Constants.RESULT_OK)
+                {
+                    try {
+                        String endpoint = "gateways";
 
-            Handler.Callback callbackForAuth = new Handler.Callback() {
-                @Override
-                public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
-                        try {
-                            Gateway.super.list(callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return true;
+                        Gateway.super.httpGetAsync(Constants.URL, Constants.VERSION, endpoint, Gateway.super.getHeaders(), null, callback);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    else
-                    {
-                        try {
-                            Gateway.super.list(callback);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        return false;
-                    }
+                    return true;
                 }
-            };
+                else
+                {
+                    callback.handleMessage(msg);
+                    return false;
+                }
+            }
+        };
 
-            authenticate.authenticateAsync(preferences.getPublicId(),callbackForAuth);
+        if(Gateway.super.getPreferences().isExpired() && !Gateway.super.getPreferences().getToken().equals(""))
+        {
+            new Authenticate(Gateway.super.getPreferences()).authenticateAsync(Gateway.super.getPreferences().getPublicId(), callbackForAuth);
         }
         else
         {
-            super.list(callback);
+            final Message callbackMessage = new Message();
+            callbackMessage.what = Constants.RESULT_OK;
+            callbackForAuth.handleMessage(callbackMessage);
         }
     }
 }
