@@ -215,9 +215,7 @@ abstract class Facade extends HttpMethodAbstract {
             final Message callbackMessage = new Message();
             callbackMessage.what = Constants.RESULT_OK;
             callbackForAuth.handleMessage(callbackMessage);
-        }endpoint = single + "/" + id;
-
-            super.httpDeleteAsync(Constants.URL, Constants.VERSION, endpoint, getHeaders(), null, callback);
+        }
     }
 
     protected void find(final JSONObject terms,final Handler.Callback callback) throws Exception {
