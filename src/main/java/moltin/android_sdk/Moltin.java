@@ -11,6 +11,7 @@ import moltin.android_sdk.endpoints.Category;
 import moltin.android_sdk.endpoints.Checkout;
 import moltin.android_sdk.endpoints.Collection;
 import moltin.android_sdk.endpoints.Currency;
+import moltin.android_sdk.endpoints.Customer;
 import moltin.android_sdk.endpoints.Entry;
 import moltin.android_sdk.endpoints.Gateway;
 import moltin.android_sdk.endpoints.Order;
@@ -33,6 +34,7 @@ public class Moltin
     public Checkout checkout;
     public Collection collection;
     public Currency currency;
+    public Customer customer;
     public Entry entry;
     public Gateway gateway;
     public Order order;
@@ -56,6 +58,7 @@ public class Moltin
         checkout = new Checkout(preferences);
         collection = new Collection(preferences);
         currency = new Currency(preferences);
+        customer = new Customer(preferences);
         entry = new Entry(preferences);
         gateway = new Gateway(preferences);
         order = new Order(preferences);
