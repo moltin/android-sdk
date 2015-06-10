@@ -11,7 +11,7 @@ public class Customer extends Facade {
 
     public Customer(Preferences preferences)
     {
-        super("brands","brands",preferences);
+        super("customers","customers",preferences);
     }
 
     @Override
