@@ -106,21 +106,21 @@ public class Cart extends Facade {
 
                         JSONObject jsonMods = null;
 
-                        Iterator<?> keys=mods.keys();
-                        while( keys.hasNext() )
-                        {
-                            if(jsonMods==null)
-                                jsonMods = new JSONObject();
+                        if(mods!=null) {
+                            Iterator<?> keys = mods.keys();
+                            while (keys.hasNext()) {
+                                if (jsonMods == null)
+                                    jsonMods = new JSONObject();
 
-                            String key = (String)keys.next();
-                            if( mods.get(key) instanceof String){
-                                jsonMods.put(key, mods.getString(key));
+                                String key = (String) keys.next();
+                                if (mods.get(key) instanceof String) {
+                                    jsonMods.put(key, mods.getString(key));
+                                }
                             }
+
+                            if (jsonMods != null)
+                                jsonData.put("modifier", jsonMods);
                         }
-
-                        if(jsonMods!=null)
-                            jsonData.put("modifier",jsonMods);
-
                         String endpoint = "carts/" + getIdentifier();
 
                         Cart.super.httpPostAsync(Constants.URL, Constants.VERSION, endpoint, Cart.super.getHeaders(), null, jsonData, callback);
