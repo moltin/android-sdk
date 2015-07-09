@@ -9,5 +9,7 @@ public class Constants {
     final public static int RESULT_OK = 1;
     final public static int RESULT_NOT_OK = 0;
 
+    final public static int TIMEOUT = 60000;
+
     final public static boolean DISABLE_LOGGING = false;
 }

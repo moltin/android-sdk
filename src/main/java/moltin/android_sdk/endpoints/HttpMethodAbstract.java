@@ -265,9 +265,9 @@ abstract class HttpMethodAbstract {
                 try {
                     HttpClient client = new DefaultHttpClient();
 
-                    ConnManagerParams.setTimeout(client.getParams(), 5000);
-                    HttpConnectionParams.setConnectionTimeout(client.getParams(), 5000);
-                    HttpConnectionParams.setSoTimeout(client.getParams(), 5000); //Timeout Limit
+                    ConnManagerParams.setTimeout(client.getParams(), Constants.TIMEOUT);
+                    HttpConnectionParams.setConnectionTimeout(client.getParams(), Constants.TIMEOUT);
+                    HttpConnectionParams.setSoTimeout(client.getParams(), Constants.TIMEOUT); //Timeout Limit
                     HttpResponse response;
 
                     String stringParameters = getParametersString(parameters);
@@ -370,9 +370,9 @@ abstract class HttpMethodAbstract {
                 try {
                     HttpClient client = new DefaultHttpClient();
 
-                    ConnManagerParams.setTimeout(client.getParams(), 5000);
-                    HttpConnectionParams.setConnectionTimeout(client.getParams(), 5000);
-                    HttpConnectionParams.setSoTimeout(client.getParams(), 5000); //Timeout Limit
+                    ConnManagerParams.setTimeout(client.getParams(), Constants.TIMEOUT);
+                    HttpConnectionParams.setConnectionTimeout(client.getParams(), Constants.TIMEOUT);
+                    HttpConnectionParams.setSoTimeout(client.getParams(), Constants.TIMEOUT); //Timeout Limit
                     HttpResponse response;
 
                     String stringParameters = getParametersString(parameters);
@@ -491,9 +491,9 @@ abstract class HttpMethodAbstract {
                 try {
                     HttpClient client = new DefaultHttpClient();
 
-                    ConnManagerParams.setTimeout(client.getParams(), 5000);
-                    HttpConnectionParams.setConnectionTimeout(client.getParams(), 5000);
-                    HttpConnectionParams.setSoTimeout(client.getParams(), 5000); //Timeout Limit
+                    ConnManagerParams.setTimeout(client.getParams(), Constants.TIMEOUT);
+                    HttpConnectionParams.setConnectionTimeout(client.getParams(), Constants.TIMEOUT);
+                    HttpConnectionParams.setSoTimeout(client.getParams(), Constants.TIMEOUT); //Timeout Limit
                     HttpResponse response;
 
                     String stringParameters = getParametersString(parameters);
@@ -612,9 +612,9 @@ abstract class HttpMethodAbstract {
                 try {
                     HttpClient client = new DefaultHttpClient();
 
-                    ConnManagerParams.setTimeout(client.getParams(), 5000);
-                    HttpConnectionParams.setConnectionTimeout(client.getParams(), 5000);
-                    HttpConnectionParams.setSoTimeout(client.getParams(), 5000); //Timeout Limit
+                    ConnManagerParams.setTimeout(client.getParams(), Constants.TIMEOUT);
+                    HttpConnectionParams.setConnectionTimeout(client.getParams(), Constants.TIMEOUT);
+                    HttpConnectionParams.setSoTimeout(client.getParams(), Constants.TIMEOUT); //Timeout Limit
                     HttpResponse response;
 
                     String stringParameters = getParametersString(parameters);
