@@ -5,7 +5,7 @@ The Moltin android-sdk is a simple to use interface for the API to help you get 
 ## Installation
 
 These lines should be added to your application's gradle file:
-```
+```java
 repositories {
    flatDir {
        dirs 'libs'
@@ -51,7 +51,7 @@ moltin.product.get("6", callback);
 
 Here are some examples of handling the callback:
 
-*Getting the the product object for a product with the slug "6"*
+**Getting the the product object for a product with the slug "6"**
 
 ```java
 moltin.product.get("6", new Handler.Callback() {
@@ -67,7 +67,7 @@ moltin.product.get("6", new Handler.Callback() {
 });
 ```
 
-*Creating a user's address:*
+**Creating a user's address:**
 
 ```java
 moltin.address.create("0", new String[][]{
@@ -90,3 +90,11 @@ moltin.address.create("0", new String[][]{
 	}
 });
 ```
+
+### Contributing
+
+ - Fork it the repository
+ - Create your feature branch (git checkout -b my-new-feature)
+ - Commit your changes (git commit -am 'Add some feature')
+ - Push to the branch (git push origin my-new-feature)
+ - Create a new Pull Request
