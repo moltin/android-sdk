@@ -14,28 +14,27 @@ import moltin.android_sdk.utilities.Preferences;
 public class Authenticate extends HttpMethodAbstract {
 
     private Preferences preferences;
-    public Authenticate(Preferences preferences)
-    {
+
+    public Authenticate(Preferences preferences) {
         this.preferences = preferences;
     }
 
-    public void authenticateAsync(final String publicId, final Handler.Callback callback) throws Exception {
-        try
-        {
-            if(preferences.getPublicId().equals("") && (publicId==null || publicId.length()==0))
-            {
+    public void authenticateAsync(final String publicId, String secretId, String grant_type, final Handler.Callback callback) throws Exception {
+        try {
+            if (preferences.getPublicId().equals("") && (publicId == null || publicId.length() == 0)) {
                 throw new Exception("Public ID must be set");
             }
 
             preferences.setPublicId(publicId);
 
-            if(!Constants.DISABLE_LOGGING) Log.i("REQUEST TOKEN", "mtoken " + preferences.getToken());
+            if (!Constants.DISABLE_LOGGING)
+                Log.i("REQUEST TOKEN", "mtoken " + preferences.getToken());
 
             if (!preferences.getToken().equals("") && !preferences.isExpired()) {
                 JSONObject json = new JSONObject();
                 try {
 
-                    if(!Constants.DISABLE_LOGGING) Log.i("RESPONSE AUTH", "already authenticated");
+                    if (!Constants.DISABLE_LOGGING) Log.i("RESPONSE AUTH", "already authenticated");
 
                     json.put("result", "already authenticated");
                 } catch (JSONException e) {
@@ -54,7 +53,14 @@ public class Authenticate extends HttpMethodAbstract {
 
             JSONObject jsonData = new JSONObject();
             jsonData.put("client_id", publicId);
-            jsonData.put("grant_type", "implicit");
+            jsonData.put("grant_type", grant_type);
+            if (grant_type.equals("client_credentials")) {
+
+                if (secretId == null) {
+                    throw new Exception("client secret ID must be set for grant_type 'client_credentials'");
+                }
+                jsonData.put("client_secret", secretId);
+            }
 
             JSONObject jsonHeaders = new JSONObject();
             jsonHeaders.put("Content-Type", "application/x-www-form-urlencoded");
@@ -62,21 +68,17 @@ public class Authenticate extends HttpMethodAbstract {
             Handler.Callback callbackForAuth = new Handler.Callback() {
                 @Override
                 public boolean handleMessage(Message msg) {
-                    if (msg.what == Constants.RESULT_OK)
-                    {
+                    if (msg.what == Constants.RESULT_OK) {
                         JSONObject json = new JSONObject();
-                        try
-                        {
+                        try {
                             json.put("result", "already authenticated with valid token");
-                        }
-                        catch (JSONException e)
-                        {
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
-                        JSONObject response = (JSONObject)msg.obj;
+                        JSONObject response = (JSONObject) msg.obj;
 
-                        if(!Constants.DISABLE_LOGGING) Log.i("RESPONSE AUTH", response.toString());
+                        if (!Constants.DISABLE_LOGGING) Log.i("RESPONSE AUTH", response.toString());
 
                         try {
                             preferences.setToken(response.getString("access_token"));
@@ -91,9 +93,7 @@ public class Authenticate extends HttpMethodAbstract {
                         callbackMessage.obj = msg.obj;
                         callback.handleMessage(callbackMessage);
                         return true;
-                    }
-                    else
-                    {
+                    } else {
                         final Message callbackMessage = new Message();
                         callbackMessage.what = msg.what;
                         callbackMessage.obj = msg.obj;
@@ -104,10 +104,14 @@ public class Authenticate extends HttpMethodAbstract {
             };
 
             super.httpPostAsync(Constants.URL, "", endpoint, jsonHeaders, null, jsonData, callbackForAuth);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
+    }
+
+    public void authenticateAsync(final String publicId, final Handler.Callback callback) throws Exception {
+
+        this.authenticateAsync(publicId, null, "implicit", callback);
     }
 }

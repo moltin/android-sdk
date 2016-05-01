@@ -67,9 +67,32 @@ public class Moltin
         tax = new Tax(preferences);
     }
 
+    /**
+     * authenticate to Moltin server, with an "implicit" grant_type.
+     * use this method for basic operations. see https://docs.moltin.com/authenticate/
+     * @param publicId your Moltin client public Id
+     * @param callback asynchronous callback
+     * @throws Exception exception
+     */
     public void authenticate(String publicId, Handler.Callback callback) throws Exception {
         authenticate.authenticateAsync(publicId, callback);
     }
+
+    /**
+     * authenticate to Moltin server, with a specific grant_type.
+     * use this method for to authenticate with the 'client_credentials' grant_type for instance. You will have to give your Moltin client secret Id in this case.
+     * see https://docs.moltin.com/authenticate/
+     * @param publicId your Moltin client public Id
+     * @param secretId your Moltin client secret Id (needed for "client_credentials" grant_type
+     * @param grant_type "implicit" or "client_credentials"
+     * @param callback asynchronous callback
+     * @throws Exception exception
+     */
+    public void authenticate(String publicId, String secretId, String grant_type, Handler.Callback callback) throws Exception {
+        authenticate.authenticateAsync(publicId, secretId, grant_type, callback);
+    }
+
+
 
     public void resetAuthenticationData()
     {
