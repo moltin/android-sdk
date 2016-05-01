@@ -41,7 +41,8 @@ public class Address extends Facade {
 
         if(Address.super.getPreferences().isExpired() && !Address.super.getPreferences().getToken().equals(""))
         {
-            new Authenticate(Address.super.getPreferences()).authenticateAsync(Address.super.getPreferences().getPublicId(),callbackForAuth);
+            Preferences prefs = Address.super.getPreferences();
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {
@@ -80,7 +81,8 @@ public class Address extends Facade {
 
         if(Address.super.getPreferences().isExpired() && !Address.super.getPreferences().getToken().equals(""))
         {
-            new Authenticate(Address.super.getPreferences()).authenticateAsync(Address.super.getPreferences().getPublicId(), callbackForAuth);
+            Preferences prefs = Address.super.getPreferences();
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {
@@ -119,7 +121,8 @@ public class Address extends Facade {
 
         if(Address.super.getPreferences().isExpired() && !Address.super.getPreferences().getToken().equals(""))
         {
-            new Authenticate(Address.super.getPreferences()).authenticateAsync(Address.super.getPreferences().getPublicId(), callbackForAuth);
+            Preferences prefs = Address.super.getPreferences();
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {
@@ -158,7 +161,8 @@ public class Address extends Facade {
 
         if(Address.super.getPreferences().isExpired() && !Address.super.getPreferences().getToken().equals(""))
         {
-            new Authenticate(Address.super.getPreferences()).authenticateAsync(Address.super.getPreferences().getPublicId(), callbackForAuth);
+            Preferences prefs = Address.super.getPreferences();
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {
@@ -203,7 +207,8 @@ public class Address extends Facade {
 
         if(Address.super.getPreferences().isExpired() && !Address.super.getPreferences().getToken().equals(""))
         {
-            new Authenticate(Address.super.getPreferences()).authenticateAsync(Address.super.getPreferences().getPublicId(), callbackForAuth);
+            Preferences prefs = Address.super.getPreferences();
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {

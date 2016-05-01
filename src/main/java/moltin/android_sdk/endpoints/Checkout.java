@@ -45,7 +45,8 @@ public class Checkout extends Facade {
 
         if(Checkout.super.getPreferences().isExpired() && !Checkout.super.getPreferences().getToken().equals(""))
         {
-            new Authenticate(Checkout.super.getPreferences()).authenticateAsync(Checkout.super.getPreferences().getPublicId(), callbackForAuth);
+            Preferences prefs = Checkout.super.getPreferences();
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {

@@ -40,7 +40,8 @@ public class Gateway extends Facade {
 
         if(Gateway.super.getPreferences().isExpired() && !Gateway.super.getPreferences().getToken().equals(""))
         {
-            new Authenticate(Gateway.super.getPreferences()).authenticateAsync(Gateway.super.getPreferences().getPublicId(), callbackForAuth);
+            Preferences prefs = Gateway.super.getPreferences();
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {
@@ -75,7 +76,8 @@ public class Gateway extends Facade {
 
         if(Gateway.super.getPreferences().isExpired() && !Gateway.super.getPreferences().getToken().equals(""))
         {
-            new Authenticate(Gateway.super.getPreferences()).authenticateAsync(Gateway.super.getPreferences().getPublicId(), callbackForAuth);
+            Preferences prefs = Gateway.super.getPreferences();
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {

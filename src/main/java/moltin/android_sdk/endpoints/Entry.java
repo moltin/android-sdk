@@ -41,7 +41,8 @@ public class Entry extends Facade {
 
         if(Entry.super.getPreferences().isExpired() && !Entry.super.getPreferences().getToken().equals(""))
         {
-            new Authenticate(Entry.super.getPreferences()).authenticateAsync(Entry.super.getPreferences().getPublicId(), callbackForAuth);
+            Preferences prefs = Entry.super.getPreferences();
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {
@@ -80,7 +81,8 @@ public class Entry extends Facade {
 
         if(Entry.super.getPreferences().isExpired() && !Entry.super.getPreferences().getToken().equals(""))
         {
-            new Authenticate(Entry.super.getPreferences()).authenticateAsync(Entry.super.getPreferences().getPublicId(), callbackForAuth);
+            Preferences prefs = Entry.super.getPreferences();
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {
@@ -119,7 +121,8 @@ public class Entry extends Facade {
 
         if(Entry.super.getPreferences().isExpired() && !Entry.super.getPreferences().getToken().equals(""))
         {
-            new Authenticate(Entry.super.getPreferences()).authenticateAsync(Entry.super.getPreferences().getPublicId(), callbackForAuth);
+            Preferences prefs = Entry.super.getPreferences();
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {

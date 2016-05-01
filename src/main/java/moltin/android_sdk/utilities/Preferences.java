@@ -31,7 +31,7 @@ public class Preferences {
     public void resetAuthentication()
     {
         setPublicId("");
-        setSecretId("");
+        setSecretId(null);
         setGrantType("");
         setToken("");
         setExpiration(0L);

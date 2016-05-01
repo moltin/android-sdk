@@ -68,7 +68,8 @@ public class Product extends Facade {
 
         if(Product.super.getPreferences().isExpired() && !Product.super.getPreferences().getToken().equals(""))
         {
-            new Authenticate(Product.super.getPreferences()).authenticateAsync(Product.super.getPreferences().getPublicId(), callbackForAuth);
+            Preferences prefs = Product.super.getPreferences();
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {
@@ -108,7 +109,8 @@ public class Product extends Facade {
 
         if(Product.super.getPreferences().isExpired() && !Product.super.getPreferences().getToken().equals(""))
         {
-            new Authenticate(Product.super.getPreferences()).authenticateAsync(Product.super.getPreferences().getPublicId(), callbackForAuth);
+            Preferences prefs = Product.super.getPreferences();
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {
@@ -143,7 +145,8 @@ public class Product extends Facade {
 
         if(Product.super.getPreferences().isExpired() && !Product.super.getPreferences().getToken().equals(""))
         {
-            new Authenticate(Product.super.getPreferences()).authenticateAsync(Product.super.getPreferences().getPublicId(), callbackForAuth);
+            Preferences prefs = Product.super.getPreferences();
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {
