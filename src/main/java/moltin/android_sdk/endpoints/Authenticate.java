@@ -26,6 +26,9 @@ public class Authenticate extends HttpMethodAbstract {
             }
 
             preferences.setPublicId(publicId);
+            preferences.setGrantType(grant_type);
+            if (secretId != null)
+                preferences.setSecretId(secretId);
 
             if (!Constants.DISABLE_LOGGING)
                 Log.i("REQUEST TOKEN", "mtoken " + preferences.getToken());

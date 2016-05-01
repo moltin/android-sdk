@@ -2,6 +2,7 @@ package moltin.android_sdk.utilities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import java.util.Date;
 
@@ -11,6 +12,11 @@ public class Preferences {
     private Context context;
     private SharedPreferences.Editor editor;
     private SharedPreferences sharedPreferences;
+
+    /**
+     * do not write the secret id in the shared preferences
+     */
+    private String secretId;
 
     public Preferences(Context this_context)
     {
@@ -25,6 +31,8 @@ public class Preferences {
     public void resetAuthentication()
     {
         setPublicId("");
+        setSecretId("");
+        setGrantType("");
         setToken("");
         setExpiration(0L);
     }
@@ -59,6 +67,22 @@ public class Preferences {
         preferencesSetString("mpublic", publicId);
     }
 
+    public String getSecretId() {
+        return this.secretId;
+    }
+
+    public void setSecretId(String secretId) {
+        this.secretId = secretId;
+    }
+
+    public String getGrantType() {
+        return preferencesGetString("grant_type");
+    }
+
+    public void setGrantType(String grant_type) {
+        preferencesSetString("grant_type", grant_type);
+    }
+
     public String getToken()
     {
         return preferencesGetString("mtoken");
@@ -88,7 +112,6 @@ public class Preferences {
             return true;
         else
             return false;
-
     }
 
     public long getExpiration()
