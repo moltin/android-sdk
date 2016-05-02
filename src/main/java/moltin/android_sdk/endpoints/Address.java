@@ -132,18 +132,34 @@ public class Address extends Facade {
         }
     }
 
-    public void update(String customer, String[][] data, Handler.Callback callback) throws Exception {
+    /**
+     * update an Address object from a array of arrays of Strings
+     * @param customer customer Moltin identifier
+     * @param address address Moltin identifier
+     * @param data parameters and values to update
+     * @param callback asynchronous callback. will return the updated address object.
+     * @throws Exception
+     */
+    public void update(String customer, String address, String[][] data, Handler.Callback callback) throws Exception {
         update(customer,super.getJsonFromArray(data),callback);
     }
 
-    public void update(final String customer, final JSONObject data, final Handler.Callback callback) throws Exception {
+    /**
+     * update an Address object from JSONObject object
+     * @param customer customer Moltin identifier
+     * @param address address Moltin identifier
+     * @param data parameters and values to update
+     * @param callback asynchronous callback. will return the updated address object.
+     * @throws Exception
+     */
+    public void update(final String customer, final String address, final JSONObject data, final Handler.Callback callback) throws Exception {
         Handler.Callback callbackForAuth = new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
                 if (msg.what == Constants.RESULT_OK)
                 {
                     try {
-                        String endpoint = "customers/" + customer + "/addresses";
+                        String endpoint = "customers/" + customer + "/addresses/" + address;
 
                         Address.super.httpPutAsync(Constants.URL, Constants.VERSION, endpoint, Address.super.getHeaders(), null, data, callback);
                     } catch (Exception e) {
