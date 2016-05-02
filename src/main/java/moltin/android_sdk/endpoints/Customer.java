@@ -77,7 +77,7 @@ public class Customer extends Facade {
                 if (msg.what == Constants.RESULT_OK)
                 {
                     try {
-                        String endpoint = "/v1/customers/token";
+                        String endpoint = "customers/token";
                         JSONObject data = new JSONObject();
                         data.put("email", email);
                         data.put("password", password);
