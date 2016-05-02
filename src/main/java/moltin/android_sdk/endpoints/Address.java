@@ -132,6 +132,48 @@ public class Address extends Facade {
         }
     }
 
+    public void update(String customer, String[][] data, Handler.Callback callback) throws Exception {
+        update(customer,super.getJsonFromArray(data),callback);
+    }
+
+    public void update(final String customer, final JSONObject data, final Handler.Callback callback) throws Exception {
+        Handler.Callback callbackForAuth = new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (msg.what == Constants.RESULT_OK)
+                {
+                    try {
+                        String endpoint = "customers/" + customer + "/addresses";
+
+                        Address.super.httpPutAsync(Constants.URL, Constants.VERSION, endpoint, Address.super.getHeaders(), null, data, callback);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return true;
+                }
+                else
+                {
+                    callback.handleMessage(msg);
+                    return false;
+                }
+            }
+        };
+
+        if(Address.super.getPreferences().isExpired() && !Address.super.getPreferences().getToken().equals(""))
+        {
+            Preferences prefs = Address.super.getPreferences();
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
+        }
+        else
+        {
+            final Message callbackMessage = new Message();
+            callbackMessage.what = Constants.RESULT_OK;
+            callbackForAuth.handleMessage(callbackMessage);
+        }
+    }
+
+
+
     public void create(String customer, String[][] data, Handler.Callback callback) throws Exception {
         create(customer,super.getJsonFromArray(data),callback);
     }
@@ -171,6 +213,7 @@ public class Address extends Facade {
             callbackForAuth.handleMessage(callbackMessage);
         }
     }
+
 
     public void fields(final String customer, final  String id, final Handler.Callback callback) throws Exception {
         Handler.Callback callbackForAuth = new Handler.Callback() {
