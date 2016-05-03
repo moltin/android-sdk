@@ -109,4 +109,48 @@ public class Customer extends Facade {
             callbackForAuth.handleMessage(callbackMessage);
         }
     }
+
+    /**
+     * delete customer account. Think about delete addresses and orders before calling this one.
+     * @param id Moltin customer identifier
+     * @param callback asynchronous callback. Check the responses status field for success or failure
+     * @throws Exception exception
+     */
+    public void delete(final String id, final Handler.Callback callback) throws Exception {
+
+        Handler.Callback callbackForAuth = new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (msg.what == Constants.RESULT_OK)
+                {
+                    try {
+                        String endpoint = String.format("customers/%s", id);
+                        Customer.super.httpDeleteAsync(Constants.URL, Constants.VERSION, endpoint, getHeaders(), null, callback);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return true;
+                }
+                else
+                {
+                    callback.handleMessage(msg);
+                    return false;
+                }
+            }
+        };
+
+        Preferences prefs = Customer.super.getPreferences();
+
+        if(prefs.isExpired() && !prefs.getToken().equals(""))
+        {
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
+        }
+        else
+        {
+            final Message callbackMessage = new Message();
+            callbackMessage.what = Constants.RESULT_OK;
+            callbackForAuth.handleMessage(callbackMessage);
+        }
+    }
 }
