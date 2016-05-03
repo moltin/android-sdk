@@ -276,4 +276,47 @@ public class Address extends Facade {
             callbackForAuth.handleMessage(callbackMessage);
         }
     }
+
+    /**
+     * delete a specfici address for a given customer
+     * @param customer Moltin customer identifier
+     * @param address Moltin address identifier
+     * @param callback asynchronous callback. Check response status field for success or failure
+     * @throws Exception exception
+     */
+    public void delete(final String customer, final String address, final Handler.Callback callback) throws Exception {
+
+        Handler.Callback callbackForAuth = new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (msg.what == Constants.RESULT_OK)
+                {
+                    try {
+                        String endpoint = "customers/" + customer + "/addresses/" + address;
+                        Address.super.httpDeleteAsync(Constants.URL, Constants.VERSION, endpoint, Address.super.getHeaders(), null, callback);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return true;
+                }
+                else
+                {
+                    callback.handleMessage(msg);
+                    return false;
+                }
+            }
+        };
+
+        if(Address.super.getPreferences().isExpired() && !Address.super.getPreferences().getToken().equals(""))
+        {
+            Preferences prefs = Address.super.getPreferences();
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
+        }
+        else
+        {
+            final Message callbackMessage = new Message();
+            callbackMessage.what = Constants.RESULT_OK;
+            callbackForAuth.handleMessage(callbackMessage);
+        }
+    }
 }
