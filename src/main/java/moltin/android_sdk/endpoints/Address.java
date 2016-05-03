@@ -278,7 +278,7 @@ public class Address extends Facade {
     }
 
     /**
-     * delete a specfici address for a given customer
+     * delete a specific address for a given customer
      * @param customer Moltin customer identifier
      * @param address Moltin address identifier
      * @param callback asynchronous callback. Check response status field for success or failure
