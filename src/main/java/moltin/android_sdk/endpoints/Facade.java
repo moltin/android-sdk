@@ -103,7 +103,8 @@ abstract class Facade extends HttpMethodAbstract {
 
         if(preferences.isExpired() && !preferences.getToken().equals(""))
         {
-            new Authenticate(preferences).authenticateAsync(preferences.getPublicId(),callbackForAuth);
+            Preferences prefs = preferences;
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {
@@ -113,7 +114,7 @@ abstract class Facade extends HttpMethodAbstract {
         }
     }
 
-    protected void create(final JSONObject data,final Handler.Callback callback) throws Exception {
+    protected void  create(final JSONObject data,final Handler.Callback callback) throws Exception {
         Handler.Callback callbackForAuth = new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
@@ -138,7 +139,8 @@ abstract class Facade extends HttpMethodAbstract {
 
         if(preferences.isExpired() && !preferences.getToken().equals(""))
         {
-            new Authenticate(preferences).authenticateAsync(preferences.getPublicId(),callbackForAuth);
+            Preferences prefs = preferences;
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {
@@ -173,7 +175,8 @@ abstract class Facade extends HttpMethodAbstract {
 
         if(preferences.isExpired() && !preferences.getToken().equals(""))
         {
-            new Authenticate(preferences).authenticateAsync(preferences.getPublicId(),callbackForAuth);
+            Preferences prefs = preferences;
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {
@@ -208,7 +211,8 @@ abstract class Facade extends HttpMethodAbstract {
 
         if(preferences.isExpired() && !preferences.getToken().equals(""))
         {
-            new Authenticate(preferences).authenticateAsync(preferences.getPublicId(),callbackForAuth);
+            Preferences prefs = preferences;
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {
@@ -243,7 +247,8 @@ abstract class Facade extends HttpMethodAbstract {
 
         if(preferences.isExpired() && !preferences.getToken().equals(""))
         {
-            new Authenticate(preferences).authenticateAsync(preferences.getPublicId(),callbackForAuth);
+            Preferences prefs = preferences;
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {
@@ -278,7 +283,8 @@ abstract class Facade extends HttpMethodAbstract {
 
         if(preferences.isExpired() && !preferences.getToken().equals(""))
         {
-            new Authenticate(preferences).authenticateAsync(preferences.getPublicId(),callbackForAuth);
+            Preferences prefs = preferences;
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {
@@ -313,7 +319,8 @@ abstract class Facade extends HttpMethodAbstract {
 
         if(preferences.isExpired() && !preferences.getToken().equals(""))
         {
-            new Authenticate(preferences).authenticateAsync(preferences.getPublicId(),callbackForAuth);
+            Preferences prefs = preferences;
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {

@@ -68,7 +68,8 @@ public class Category extends Facade {
 
         if(Category.super.getPreferences().isExpired() && !Category.super.getPreferences().getToken().equals(""))
         {
-            new Authenticate(Category.super.getPreferences()).authenticateAsync(Category.super.getPreferences().getPublicId(), callbackForAuth);
+            Preferences prefs = Category.super.getPreferences();
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {

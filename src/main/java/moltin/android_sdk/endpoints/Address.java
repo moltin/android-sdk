@@ -41,7 +41,8 @@ public class Address extends Facade {
 
         if(Address.super.getPreferences().isExpired() && !Address.super.getPreferences().getToken().equals(""))
         {
-            new Authenticate(Address.super.getPreferences()).authenticateAsync(Address.super.getPreferences().getPublicId(),callbackForAuth);
+            Preferences prefs = Address.super.getPreferences();
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {
@@ -80,7 +81,8 @@ public class Address extends Facade {
 
         if(Address.super.getPreferences().isExpired() && !Address.super.getPreferences().getToken().equals(""))
         {
-            new Authenticate(Address.super.getPreferences()).authenticateAsync(Address.super.getPreferences().getPublicId(), callbackForAuth);
+            Preferences prefs = Address.super.getPreferences();
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {
@@ -119,7 +121,8 @@ public class Address extends Facade {
 
         if(Address.super.getPreferences().isExpired() && !Address.super.getPreferences().getToken().equals(""))
         {
-            new Authenticate(Address.super.getPreferences()).authenticateAsync(Address.super.getPreferences().getPublicId(), callbackForAuth);
+            Preferences prefs = Address.super.getPreferences();
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {
@@ -128,6 +131,64 @@ public class Address extends Facade {
             callbackForAuth.handleMessage(callbackMessage);
         }
     }
+
+    /**
+     * update an Address object from a array of arrays of Strings
+     * @param customer customer Moltin identifier
+     * @param address address Moltin identifier
+     * @param data parameters and values to update
+     * @param callback asynchronous callback. will return the updated address object.
+     * @throws Exception
+     */
+    public void update(String customer, String address, String[][] data, Handler.Callback callback) throws Exception {
+        update(customer,super.getJsonFromArray(data),callback);
+    }
+
+    /**
+     * update an Address object from JSONObject object
+     * @param customer customer Moltin identifier
+     * @param address address Moltin identifier
+     * @param data parameters and values to update
+     * @param callback asynchronous callback. will return the updated address object.
+     * @throws Exception
+     */
+    public void update(final String customer, final String address, final JSONObject data, final Handler.Callback callback) throws Exception {
+        Handler.Callback callbackForAuth = new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (msg.what == Constants.RESULT_OK)
+                {
+                    try {
+                        String endpoint = "customers/" + customer + "/addresses/" + address;
+
+                        Address.super.httpPutAsync(Constants.URL, Constants.VERSION, endpoint, Address.super.getHeaders(), null, data, callback);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return true;
+                }
+                else
+                {
+                    callback.handleMessage(msg);
+                    return false;
+                }
+            }
+        };
+
+        if(Address.super.getPreferences().isExpired() && !Address.super.getPreferences().getToken().equals(""))
+        {
+            Preferences prefs = Address.super.getPreferences();
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
+        }
+        else
+        {
+            final Message callbackMessage = new Message();
+            callbackMessage.what = Constants.RESULT_OK;
+            callbackForAuth.handleMessage(callbackMessage);
+        }
+    }
+
+
 
     public void create(String customer, String[][] data, Handler.Callback callback) throws Exception {
         create(customer,super.getJsonFromArray(data),callback);
@@ -158,7 +219,8 @@ public class Address extends Facade {
 
         if(Address.super.getPreferences().isExpired() && !Address.super.getPreferences().getToken().equals(""))
         {
-            new Authenticate(Address.super.getPreferences()).authenticateAsync(Address.super.getPreferences().getPublicId(), callbackForAuth);
+            Preferences prefs = Address.super.getPreferences();
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {
@@ -167,6 +229,7 @@ public class Address extends Facade {
             callbackForAuth.handleMessage(callbackMessage);
         }
     }
+
 
     public void fields(final String customer, final  String id, final Handler.Callback callback) throws Exception {
         Handler.Callback callbackForAuth = new Handler.Callback() {
@@ -203,7 +266,51 @@ public class Address extends Facade {
 
         if(Address.super.getPreferences().isExpired() && !Address.super.getPreferences().getToken().equals(""))
         {
-            new Authenticate(Address.super.getPreferences()).authenticateAsync(Address.super.getPreferences().getPublicId(), callbackForAuth);
+            Preferences prefs = Address.super.getPreferences();
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
+        }
+        else
+        {
+            final Message callbackMessage = new Message();
+            callbackMessage.what = Constants.RESULT_OK;
+            callbackForAuth.handleMessage(callbackMessage);
+        }
+    }
+
+    /**
+     * delete a specific address for a given customer
+     * @param customer Moltin customer identifier
+     * @param address Moltin address identifier
+     * @param callback asynchronous callback. Check response status field for success or failure
+     * @throws Exception exception
+     */
+    public void delete(final String customer, final String address, final Handler.Callback callback) throws Exception {
+
+        Handler.Callback callbackForAuth = new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (msg.what == Constants.RESULT_OK)
+                {
+                    try {
+                        String endpoint = "customers/" + customer + "/addresses/" + address;
+                        Address.super.httpDeleteAsync(Constants.URL, Constants.VERSION, endpoint, Address.super.getHeaders(), null, callback);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    return true;
+                }
+                else
+                {
+                    callback.handleMessage(msg);
+                    return false;
+                }
+            }
+        };
+
+        if(Address.super.getPreferences().isExpired() && !Address.super.getPreferences().getToken().equals(""))
+        {
+            Preferences prefs = Address.super.getPreferences();
+            new Authenticate(prefs).authenticateAsync(prefs.getPublicId(), prefs.getSecretId(), prefs.getGrantType(), callbackForAuth);
         }
         else
         {
