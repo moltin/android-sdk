@@ -1,4 +1,4 @@
-package com.gospelware.moltin.products;
+package com.gospelware.moltin.modules.products;
 
 import com.gospelware.moltin.BaseResponse;
 import com.gospelware.moltin.Product;

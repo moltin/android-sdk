@@ -1,4 +1,4 @@
-package com.gospelware.moltin.brands;
+package com.gospelware.moltin.modules.brands;
 
 import com.gospelware.moltin.BaseResponse;
 import com.gospelware.moltin.Product;
@@ -13,6 +13,14 @@ public class BrandResponse extends BaseResponse{
 
     private BrandResponseIncludes includes;
     private Brand data;
+
+    public Brand getData() {
+        return data;
+    }
+
+    public void setData(Brand data) {
+        this.data = data;
+    }
 
     public BrandResponseIncludes getIncludes() {
         return includes;

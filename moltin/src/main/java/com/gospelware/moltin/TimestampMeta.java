@@ -1,10 +1,10 @@
 package com.gospelware.moltin;
 
 /**
- * Created by lewis on 02/03/2017.
+ * Created by lewis on 06/03/2017.
  */
 
-public class Timestamps {
+public class TimestampMeta {
 
     private String createdAt;
     private String updatedAt;

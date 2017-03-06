@@ -1,9 +1,8 @@
-package com.gospelware.moltin.brands;
+package com.gospelware.moltin.modules.brands;
 
 import com.google.gson.JsonElement;
-import com.gospelware.moltin.BaseResponse;
 import com.gospelware.moltin.Links;
-import com.gospelware.moltin.Timestamps;
+import com.gospelware.moltin.TimestampMeta;
 
 /**
  * Created by lewis on 02/03/2017.
@@ -18,7 +17,7 @@ public class Brand {
     private String status;
     private String description;
     private Links links;
-    private Meta meta;
+    private TimestampMeta meta;
 
     public JsonElement rawJson;
 
@@ -78,11 +77,11 @@ public class Brand {
         this.links = links;
     }
 
-    public Meta getMeta() {
+    public TimestampMeta getMeta() {
         return meta;
     }
 
-    public void setMeta(Meta meta) {
+    public void setMeta(TimestampMeta meta) {
         this.meta = meta;
     }
 
@@ -94,15 +93,4 @@ public class Brand {
         this.rawJson = rawJson;
     }
 
-    public class Meta {
-        private Timestamps timestamps;
-
-        public Timestamps getTimestamps() {
-            return timestamps;
-        }
-
-        public void setTimestamps(Timestamps timestamps) {
-            this.timestamps = timestamps;
-        }
-    }
 }

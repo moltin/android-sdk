@@ -1,7 +1,9 @@
 package com.gospelware.moltin;
-import android.content.Context;
 
-import com.google.gson.JsonObject;
+import com.gospelware.moltin.modules.Brands;
+import com.gospelware.moltin.modules.Categories;
+import com.gospelware.moltin.modules.Products;
+import com.gospelware.moltin.modules.CategoryTree;
 
 import rx.Observable;
 
@@ -12,6 +14,8 @@ public class Moltin {
 
     public static Products Products;
     public static Brands Brands;
+    public static Categories Categories;
+    public static CategoryTree CategoryTree;
 
     public static final String GRANT_TYPE  = "implicit";
 
@@ -25,6 +29,8 @@ public class Moltin {
         this.api = new Api(preferences);
         this.Products = new Products(this.api);
         this.Brands = new Brands(this.api);
+        this.Categories = new Categories(this.api);
+        this.CategoryTree = new CategoryTree(this.api);
     }
 
     public Preferences getPreferences() {

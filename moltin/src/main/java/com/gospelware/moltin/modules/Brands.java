@@ -1,7 +1,9 @@
-package com.gospelware.moltin;
+package com.gospelware.moltin.modules;
 
-import com.gospelware.moltin.brands.BrandResponse;
-import com.gospelware.moltin.brands.BrandsResponse;
+import com.gospelware.moltin.Api;
+import com.gospelware.moltin.MoltinQuery;
+import com.gospelware.moltin.modules.brands.BrandResponse;
+import com.gospelware.moltin.modules.brands.BrandsResponse;
 
 import rx.Observable;
 

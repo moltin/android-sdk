@@ -13,9 +13,14 @@ import com.gospelware.moltin.AccessTokenResponse;
 import com.gospelware.moltin.Moltin;
 import com.gospelware.moltin.MoltinQuery;
 import com.gospelware.moltin.Preferences;
-import com.gospelware.moltin.brands.BrandsResponse;
-import com.gospelware.moltin.products.ProductResponse;
-import com.gospelware.moltin.products.ProductsResponse;
+import com.gospelware.moltin.modules.CategoryTree;
+import com.gospelware.moltin.modules.brands.BrandResponse;
+import com.gospelware.moltin.modules.brands.BrandsResponse;
+import com.gospelware.moltin.modules.categories.CategoriesResponse;
+import com.gospelware.moltin.modules.categories.CategoryResponse;
+import com.gospelware.moltin.modules.categories.CategoryTreeResponse;
+import com.gospelware.moltin.modules.products.ProductResponse;
+import com.gospelware.moltin.modules.products.ProductsResponse;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -23,6 +28,7 @@ import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String DEBUG_TAG = "MoltinTest";
     public static final String CLIENT_ID = "B7H9MthG8jYduHlGrmKnqO613XCEvsrZ6bwSYo1TWM";
     public static final String API_ENDPOINT = "https://api.moltin.com";
 
@@ -79,6 +85,32 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        ((Button) findViewById(R.id.button_get_categories)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                getCategories();
+            }
+        });
+
+        ((Button) findViewById(R.id.button_get_category)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getCategoryById();
+            }
+        });
+
+        ((Button) findViewById(R.id.button_get_category_tree)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getCategoryTree();
+            }
+        });
+
+
+
+
+
         //Moltin.Product.getAll()
     }
 
@@ -106,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
 //                        if(response.data.size() > 0){
 //                            getProductById(response.data.get(0).getLabel());
 //                        }
-//                        //Log.e("hello","Baseresponse:" + response.data.size());
+//                        //Log.e(DEBUG_TAG,"Baseresponse:" + response.data.size());
 //                    }
 //                });
     }
@@ -131,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                         if(response.data.size() > 0){
                             getProductById(response.data.get(0).getId());
                         }
-                        //Log.e("hello","Baseresponse:" + response.data.size());
+                        //Log.e(DEBUG_TAG,"Baseresponse:" + response.data.size());
                     }
                 });
     }
@@ -152,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(ProductResponse response){
-                        Log.e("hello","Baseresponse:" + response.data.getName());
+                        Log.e(DEBUG_TAG,"Baseresponse:" + response.data.getName());
                     }
                 });
     }
@@ -173,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(BrandsResponse response){
-                        Log.e("hello","Baseresponse:" + response.getData().size());
+                        Log.e(DEBUG_TAG,"Baseresponse:" + response.getData().size());
                     }
                 });
     }
@@ -181,9 +213,9 @@ public class MainActivity extends AppCompatActivity {
     private void getBrandById(){
         String brand_now_tv = "ddb86543-b151-48ce-b6ce-e6ee046d146d";
 
-        Observable<BrandsResponse> response = moltinApi.Brands.getAll(new MoltinQuery());
+        Observable<BrandResponse> response = moltinApi.Brands.getById(new MoltinQuery(), brand_now_tv);
         response.subscribeOn(Schedulers.io())
-                .subscribe(new Subscriber<BrandsResponse>() {
+                .subscribe(new Subscriber<BrandResponse>() {
                     @Override
                     public void onCompleted() {
 
@@ -195,8 +227,74 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(BrandsResponse response){
-                        Log.e("hello","Baseresponse:" + response.getData().size());
+                    public void onNext(BrandResponse response){
+                        Log.e(DEBUG_TAG,"Baseresponse:" + response.getData().getName());
+                    }
+                });
+    }
+
+    private void getCategories(){
+
+        Observable<CategoriesResponse> response = moltinApi.Categories.getAll(new MoltinQuery());
+        response.subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<CategoriesResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(CategoriesResponse response){
+                        Log.e(DEBUG_TAG,"Baseresponse:" + response.getData().size());
+                    }
+                });
+    }
+
+    private void getCategoryById(){
+        String id = "5bc59e6a-5ea4-4828-833c-b94f7456b67a";
+
+        Observable<CategoryResponse> response = moltinApi.Categories.getById(new MoltinQuery(), id);
+        response.subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<CategoryResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(CategoryResponse response){
+                        Log.e(DEBUG_TAG,"Baseresponse:" + response.getData().getName());
+                    }
+                });
+    }
+
+    private void getCategoryTree(){
+       Observable<CategoryTreeResponse> response = moltinApi.CategoryTree.getAll(new MoltinQuery());
+        response.subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<CategoryTreeResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(CategoryTreeResponse response){
+                        Log.e(DEBUG_TAG,"Baseresponse:" + response.getData().size());
                     }
                 });
     }
@@ -217,7 +315,7 @@ public class MainActivity extends AppCompatActivity {
 //
 //                    @Override
 //                    public void onNext(ProductResponse response){
-//                        Log.e("hello","Baseresponse:" + response.data.getName());
+//                        Log.e(DEBUG_TAG,"Baseresponse:" + response.data.getName());
 //                    }
 //                });
 //    }

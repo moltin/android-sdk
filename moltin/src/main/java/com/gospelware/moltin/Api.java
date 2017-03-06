@@ -7,11 +7,15 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import com.gospelware.moltin.brands.Brand;
-import com.gospelware.moltin.brands.BrandResponse;
-import com.gospelware.moltin.brands.BrandsResponse;
-import com.gospelware.moltin.products.ProductResponse;
-import com.gospelware.moltin.products.ProductsResponse;
+import com.gospelware.moltin.modules.CategoryTree;
+import com.gospelware.moltin.modules.brands.Brand;
+import com.gospelware.moltin.modules.brands.BrandResponse;
+import com.gospelware.moltin.modules.brands.BrandsResponse;
+import com.gospelware.moltin.modules.categories.CategoriesResponse;
+import com.gospelware.moltin.modules.categories.CategoryResponse;
+import com.gospelware.moltin.modules.categories.CategoryTreeResponse;
+import com.gospelware.moltin.modules.products.ProductResponse;
+import com.gospelware.moltin.modules.products.ProductsResponse;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -178,6 +182,18 @@ public class Api {
         return service.getBrandById(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap(), uuid);
     }
 
+    public Observable<CategoriesResponse> getCategories(MoltinQuery query_string){
+        return service.getCategories(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap());
+    }
+
+    public Observable<CategoryResponse> getCategoryById(MoltinQuery query_string, String uuid){
+        return service.getCategoryById(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap(), uuid);
+    }
+
+    public Observable<CategoryTreeResponse> getCategoryTree(MoltinQuery query_string){
+        return service.getCategoryTree(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap());
+    }
+
     public interface ApiInterface {
 
         @FormUrlEncoded
@@ -214,6 +230,28 @@ public class Api {
                 @Header("X-MOLTIN-LANGUAGE") String language,
                 @QueryMap Map<String, String> queryString,
                 @Path("uuid") String uuid
+        );
+
+        @GET("/v2/categories")
+        Observable<CategoriesResponse> getCategories(
+                @Header("X-MOLTIN-LOCALE") String locale,
+                @Header("X-MOLTIN-LANGUAGE") String language,
+                @QueryMap Map<String, String> queryString
+        );
+
+        @GET("/v2/categories/{uuid}")
+        Observable<CategoryResponse> getCategoryById(
+                @Header("X-MOLTIN-LOCALE") String locale,
+                @Header("X-MOLTIN-LANGUAGE") String language,
+                @QueryMap Map<String, String> queryString,
+                @Path("uuid") String uuid
+        );
+
+        @GET("/v2/categories/tree")
+        Observable<CategoryTreeResponse> getCategoryTree(
+                @Header("X-MOLTIN-LOCALE") String locale,
+                @Header("X-MOLTIN-LANGUAGE") String language,
+                @QueryMap Map<String, String> queryString
         );
 
 
