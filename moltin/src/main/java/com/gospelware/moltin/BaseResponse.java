@@ -1,12 +1,31 @@
 package com.gospelware.moltin;
 
+import java.util.ArrayList;
+
 /**
  * Created by lewis on 20/02/2017.
  */
 
 public class BaseResponse {
 
-    public BaseResponseLinks links;
+    private Links links;
+    private ArrayList<JsonApiErrorResponse> errors;
+
+    public Links getLinks() {
+        return links;
+    }
+
+    public void setLinks(Links links) {
+        this.links = links;
+    }
+
+    public ArrayList<JsonApiErrorResponse> getErrors() {
+        return errors;
+    }
+
+    public void setErrors(ArrayList<JsonApiErrorResponse> errors) {
+        this.errors = errors;
+    }
 
     public class JsonApiErrorResponse{
         public String code;
@@ -24,61 +43,5 @@ public class BaseResponse {
         }
     }
 
-    public class BaseResponseLinks{
 
-        private String self;
-        private String next;
-        private String prev;
-        private String first;
-        private String last;
-        private String current;
-
-        public String getSelf() {
-            return self;
-        }
-
-        public void setSelf(String self) {
-            this.self = self;
-        }
-
-        public String getNext() {
-            return next;
-        }
-
-        public void setNext(String next) {
-            this.next = next;
-        }
-
-        public String getPrev() {
-            return prev;
-        }
-
-        public void setPrev(String prev) {
-            this.prev = prev;
-        }
-
-        public String getFirst() {
-            return first;
-        }
-
-        public void setFirst(String first) {
-            this.first = first;
-        }
-
-        public String getLast() {
-            return last;
-        }
-
-        public void setLast(String last) {
-            this.last = last;
-        }
-
-        public String getCurrent() {
-            return current;
-        }
-
-        public void setCurrent(String current) {
-            this.current = current;
-        }
-    }
 }

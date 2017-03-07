@@ -19,6 +19,8 @@ import com.gospelware.moltin.modules.brands.BrandsResponse;
 import com.gospelware.moltin.modules.categories.CategoriesResponse;
 import com.gospelware.moltin.modules.categories.CategoryResponse;
 import com.gospelware.moltin.modules.categories.CategoryTreeResponse;
+import com.gospelware.moltin.modules.collections.CollectionsResponse;
+import com.gospelware.moltin.modules.files.FilesResponse;
 import com.gospelware.moltin.modules.products.ProductResponse;
 import com.gospelware.moltin.modules.products.ProductsResponse;
 
@@ -108,8 +110,19 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        ((Button) findViewById(R.id.button_get_collections)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getCollections();
+            }
+        });
 
-
+        ((Button) findViewById(R.id.button_get_files)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFiles();
+            }
+        });
 
         //Moltin.Product.getAll()
     }
@@ -141,6 +154,27 @@ public class MainActivity extends AppCompatActivity {
 //                        //Log.e(DEBUG_TAG,"Baseresponse:" + response.data.size());
 //                    }
 //                });
+    }
+
+    private void getCollections(){
+        Observable<CollectionsResponse> response = moltinApi.Collections.getAll(new MoltinQuery());
+        response.subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<CollectionsResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(CollectionsResponse response){
+                        Log.e(DEBUG_TAG,"Baseresponse:" + response.getData().size());
+                    }
+                });
     }
 
     private void getProducts(){
@@ -299,26 +333,26 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-//    private void deleteProductById(String id){
-//        Observable<ProductResponse> response = moltinApi.Products.delete(id);
-//        response.subscribeOn(Schedulers.io())
-//                .subscribe(new Subscriber<ProductResponse>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    @Override
-//                    public void onNext(ProductResponse response){
-//                        Log.e(DEBUG_TAG,"Baseresponse:" + response.data.getName());
-//                    }
-//                });
-//    }
+    private void getFiles(){
+        Observable<FilesResponse> response = moltinApi.Files.getAll(new MoltinQuery());
+        response.subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<FilesResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(FilesResponse response){
+                        Log.e(DEBUG_TAG,"Baseresponse:" + response.getData().size());
+                    }
+                });
+    }
 
     private void handleAccessTokenError(Throwable e){
         e.printStackTrace();

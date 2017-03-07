@@ -14,6 +14,10 @@ import com.gospelware.moltin.modules.brands.BrandsResponse;
 import com.gospelware.moltin.modules.categories.CategoriesResponse;
 import com.gospelware.moltin.modules.categories.CategoryResponse;
 import com.gospelware.moltin.modules.categories.CategoryTreeResponse;
+import com.gospelware.moltin.modules.collections.CollectionResponse;
+import com.gospelware.moltin.modules.collections.CollectionsResponse;
+import com.gospelware.moltin.modules.files.FileResponse;
+import com.gospelware.moltin.modules.files.FilesResponse;
 import com.gospelware.moltin.modules.products.ProductResponse;
 import com.gospelware.moltin.modules.products.ProductsResponse;
 
@@ -194,6 +198,22 @@ public class Api {
         return service.getCategoryTree(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap());
     }
 
+    public Observable<CollectionsResponse> getCollections(MoltinQuery query_string){
+        return service.getCollections(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap());
+    }
+
+    public Observable<CollectionResponse> getCollectionById(MoltinQuery query_string, String uuid){
+        return service.getCollectionById(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap(), uuid);
+    }
+
+    public Observable<FilesResponse> getFiles(MoltinQuery query_string){
+        return service.getFiles(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap());
+    }
+
+    public Observable<FileResponse> getFileById(MoltinQuery query_string, String uuid){
+        return service.getFileById(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap(), uuid);
+    }
+
     public interface ApiInterface {
 
         @FormUrlEncoded
@@ -254,6 +274,35 @@ public class Api {
                 @QueryMap Map<String, String> queryString
         );
 
+        @GET("/v2/collections")
+        Observable<CollectionsResponse> getCollections(
+                @Header("X-MOLTIN-LOCALE") String locale,
+                @Header("X-MOLTIN-LANGUAGE") String language,
+                @QueryMap Map<String, String> queryString
+        );
+
+        @GET("/v2/collections/{uuid}")
+        Observable<CollectionResponse> getCollectionById(
+                @Header("X-MOLTIN-LOCALE") String locale,
+                @Header("X-MOLTIN-LANGUAGE") String language,
+                @QueryMap Map<String, String> queryString,
+                @Path("uuid") String uuid
+        );
+
+        @GET("/v2/files")
+        Observable<FilesResponse> getFiles(
+                @Header("X-MOLTIN-LOCALE") String locale,
+                @Header("X-MOLTIN-LANGUAGE") String language,
+                @QueryMap Map<String, String> queryString
+        );
+
+        @GET("/v2/files/{uuid}")
+        Observable<FileResponse> getFileById(
+                @Header("X-MOLTIN-LOCALE") String locale,
+                @Header("X-MOLTIN-LANGUAGE") String language,
+                @QueryMap Map<String, String> queryString,
+                @Path("uuid") String uuid
+        );
 
     }
 

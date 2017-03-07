@@ -28,7 +28,7 @@ public class Product {
     public String commodityType;
     public Dimensions dimensions;
     public Weight weight;
-    public BaseResponse.BaseResponseLinks links;
+    public Links links;
 
     public String getType() {
         return type;
@@ -134,11 +134,11 @@ public class Product {
         this.weight = weight;
     }
 
-    public BaseResponse.BaseResponseLinks getLinks() {
+    public Links getLinks() {
         return links;
     }
 
-    public void setLinks(BaseResponse.BaseResponseLinks links) {
+    public void setLinks(Links links) {
         this.links = links;
     }
 }

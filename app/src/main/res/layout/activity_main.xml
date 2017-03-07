@@ -10,15 +10,11 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.gospelware.moltinshellproject.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
 
     <Button
         android:id="@+id/button_get_products"
         android:text="Get products"
-        android:layout_centerVertical="true"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -54,6 +50,24 @@
         android:id="@+id/button_get_category_tree"
         android:text="Get category tree"
         android:layout_below="@+id/button_get_categories"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/button_get_collections"
+        android:text="Get collections"
+        android:layout_below="@+id/button_get_category_tree"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/button_get_files"
+        android:text="Get files"
+        android:layout_below="@+id/button_get_collections"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"

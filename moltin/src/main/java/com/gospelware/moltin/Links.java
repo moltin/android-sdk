@@ -6,11 +6,12 @@ package com.gospelware.moltin;
 
 public class Links {
 
-    public String self;
-    public String next;
-    public String prev;
-    public String first;
-    public String last;
+    private String self;
+    private String next;
+    private String prev;
+    private String first;
+    private String last;
+    private String current;
 
     public String getSelf() {
         return self;
@@ -50,5 +51,13 @@ public class Links {
 
     public void setLast(String last) {
         this.last = last;
+    }
+
+    public String getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(String current) {
+        this.current = current;
     }
 }
