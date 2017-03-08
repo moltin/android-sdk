@@ -2,7 +2,7 @@ package com.gospelware.moltin.modules.brands;
 
 import com.google.gson.JsonElement;
 import com.gospelware.moltin.Links;
-import com.gospelware.moltin.TimestampMeta;
+import com.gospelware.moltin.modules.meta.TimestampMeta;
 
 /**
  * Created by lewis on 02/03/2017.

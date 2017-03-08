@@ -1,7 +1,6 @@
 package com.gospelware.moltin.modules.collections;
 
 import com.gospelware.moltin.Links;
-import com.gospelware.moltin.TimestampMeta;
 import com.gospelware.moltin.modules.products.IncludedProducts;
 
 import java.util.ArrayList;

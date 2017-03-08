@@ -1,7 +1,7 @@
 package com.gospelware.moltin.modules.categories;
 
 import com.gospelware.moltin.Relationships;
-import com.gospelware.moltin.TimestampMeta;
+import com.gospelware.moltin.modules.meta.TimestampMeta;
 
 import java.util.ArrayList;
 

@@ -1,7 +1,7 @@
 package com.gospelware.moltin.modules.collections;
 
 import com.gospelware.moltin.Links;
-import com.gospelware.moltin.TimestampMeta;
+import com.gospelware.moltin.modules.meta.TimestampMeta;
 
 /**
  * Created by lewis on 07/03/2017.

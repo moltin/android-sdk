@@ -3,7 +3,7 @@ package com.gospelware.moltin.modules.files;
 import com.google.gson.annotations.SerializedName;
 import com.gospelware.moltin.Dimensions;
 import com.gospelware.moltin.Links;
-import com.gospelware.moltin.TimestampMeta;
+import com.gospelware.moltin.modules.meta.TimestampMeta;
 
 /**
  * Created by lewis on 07/03/2017.
@@ -14,6 +14,7 @@ public class File {
     private String type;
     private String id;
     private FileLink link;
+    private String fileName;
     private String mimeType;
     private Double fileSize;
 
@@ -45,6 +46,14 @@ public class File {
 
     public void setLink(FileLink link) {
         this.link = link;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public String getMimeType() {
@@ -87,6 +96,14 @@ public class File {
         this.links = links;
     }
 
+    public Boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(Boolean aPublic) {
+        isPublic = aPublic;
+    }
+
     public class FileLink{
         private String href;
 
@@ -103,6 +120,21 @@ public class File {
         private TimestampMeta timestamps;
         private Dimensions dimensions;
 
+        public TimestampMeta getTimestamps() {
+            return timestamps;
+        }
+
+        public void setTimestamps(TimestampMeta timestamps) {
+            this.timestamps = timestamps;
+        }
+
+        public Dimensions getDimensions() {
+            return dimensions;
+        }
+
+        public void setDimensions(Dimensions dimensions) {
+            this.dimensions = dimensions;
+        }
     }
 
 }

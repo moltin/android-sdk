@@ -16,6 +16,8 @@ import com.gospelware.moltin.modules.categories.CategoryResponse;
 import com.gospelware.moltin.modules.categories.CategoryTreeResponse;
 import com.gospelware.moltin.modules.collections.CollectionResponse;
 import com.gospelware.moltin.modules.collections.CollectionsResponse;
+import com.gospelware.moltin.modules.currencies.CurrenciesResponse;
+import com.gospelware.moltin.modules.currencies.CurrencyResponse;
 import com.gospelware.moltin.modules.files.FileResponse;
 import com.gospelware.moltin.modules.files.FilesResponse;
 import com.gospelware.moltin.modules.products.ProductResponse;
@@ -104,7 +106,6 @@ public class Api {
         });
 
         Gson gson = new GsonBuilder()
-//                .excludeFieldsWithoutExposeAnnotation()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .registerTypeAdapter(Product.class, new ProductDeserializer())
                 .registerTypeAdapter(BrandDeserializer.class, new BrandDeserializer())
@@ -214,6 +215,18 @@ public class Api {
         return service.getFileById(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap(), uuid);
     }
 
+    public Observable<CurrenciesResponse> getCurrencies(MoltinQuery query_string){
+        return service.getCurrencies(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap());
+    }
+
+    public Observable<CurrencyResponse> getCurrencyById(MoltinQuery query_string, String uuid){
+        return service.getCurrencyById(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap(), uuid);
+    }
+
+    public Observable<CurrencyResponse> createCartWithId(MoltinQuery query_string, String uuid){
+        return service.createCartWithId(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap(), uuid);
+    }
+
     public interface ApiInterface {
 
         @FormUrlEncoded
@@ -302,6 +315,29 @@ public class Api {
                 @Header("X-MOLTIN-LANGUAGE") String language,
                 @QueryMap Map<String, String> queryString,
                 @Path("uuid") String uuid
+        );
+
+        @GET("/v2/currencies")
+        Observable<CurrenciesResponse> getCurrencies(
+                @Header("X-MOLTIN-LOCALE") String locale,
+                @Header("X-MOLTIN-LANGUAGE") String language,
+                @QueryMap Map<String, String> queryString
+        );
+
+        @GET("/v2/currencies/{uuid}")
+        Observable<CurrencyResponse> getCurrencyById(
+                @Header("X-MOLTIN-LOCALE") String locale,
+                @Header("X-MOLTIN-LANGUAGE") String language,
+                @QueryMap Map<String, String> queryString,
+                @Path("uuid") String uuid
+        );
+
+        @GET("/v2/cart/{uuid}")
+        Observable<CurrencyResponse> createCartWithId(
+                @Header("X-MOLTIN-LOCALE") String locale,
+                @Header("X-MOLTIN-LANGUAGE") String language,
+                @QueryMap Map<String, String> queryString,
+                @Path("reference") String uuid
         );
 
     }

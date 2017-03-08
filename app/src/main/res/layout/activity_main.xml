@@ -73,4 +73,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <Button
+        android:id="@+id/button_get_single_file"
+        android:text="Get single file"
+        android:layout_below="@+id/button_get_files"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/button_get_currencies"
+        android:text="Get currencies"
+        android:layout_below="@+id/button_get_single_file"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/button_get_currency"
+        android:text="Get currency"
+        android:layout_below="@+id/button_get_currencies"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </RelativeLayout>

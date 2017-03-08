@@ -3,6 +3,7 @@ package com.gospelware.moltin;
 import com.gospelware.moltin.modules.Brands;
 import com.gospelware.moltin.modules.Categories;
 import com.gospelware.moltin.modules.Collections;
+import com.gospelware.moltin.modules.Currencies;
 import com.gospelware.moltin.modules.Files;
 import com.gospelware.moltin.modules.Products;
 import com.gospelware.moltin.modules.CategoryTree;
@@ -20,6 +21,7 @@ public class Moltin {
     public static CategoryTree CategoryTree;
     public static Collections Collections;
     public static Files Files;
+    public static Currencies Currencies;
 
     public static final String GRANT_TYPE  = "implicit";
 
@@ -37,6 +39,7 @@ public class Moltin {
         this.CategoryTree = new CategoryTree(this.api);
         this.Collections = new Collections(this.api);
         this.Files = new Files(this.api);
+        this.Currencies = new Currencies(this.api);
     }
 
     public Preferences getPreferences() {
@@ -60,24 +63,4 @@ public class Moltin {
     }
 
 
-
-
-
-    
-//    public String getCurrency(){
-//        return currency;
-//    }
-
-//    public Api with(Context context){
-//
-//        if (context == null) {
-//            throw new IllegalArgumentException("Context cannot be null");
-//        }
-//
-//        if(this.api == null){
-//            this.api = new Api(API_ENDPOINT);
-//        }
-//
-//        return api;
-//    }
 }

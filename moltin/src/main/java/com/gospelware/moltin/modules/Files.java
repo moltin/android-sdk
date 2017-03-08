@@ -2,7 +2,8 @@ package com.gospelware.moltin.modules;
 
 import com.gospelware.moltin.Api;
 import com.gospelware.moltin.MoltinQuery;
-import com.gospelware.moltin.modules.collections.CollectionsResponse;
+import com.gospelware.moltin.modules.categories.CategoryResponse;
+import com.gospelware.moltin.modules.files.FileResponse;
 import com.gospelware.moltin.modules.files.FilesResponse;
 
 import rx.Observable;
@@ -21,5 +22,9 @@ public class Files {
 
     public static Observable<FilesResponse> getAll(MoltinQuery query){
         return api.getFiles(query);
+    }
+
+    public static Observable<FileResponse> getById(MoltinQuery query, String uuid){
+        return api.getFileById(query, uuid);
     }
 }

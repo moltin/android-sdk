@@ -1,4 +1,4 @@
-package com.gospelware.moltin;
+package com.gospelware.moltin.modules.meta;
 
 /**
  * Created by lewis on 06/03/2017.

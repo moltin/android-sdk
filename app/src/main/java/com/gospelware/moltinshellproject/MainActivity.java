@@ -20,6 +20,9 @@ import com.gospelware.moltin.modules.categories.CategoriesResponse;
 import com.gospelware.moltin.modules.categories.CategoryResponse;
 import com.gospelware.moltin.modules.categories.CategoryTreeResponse;
 import com.gospelware.moltin.modules.collections.CollectionsResponse;
+import com.gospelware.moltin.modules.currencies.CurrenciesResponse;
+import com.gospelware.moltin.modules.currencies.CurrencyResponse;
+import com.gospelware.moltin.modules.files.FileResponse;
 import com.gospelware.moltin.modules.files.FilesResponse;
 import com.gospelware.moltin.modules.products.ProductResponse;
 import com.gospelware.moltin.modules.products.ProductsResponse;
@@ -121,6 +124,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 getFiles();
+            }
+        });
+
+        ((Button) findViewById(R.id.button_get_single_file)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFile();
+            }
+        });
+
+        ((Button) findViewById(R.id.button_get_currencies)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getCurrencies();
+            }
+        });
+
+        ((Button) findViewById(R.id.button_get_currency)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getCurrencyById();
             }
         });
 
@@ -354,14 +378,74 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    private void getFile(){
+        String file = "000cf298-762b-459b-9178-a17507acaf9e";
+        Observable<FileResponse> response = moltinApi.Files.getById(new MoltinQuery(), file);
+        response.subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<FileResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(FileResponse response){
+                        Log.e(DEBUG_TAG,"Baseresponse:" + response.getData().getFileSize());
+                    }
+                });
+    }
+
+    private void getCurrencies(){
+        Observable<CurrenciesResponse> response = moltinApi.Currencies.getAll(new MoltinQuery());
+        response.subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<CurrenciesResponse>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(CurrenciesResponse response){
+                        Log.e(DEBUG_TAG,"Baseresponse:" + response.getData().size());
+                    }
+                });
+    }
+
+    private void getCurrencyById(){
+        String id = "8617f801-0ced-452a-a19d-206444e70897";
+        Observable<CurrencyResponse> response = moltinApi.Currencies.getById(new MoltinQuery(),id);
+        response.subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<CurrencyResponse>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(CurrencyResponse response){
+                        Log.e(DEBUG_TAG,"Baseresponse:" + response.getData().getCode());
+                    }
+                });
+    }
+
     private void handleAccessTokenError(Throwable e){
         e.printStackTrace();
         Toast.makeText(this,"Error authenticating", Toast.LENGTH_SHORT);
-    }
-
-    private void handleProductsResponse(JsonObject products){
-       // for(Product p : products.data){
-            Log.i("LEWIS","Product: " + products.toString());
-        //}
     }
 }
