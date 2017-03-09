@@ -11,6 +11,10 @@ import com.gospelware.moltin.modules.CategoryTree;
 import com.gospelware.moltin.modules.brands.Brand;
 import com.gospelware.moltin.modules.brands.BrandResponse;
 import com.gospelware.moltin.modules.brands.BrandsResponse;
+import com.gospelware.moltin.modules.carts.CartItem;
+import com.gospelware.moltin.modules.carts.CartItemRequest;
+import com.gospelware.moltin.modules.carts.CartItemsResponse;
+import com.gospelware.moltin.modules.carts.CartResponse;
 import com.gospelware.moltin.modules.categories.CategoriesResponse;
 import com.gospelware.moltin.modules.categories.CategoryResponse;
 import com.gospelware.moltin.modules.categories.CategoryTreeResponse;
@@ -35,10 +39,13 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
@@ -223,8 +230,20 @@ public class Api {
         return service.getCurrencyById(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap(), uuid);
     }
 
-    public Observable<CurrencyResponse> createCartWithId(MoltinQuery query_string, String uuid){
+    public Observable<CartResponse> createCartWithId(MoltinQuery query_string, String uuid){
         return service.createCartWithId(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap(), uuid);
+    }
+
+    public Observable<CartItemsResponse> getItemsInCart(String uuid){
+        return service.getItemsInCart(preferences.getLocale(), preferences.getLanguage(), uuid);
+    }
+
+    public Observable<CartItemsResponse> addItemToCart(String reference, CartItemRequest item){
+        return service.addItemToCart(reference, item);
+    }
+
+    public Observable<CartItemsResponse> deleteItemFromCart(String reference, String item_id){
+        return service.deleteItem(reference, item_id);
     }
 
     public interface ApiInterface {
@@ -332,12 +351,32 @@ public class Api {
                 @Path("uuid") String uuid
         );
 
-        @GET("/v2/cart/{uuid}")
-        Observable<CurrencyResponse> createCartWithId(
+        @GET("/v2/carts/{reference}")
+        Observable<CartResponse> createCartWithId(
                 @Header("X-MOLTIN-LOCALE") String locale,
                 @Header("X-MOLTIN-LANGUAGE") String language,
                 @QueryMap Map<String, String> queryString,
                 @Path("reference") String uuid
+        );
+
+        @GET("/v2/carts/{reference}/items")
+        Observable<CartItemsResponse> getItemsInCart(
+                @Header("X-MOLTIN-LOCALE") String locale,
+                @Header("X-MOLTIN-LANGUAGE") String language,
+                @Path("reference") String uuid
+        );
+
+        @POST("/v2/carts/{reference}/items")
+        @Headers("Content-Type: application/json")
+        Observable<CartItemsResponse> addItemToCart(
+                @Path("reference") String uuid,
+                @Body CartItemRequest item
+        );
+
+        @DELETE("/v2/carts/{reference}/items/{item_id}")
+        Observable<CartItemsResponse> deleteItem(
+                @Path("reference") String reference,
+                @Path("item_id") String item_id
         );
 
     }

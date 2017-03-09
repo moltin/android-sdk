@@ -8,14 +8,15 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
-import com.google.gson.JsonObject;
 import com.gospelware.moltin.AccessTokenResponse;
 import com.gospelware.moltin.Moltin;
 import com.gospelware.moltin.MoltinQuery;
 import com.gospelware.moltin.Preferences;
-import com.gospelware.moltin.modules.CategoryTree;
 import com.gospelware.moltin.modules.brands.BrandResponse;
 import com.gospelware.moltin.modules.brands.BrandsResponse;
+import com.gospelware.moltin.modules.carts.CartItem;
+import com.gospelware.moltin.modules.carts.CartItemsResponse;
+import com.gospelware.moltin.modules.carts.CartResponse;
 import com.gospelware.moltin.modules.categories.CategoriesResponse;
 import com.gospelware.moltin.modules.categories.CategoryResponse;
 import com.gospelware.moltin.modules.categories.CategoryTreeResponse;
@@ -26,6 +27,8 @@ import com.gospelware.moltin.modules.files.FileResponse;
 import com.gospelware.moltin.modules.files.FilesResponse;
 import com.gospelware.moltin.modules.products.ProductResponse;
 import com.gospelware.moltin.modules.products.ProductsResponse;
+
+import java.util.UUID;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -145,6 +148,34 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 getCurrencyById();
+            }
+        });
+
+        ((Button) findViewById(R.id.button_create_cart)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createCart();
+            }
+        });
+
+        ((Button) findViewById(R.id.button_get_cart_items)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getCartItems();
+            }
+        });
+
+        ((Button) findViewById(R.id.button_add_item)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addItemToCart();
+            }
+        });
+
+        ((Button) findViewById(R.id.button_delete_item)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteItem();
             }
         });
 
@@ -440,6 +471,104 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onNext(CurrencyResponse response){
                         Log.e(DEBUG_TAG,"Baseresponse:" + response.getData().getCode());
+                    }
+                });
+    }
+
+    private void createCart(){
+        String id = UUID.randomUUID().toString();
+        Observable<CartResponse> response = moltinApi.Carts.create(new MoltinQuery(),id);
+        response.subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<CartResponse>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(CartResponse response){
+                        Log.e(DEBUG_TAG,"Baseresponse:" + response.getData().getId());
+                    }
+                });
+    }
+
+    private void addItemToCart(){
+        String id = "c612d0c6-31d8-460b-a3d3-f080cf782999";
+        String cartId = "73c27dec-50d8-48cf-ada6-b76206a72dea";
+        CartItem item = new CartItem();
+        item.setId(id);
+        item.setQuantity(2);
+
+        Observable<CartItemsResponse> response = moltinApi.Carts.addItemByReference(cartId, item);
+        response.subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<CartItemsResponse>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(CartItemsResponse response){
+                        Log.e(DEBUG_TAG,"Baseresponse:" + response.getData().size());
+                    }
+                });
+    }
+
+    private void getCartItems(){
+        String id = "73c27dec-50d8-48cf-ada6-b76206a72dea";
+        Observable<CartItemsResponse> response = moltinApi.Carts.getItems(id);
+        response.subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<CartItemsResponse>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(CartItemsResponse response){
+                        Log.e(DEBUG_TAG,"Baseresponse:" + response.getData().size());
+                    }
+                });
+    }
+
+    private void deleteItem(){
+        String cartId = "73c27dec-50d8-48cf-ada6-b76206a72dea";
+        String id = "16c89a71-4776-442f-983e-6e406c250713";
+        Observable<CartItemsResponse> response = moltinApi.Carts.deleteItem(cartId, id);
+        response.subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<CartItemsResponse>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(CartItemsResponse response){
+                        Log.e(DEBUG_TAG,"Baseresponse:" + response.getData().size());
                     }
                 });
     }

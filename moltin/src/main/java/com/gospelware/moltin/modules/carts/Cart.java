@@ -1,8 +1,6 @@
 package com.gospelware.moltin.modules.carts;
 
 import com.gospelware.moltin.Links;
-import com.gospelware.moltin.modules.meta.DisplayPrice;
-import com.gospelware.moltin.modules.meta.TimestampMeta;
 
 /**
  * Created by lewis on 08/03/2017.
