@@ -37,7 +37,13 @@ public class Carts {
         return api.getItemsInCart(cart_reference);
     }
 
-    public static Observable<CartItemsResponse> deleteItem(String cart_reference, String item_id){
-        return api.deleteItemFromCart(cart_reference, item_id);
+    public static Observable<CartItemsResponse> deleteItem(String cart_reference, String cart_item_id){
+        return api.deleteItemFromCart(cart_reference, cart_item_id);
+    }
+
+    public static Observable<CartItemsResponse> updateItemQuantity(String cart_reference, CartItem item, String item_id){
+        CartItemRequest request = new CartItemRequest();
+        request.setData(item);
+        return api.updateItemQuantity(cart_reference, request, item_id);
     }
 }

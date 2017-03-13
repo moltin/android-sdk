@@ -24,6 +24,7 @@ import com.gospelware.moltin.modules.currencies.CurrenciesResponse;
 import com.gospelware.moltin.modules.currencies.CurrencyResponse;
 import com.gospelware.moltin.modules.files.FileResponse;
 import com.gospelware.moltin.modules.files.FilesResponse;
+import com.gospelware.moltin.modules.orders.CheckoutRequest;
 import com.gospelware.moltin.modules.products.ProductResponse;
 import com.gospelware.moltin.modules.products.ProductsResponse;
 
@@ -47,6 +48,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 import rx.Observable;
@@ -246,6 +248,14 @@ public class Api {
         return service.deleteItem(reference, item_id);
     }
 
+    public Observable<CartItemsResponse> updateItemQuantity(String reference, CartItemRequest item, String item_id){
+        return service.updateItemQuantity(reference, item_id, item);
+    }
+
+    public Observable<CartItemsResponse> checkoutOrder(String reference, CheckoutRequest body){
+        return service.checkoutOrder(reference, body);
+    }
+
     public interface ApiInterface {
 
         @FormUrlEncoded
@@ -377,6 +387,21 @@ public class Api {
         Observable<CartItemsResponse> deleteItem(
                 @Path("reference") String reference,
                 @Path("item_id") String item_id
+        );
+
+        @PUT("/v2/carts/{reference}/items/{item_id}")
+        @Headers("Content-Type: application/json")
+        Observable<CartItemsResponse> updateItemQuantity(
+                @Path("reference") String reference,
+                @Path("item_id") String item_id,
+                @Body CartItemRequest item
+        );
+
+        @POST("/v2/carts/{reference}/checkout")
+        @Headers("Content-Type: application/json")
+        Observable<CartItemsResponse> checkoutOrder (
+                @Path("reference") String reference,
+                @Body CheckoutRequest body
         );
 
     }

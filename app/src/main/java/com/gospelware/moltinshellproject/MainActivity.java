@@ -179,6 +179,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        ((Button) findViewById(R.id.button_modify_item)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateItems();
+            }
+        });
+
         //Moltin.Product.getAll()
     }
 
@@ -551,8 +558,38 @@ public class MainActivity extends AppCompatActivity {
 
     private void deleteItem(){
         String cartId = "73c27dec-50d8-48cf-ada6-b76206a72dea";
-        String id = "16c89a71-4776-442f-983e-6e406c250713";
+        String id = "4c1642c4-631b-4e1d-b7b2-0fbcb77b56a1";
         Observable<CartItemsResponse> response = moltinApi.Carts.deleteItem(cartId, id);
+        response.subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<CartItemsResponse>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(CartItemsResponse response){
+                        Log.e(DEBUG_TAG,"Baseresponse:" + response.getData().size());
+                    }
+                });
+    }
+
+    private void updateItems(){
+
+        String cartId = "73c27dec-50d8-48cf-ada6-b76206a72dea";
+        String id = "61b6d1fe-3db9-420c-b4ee-a71980fa04e9";
+        String productId = "c612d0c6-31d8-460b-a3d3-f080cf782999";
+        CartItem item = new CartItem();
+        item.setId(productId);
+        item.setQuantity(5);
+
+        Observable<CartItemsResponse> response = moltinApi.Carts.updateItemQuantity(cartId, item, id);
         response.subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<CartItemsResponse>() {
 

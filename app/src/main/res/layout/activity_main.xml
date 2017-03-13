@@ -82,34 +82,44 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/button_get_currencies"
-        android:text="Get currencies"
-        android:layout_below="@+id/button_get_single_file"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:id="@+id/layout_currencies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/button_get_single_file">
 
-    <Button
-        android:id="@+id/button_get_currency"
-        android:text="Get currency"
-        android:layout_below="@+id/button_get_currencies"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/button_get_currencies"
+            android:text="Get currencies"
+            android:layout_below="@+id/button_get_single_file"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/button_get_currency"
+            android:text="Get currency"
+            android:layout_below="@+id/button_get_currencies"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/layout_cart"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@+id/button_get_currency">
+        android:layout_below="@+id/layout_currencies">
 
         <Button
             android:id="@+id/button_create_cart"
-            android:text="Create"
+            android:text="C8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -132,6 +142,13 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/button_modify_item"
+        android:text="Put"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_cart"/>
 
 
 
