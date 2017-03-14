@@ -143,12 +143,27 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/button_modify_item"
-        android:text="Put"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/layout_checkout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/layout_cart"/>
+        android:orientation="horizontal"
+        android:layout_below="@+id/layout_cart">
+
+        <Button
+            android:id="@+id/button_modify_item"
+            android:text="Put"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/button_checkout"
+            android:text="Checkout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
 
 
 

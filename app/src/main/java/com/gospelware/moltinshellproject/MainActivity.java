@@ -25,6 +25,11 @@ import com.gospelware.moltin.modules.currencies.CurrenciesResponse;
 import com.gospelware.moltin.modules.currencies.CurrencyResponse;
 import com.gospelware.moltin.modules.files.FileResponse;
 import com.gospelware.moltin.modules.files.FilesResponse;
+import com.gospelware.moltin.modules.orders.BillingAddress;
+import com.gospelware.moltin.modules.orders.CheckoutRequest;
+import com.gospelware.moltin.modules.orders.CheckoutResponse;
+import com.gospelware.moltin.modules.orders.Customer;
+import com.gospelware.moltin.modules.orders.ShippingAddress;
 import com.gospelware.moltin.modules.products.ProductResponse;
 import com.gospelware.moltin.modules.products.ProductsResponse;
 
@@ -185,6 +190,14 @@ public class MainActivity extends AppCompatActivity {
                 updateItems();
             }
         });
+
+        ((Button) findViewById(R.id.button_checkout)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkoutCart();
+            }
+        });
+
 
         //Moltin.Product.getAll()
     }
@@ -606,6 +619,53 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onNext(CartItemsResponse response){
                         Log.e(DEBUG_TAG,"Baseresponse:" + response.getData().size());
+                    }
+                });
+    }
+
+    private void checkoutCart(){
+
+        String cartId = "73c27dec-50d8-48cf-ada6-b76206a72dea";
+
+        BillingAddress billingAddress = new BillingAddress();
+        ShippingAddress shippingAddress = new ShippingAddress();
+        Customer customer = new Customer();
+        billingAddress.setFirstName("Jimmy");
+        billingAddress.setLastName("R");
+        billingAddress.setLine_1("26 Grey Street");
+        billingAddress.setCountry("United Kingdom");
+        billingAddress.setPostcode("NE8 6QW");
+        billingAddress.setCounty("Tyne and Wear");
+        shippingAddress.setLine_1("26 Grey Street");
+        shippingAddress.setCounty("Tyne and wear");
+        shippingAddress.setCountry("United Kingdom");
+        shippingAddress.setPostcode("NE8 6QW");
+        shippingAddress.setFirstName("Jimmy");
+        shippingAddress.setLastName("R");
+
+        customer.setEmail("test@test.com");
+        customer.setName("Jimmy R");
+
+        CheckoutRequest data = new CheckoutRequest(customer, billingAddress, shippingAddress);
+
+
+        Observable<CheckoutResponse> response = moltinApi.Checkout.performCheckout(cartId, data);
+        response.subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<CheckoutResponse>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(CheckoutResponse response){
+                        Log.e(DEBUG_TAG,"Baseresponse:" + response.getData());
                     }
                 });
     }

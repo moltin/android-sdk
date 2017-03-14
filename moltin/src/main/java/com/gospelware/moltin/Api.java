@@ -25,6 +25,7 @@ import com.gospelware.moltin.modules.currencies.CurrencyResponse;
 import com.gospelware.moltin.modules.files.FileResponse;
 import com.gospelware.moltin.modules.files.FilesResponse;
 import com.gospelware.moltin.modules.orders.CheckoutRequest;
+import com.gospelware.moltin.modules.orders.CheckoutResponse;
 import com.gospelware.moltin.modules.products.ProductResponse;
 import com.gospelware.moltin.modules.products.ProductsResponse;
 
@@ -252,7 +253,7 @@ public class Api {
         return service.updateItemQuantity(reference, item_id, item);
     }
 
-    public Observable<CartItemsResponse> checkoutOrder(String reference, CheckoutRequest body){
+    public Observable<CheckoutResponse> checkoutOrder(String reference, CheckoutRequest body){
         return service.checkoutOrder(reference, body);
     }
 
@@ -399,7 +400,7 @@ public class Api {
 
         @POST("/v2/carts/{reference}/checkout")
         @Headers("Content-Type: application/json")
-        Observable<CartItemsResponse> checkoutOrder (
+        Observable<CheckoutResponse> checkoutOrder (
                 @Path("reference") String reference,
                 @Body CheckoutRequest body
         );

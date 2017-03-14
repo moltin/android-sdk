@@ -8,7 +8,8 @@ public class CheckoutRequest {
 
     private CheckoutRequestData data;
 
-    public CheckoutRequest() {
+    public CheckoutRequest(Customer customer, BillingAddress billingAddress, ShippingAddress shippingAddress) {
+        this.data = new CheckoutRequestData(customer, billingAddress, shippingAddress);
     }
 
     public CheckoutRequest(CheckoutRequestData data) {
@@ -23,7 +24,7 @@ public class CheckoutRequest {
         this.data = data;
     }
 
-    private class CheckoutRequestData{
+    public class CheckoutRequestData{
         private Customer customer;
         private BillingAddress billingAddress;
         private ShippingAddress shippingAddress;

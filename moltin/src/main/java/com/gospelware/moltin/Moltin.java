@@ -8,6 +8,7 @@ import com.gospelware.moltin.modules.Files;
 import com.gospelware.moltin.modules.Products;
 import com.gospelware.moltin.modules.CategoryTree;
 import com.gospelware.moltin.modules.Carts;
+import com.gospelware.moltin.modules.Checkout;
 
 import rx.Observable;
 
@@ -24,6 +25,7 @@ public class Moltin {
     public static Files Files;
     public static Currencies Currencies;
     public static Carts Carts;
+    public static Checkout Checkout;
 
     public static final String GRANT_TYPE  = "implicit";
 
@@ -43,6 +45,7 @@ public class Moltin {
         this.Files = new Files(this.api);
         this.Currencies = new Currencies(this.api);
         this.Carts = new Carts(this.api);
+        this.Checkout = new Checkout(this.api);
     }
 
     public Preferences getPreferences() {
