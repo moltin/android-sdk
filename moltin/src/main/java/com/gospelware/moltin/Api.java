@@ -65,14 +65,10 @@ public class Api {
     private AccessTokenResponse accessToken;
     private Gson gson;
 
-    public Api(Preferences preferences) {
+    public Api(Preferences preferences, Gson gson) {
 
         service = createRetrofitService(ApiInterface.class, preferences.getEndpoint(), null);
-
-        gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                .create();
-
+        this.gson = gson;
         this.preferences = preferences;
     }
 
@@ -107,13 +103,7 @@ public class Api {
             }
         });
 
-        httpClient.addNetworkInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Response response = chain.proceed(chain.request());
-                return response;
-            }
-        });
+        //httpClient.addNetworkInterceptor(new ErrorInterceptor());
 
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
@@ -131,7 +121,10 @@ public class Api {
 
         retrofit.create(clazz);
         return retrofit.create(clazz);
+    }
 
+    public Gson getGson() {
+        return gson;
     }
 
     public class ProductDeserializer implements JsonDeserializer<Product> {

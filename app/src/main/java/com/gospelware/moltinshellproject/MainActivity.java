@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 
 import com.gospelware.moltin.AccessTokenResponse;
+import com.gospelware.moltin.BaseResponse;
 import com.gospelware.moltin.Moltin;
 import com.gospelware.moltin.MoltinQuery;
 import com.gospelware.moltin.Preferences;
@@ -33,8 +34,11 @@ import com.gospelware.moltin.modules.orders.ShippingAddress;
 import com.gospelware.moltin.modules.products.ProductResponse;
 import com.gospelware.moltin.modules.products.ProductsResponse;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
+import retrofit2.Response;
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
 import rx.Subscriber;
 import rx.schedulers.Schedulers;
@@ -636,7 +640,7 @@ public class MainActivity extends AppCompatActivity {
         billingAddress.setCountry("United Kingdom");
         billingAddress.setPostcode("NE8 6QW");
         billingAddress.setCounty("Tyne and Wear");
-        shippingAddress.setLine_1("26 Grey Street");
+        //shippingAddress.setLine_1("26 Grey Street");
         shippingAddress.setCounty("Tyne and wear");
         shippingAddress.setCountry("United Kingdom");
         shippingAddress.setPostcode("NE8 6QW");
@@ -660,7 +664,9 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+
+                        ArrayList<BaseResponse.JsonApiErrorResponse> errors = Moltin.getErrorsFromResponse(e);
+                    
                     }
 
                     @Override

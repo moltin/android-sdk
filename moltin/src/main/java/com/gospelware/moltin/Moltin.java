@@ -1,5 +1,8 @@
 package com.gospelware.moltin;
 
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.gospelware.moltin.modules.Brands;
 import com.gospelware.moltin.modules.Categories;
 import com.gospelware.moltin.modules.Collections;
@@ -10,11 +13,16 @@ import com.gospelware.moltin.modules.CategoryTree;
 import com.gospelware.moltin.modules.Carts;
 import com.gospelware.moltin.modules.Checkout;
 
+import java.util.ArrayList;
+
+import retrofit2.Response;
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
 
 public class Moltin {
 
     private Api api;
+    private Gson gson;
     private Preferences preferences;
 
     public static Products Products;
@@ -36,7 +44,11 @@ public class Moltin {
             this.preferences = preferences;
         }
 
-        this.api = new Api(preferences);
+        Gson gson = new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .create();
+
+        this.api = new Api(preferences, gson);
         this.Products = new Products(this.api);
         this.Brands = new Brands(this.api);
         this.Categories = new Categories(this.api);
@@ -66,6 +78,29 @@ public class Moltin {
 
     public boolean isAuthenticated(){
         return this.api.isAuthenticated();
+    }
+
+    public static ArrayList<BaseResponse.JsonApiErrorResponse>  getErrorsFromResponse(Throwable e){
+
+        if(e instanceof HttpException){
+            Response response = ((HttpException)e).response();
+            try{
+                String errorResponse = response.errorBody().string().toString();
+
+                Gson gson = new GsonBuilder()
+                        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                        .create();
+
+                BaseResponse res = gson.fromJson(errorResponse, BaseResponse.class);
+                if(res != null){
+                    return res.getErrors();
+                }
+            } catch (Exception exception){
+                e.printStackTrace();
+            }
+        }
+
+        return null;
     }
 
 
