@@ -1,5 +1,7 @@
 package com.gospelware.moltin;
 
+import android.net.Proxy;
+
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -33,10 +35,12 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Map;
 
+import okhttp3.Authenticator;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.Route;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -53,6 +57,8 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 import rx.Observable;
+import rx.Subscriber;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by lewis on 06/02/2017.
@@ -64,12 +70,15 @@ public class Api {
     private ApiInterface service;
     private AccessTokenResponse accessToken;
     private Gson gson;
+    public static final String GRANT_TYPE  = "implicit";
+    private String clientId;
 
     public Api(Preferences preferences, Gson gson) {
 
         service = createRetrofitService(ApiInterface.class, preferences.getEndpoint(), null);
         this.gson = gson;
         this.preferences = preferences;
+        this.clientId = preferences.getClientId();
     }
 
 
@@ -96,10 +105,16 @@ public class Api {
 
                 if(token != null){
                     builder.header("Authorization", "Bearer " + token);
+                    if (tokenIsValid() == false){
+                        refreshToken();
+                    }
+                } else {
+
                 }
                 request = builder.build();
 
-                return chain.proceed(request);
+                Response response = chain.proceed(request);
+                return response;
             }
         });
 
@@ -121,6 +136,49 @@ public class Api {
 
         retrofit.create(clazz);
         return retrofit.create(clazz);
+    }
+
+//    public class TokenAuthenticator implements Authenticator {
+//        @Override
+//        public Request authenticate(Proxy proxy, Response response) throws IOException {
+//            // Refresh your access_token using a synchronous api request
+//            newAccessToken = service.refreshToken();
+//
+//            // Add new header to rejected request and retry it
+//            return response.request().newBuilder()
+//                    .header(AUTHORIZATION, newAccessToken)
+//                    .build();
+//        }
+//
+//        @Override
+//        public Request authenticateProxy(Proxy proxy, Response response) throws IOException {
+//            // Null indicates no attempt to authenticate.
+//            return null;
+//        }
+//
+//        Request authenticate(Route route, Response response) throws IOException {
+//
+//        }
+//    }
+
+
+    private void refreshToken(){
+        AccessTokenResponse response = this.service.synchronousLogin(clientId, GRANT_TYPE);
+        Request newRequest = new Request.Builder().url(this.preferences.getEndpoint())
+    }
+
+    public Boolean tokenIsValid(){
+        Long currentTime = System.currentTimeMillis()/1000;
+
+        if(accessToken == null){
+            return null;
+        }
+
+        if(currentTime > accessToken.getExpires()){
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public Gson getGson() {
@@ -170,8 +228,8 @@ public class Api {
         this.service = createRetrofitService(ApiInterface.class, preferences.getEndpoint(), accessToken.getAccessToken());
     }
 
-    public Observable<AccessTokenResponse> login(String clientId, String grantType){
-        return service.login(clientId, grantType);
+    public Observable<AccessTokenResponse> login(String clientId){
+        return service.login(clientId, GRANT_TYPE);
     }
 
     public Observable<ProductsResponse> getProducts(MoltinQuery query_string){
@@ -255,6 +313,10 @@ public class Api {
         @FormUrlEncoded
         @POST("/oauth/access_token")
         Observable<AccessTokenResponse> login(@Field("client_id") String clientId, @Field("grant_type") String grantType);
+
+        @FormUrlEncoded
+        @POST("/oauth/access_token")
+        AccessTokenResponse synchronousLogin(@Field("client_id") String clientId, @Field("grant_type") String grantType);
 
 
         @GET("/v2/products")

@@ -35,7 +35,7 @@ public class Moltin {
     public static Carts Carts;
     public static Checkout Checkout;
 
-    public static final String GRANT_TYPE  = "implicit";
+
 
     public Moltin(Preferences preferences) {
         if(preferences == null){
@@ -69,7 +69,7 @@ public class Moltin {
     }
 
     public Observable<AccessTokenResponse> requestAuthentication(){
-        return this.api.login(preferences.getClientId(), GRANT_TYPE);
+        return this.api.login(preferences.getClientId());
     }
 
     public void setAccessToken(AccessTokenResponse accessToken){
@@ -102,6 +102,5 @@ public class Moltin {
 
         return null;
     }
-
 
 }

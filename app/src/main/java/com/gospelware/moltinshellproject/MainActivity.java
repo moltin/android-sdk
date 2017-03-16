@@ -666,7 +666,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onError(Throwable e) {
 
                         ArrayList<BaseResponse.JsonApiErrorResponse> errors = Moltin.getErrorsFromResponse(e);
-                    
+
                     }
 
                     @Override
