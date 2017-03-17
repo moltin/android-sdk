@@ -36,10 +36,14 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 import okhttp3.Authenticator;
+import okhttp3.FormBody;
 import okhttp3.Interceptor;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import okhttp3.Route;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -86,12 +90,12 @@ public class Api {
 
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        final OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
 
-        httpClient.addInterceptor(logging);
+        httpClientBuilder.addInterceptor(logging);
         Retrofit retrofit = null;
 
-        httpClient.addInterceptor(new Interceptor() {
+        httpClientBuilder.addInterceptor(new Interceptor() {
             @Override
             public Response intercept(Interceptor.Chain chain) throws IOException {
                 Request original = chain.request();
@@ -104,21 +108,23 @@ public class Api {
                         .method(original.method(), original.body());
 
                 if(token != null){
-                    builder.header("Authorization", "Bearer " + token);
-                    if (tokenIsValid() == false){
-                        refreshToken();
+
+                    try{
+                        if (tokenIsValid() == false){
+                            refreshToken(httpClientBuilder.build());
+                        } else {
+                            builder.header("Authorization", "Bearer " + token);
+                        }
+                    } catch (Exception e){
+                        e.printStackTrace();
                     }
-                } else {
-
                 }
-                request = builder.build();
 
+                request = builder.build();
                 Response response = chain.proceed(request);
                 return response;
             }
         });
-
-        //httpClient.addNetworkInterceptor(new ErrorInterceptor());
 
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
@@ -126,11 +132,12 @@ public class Api {
                 .registerTypeAdapter(BrandDeserializer.class, new BrandDeserializer())
                 .create();
 
+
         retrofit = new Retrofit.Builder()
                 .baseUrl(endPoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(httpClient.build())
+                .client(httpClientBuilder.build())
                 .build();
 
 
@@ -138,33 +145,29 @@ public class Api {
         return retrofit.create(clazz);
     }
 
-//    public class TokenAuthenticator implements Authenticator {
-//        @Override
-//        public Request authenticate(Proxy proxy, Response response) throws IOException {
-//            // Refresh your access_token using a synchronous api request
-//            newAccessToken = service.refreshToken();
-//
-//            // Add new header to rejected request and retry it
-//            return response.request().newBuilder()
-//                    .header(AUTHORIZATION, newAccessToken)
-//                    .build();
-//        }
-//
-//        @Override
-//        public Request authenticateProxy(Proxy proxy, Response response) throws IOException {
-//            // Null indicates no attempt to authenticate.
-//            return null;
-//        }
-//
-//        Request authenticate(Route route, Response response) throws IOException {
-//
-//        }
-//    }
+    private void refreshToken(OkHttpClient httpClient) throws Exception{
+        RequestBody formBody = new FormBody.Builder()
+                .add("client_id", preferences.getClientId())
+                .add("grant_type", GRANT_TYPE)
+                .build();
 
+        Request newRequest = new Request.Builder().url(this.preferences.getEndpoint() + "/oauth/access_token")
+                .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                .addHeader("Accept", "application/json")
+                .post(formBody)
+                .build();
 
-    private void refreshToken(){
-        AccessTokenResponse response = this.service.synchronousLogin(clientId, GRANT_TYPE);
-        Request newRequest = new Request.Builder().url(this.preferences.getEndpoint())
+        try{
+
+            Response resp = httpClient.newCall(newRequest).execute();
+            String s = resp.body().string();
+            AccessTokenResponse response = gson.fromJson(s, AccessTokenResponse.class);
+            this.accessToken = response;
+
+        } catch (Exception e){
+            throw new Exception("Error refreshing access token");
+        }
+
     }
 
     public Boolean tokenIsValid(){

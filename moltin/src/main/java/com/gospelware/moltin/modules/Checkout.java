@@ -25,6 +25,4 @@ public class Checkout {
         return api.checkoutOrder(reference, body);
     }
 
-
-
 }
