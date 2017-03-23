@@ -13,18 +13,4 @@ public class ProductsResponse extends BaseResponse {
 
     public ArrayList<Product> data;
 
-//    public ProductsResponseLinks links;
-//
-//    public class ProductsResponseLinks{
-//
-//        public String self;
-//
-//        public String first;
-//
-//        public String last;
-//
-//        public String prev;
-//
-//        public String next;
-//    }
 }

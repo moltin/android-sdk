@@ -12,7 +12,7 @@ import com.gospelware.moltin.AccessTokenResponse;
 import com.gospelware.moltin.BaseResponse;
 import com.gospelware.moltin.Moltin;
 import com.gospelware.moltin.MoltinQuery;
-import com.gospelware.moltin.Preferences;
+import com.gospelware.moltin.MoltinPreferences;
 import com.gospelware.moltin.modules.brands.BrandResponse;
 import com.gospelware.moltin.modules.brands.BrandsResponse;
 import com.gospelware.moltin.modules.carts.CartItem;
@@ -37,8 +37,6 @@ import com.gospelware.moltin.modules.products.ProductsResponse;
 import java.util.ArrayList;
 import java.util.UUID;
 
-import retrofit2.Response;
-import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
 import rx.Subscriber;
 import rx.schedulers.Schedulers;
@@ -47,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String DEBUG_TAG = "MoltinTest";
     public static final String CLIENT_ID = "B7H9MthG8jYduHlGrmKnqO613XCEvsrZ6bwSYo1TWM";
-    public static final String API_ENDPOINT = "https://api.moltin.com";
+
 
     Moltin moltinApi;
 
@@ -56,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Preferences preferences = new Preferences("GBP", "", API_ENDPOINT, CLIENT_ID,"");
+        MoltinPreferences moltinPreferences = new MoltinPreferences("GBP", "", CLIENT_ID,"");
 
-        moltinApi = new Moltin(preferences);
+        moltinApi = new Moltin(moltinPreferences);
 
         Observable<AccessTokenResponse> response = moltinApi.requestAuthentication();
         response.subscribeOn(Schedulers.io())
@@ -292,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        handleAccessTokenError(e);
                     }
 
                     @Override

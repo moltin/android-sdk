@@ -1,7 +1,5 @@
 package com.gospelware.moltin;
 
-import android.net.Proxy;
-
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -9,11 +7,9 @@ import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
-import com.gospelware.moltin.modules.CategoryTree;
 import com.gospelware.moltin.modules.brands.Brand;
 import com.gospelware.moltin.modules.brands.BrandResponse;
 import com.gospelware.moltin.modules.brands.BrandsResponse;
-import com.gospelware.moltin.modules.carts.CartItem;
 import com.gospelware.moltin.modules.carts.CartItemRequest;
 import com.gospelware.moltin.modules.carts.CartItemsResponse;
 import com.gospelware.moltin.modules.carts.CartResponse;
@@ -35,16 +31,12 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-import okhttp3.Authenticator;
 import okhttp3.FormBody;
 import okhttp3.Interceptor;
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
-import okhttp3.Route;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -61,8 +53,6 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 import rx.Observable;
-import rx.Subscriber;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by lewis on 06/02/2017.
@@ -70,21 +60,25 @@ import rx.schedulers.Schedulers;
 
 public class Api {
 
-    private Preferences preferences;
+    private MoltinPreferences moltinPreferences;
     private ApiInterface service;
     private AccessTokenResponse accessToken;
     private Gson gson;
     public static final String GRANT_TYPE  = "implicit";
+    public static final String API_ENDPOINT = "https://api.moltin.com";
     private String clientId;
 
-    public Api(Preferences preferences, Gson gson) {
+    public Api(MoltinPreferences moltinPreferences, Gson gson) {
 
-        service = createRetrofitService(ApiInterface.class, preferences.getEndpoint(), null);
+        service = createRetrofitService(ApiInterface.class, API_ENDPOINT, null);
         this.gson = gson;
-        this.preferences = preferences;
-        this.clientId = preferences.getClientId();
+        this.moltinPreferences = moltinPreferences;
+        this.clientId = moltinPreferences.getClientId();
     }
 
+    public MoltinPreferences getMoltinPreferences() {
+        return moltinPreferences;
+    }
 
     <T> T createRetrofitService(final Class<T> clazz, final String endPoint, final String token) {
 
@@ -147,11 +141,11 @@ public class Api {
 
     private void refreshToken(OkHttpClient httpClient) throws Exception{
         RequestBody formBody = new FormBody.Builder()
-                .add("client_id", preferences.getClientId())
+                .add("client_id", moltinPreferences.getClientId())
                 .add("grant_type", GRANT_TYPE)
                 .build();
 
-        Request newRequest = new Request.Builder().url(this.preferences.getEndpoint() + "/oauth/access_token")
+        Request newRequest = new Request.Builder().url(API_ENDPOINT + "/oauth/access_token")
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
                 .addHeader("Accept", "application/json")
                 .post(formBody)
@@ -228,71 +222,71 @@ public class Api {
 
     public void setAccessToken(AccessTokenResponse accessToken) {
         this.accessToken = accessToken;
-        this.service = createRetrofitService(ApiInterface.class, preferences.getEndpoint(), accessToken.getAccessToken());
+        this.service = createRetrofitService(ApiInterface.class, API_ENDPOINT, accessToken.getAccessToken());
     }
 
-    public Observable<AccessTokenResponse> login(String clientId){
-        return service.login(clientId, GRANT_TYPE);
+    public Observable<AccessTokenResponse> login(){
+        return service.login(this.moltinPreferences.getClientId(), GRANT_TYPE);
     }
 
     public Observable<ProductsResponse> getProducts(MoltinQuery query_string){
-        return service.getProducts(preferences.getCurrency(), preferences.getLanguage(), query_string.getQueryMap());
+        return service.getProducts(moltinPreferences.getCurrency(), moltinPreferences.getLanguage(), query_string.getQueryMap());
     }
 
     public Observable<ProductResponse> getProduct(MoltinQuery query_string, String id){
-        return service.getProduct(preferences.getCurrency(), preferences.getLanguage(), query_string.getQueryMap(), id);
+        return service.getProduct(moltinPreferences.getCurrency(), moltinPreferences.getLanguage(), query_string.getQueryMap(), id);
     }
 
     public Observable<BrandsResponse> getBrands(MoltinQuery query_string){
-        return service.getBrands(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap());
+        return service.getBrands(moltinPreferences.getLocale(), moltinPreferences.getLanguage(), query_string.getQueryMap());
     }
 
     public Observable<BrandResponse> getBrandById(MoltinQuery query_string, String uuid){
-        return service.getBrandById(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap(), uuid);
+        return service.getBrandById(moltinPreferences.getLocale(), moltinPreferences.getLanguage(), query_string.getQueryMap(), uuid);
     }
 
     public Observable<CategoriesResponse> getCategories(MoltinQuery query_string){
-        return service.getCategories(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap());
+        return service.getCategories(moltinPreferences.getLocale(), moltinPreferences.getLanguage(), query_string.getQueryMap());
     }
 
     public Observable<CategoryResponse> getCategoryById(MoltinQuery query_string, String uuid){
-        return service.getCategoryById(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap(), uuid);
+        return service.getCategoryById(moltinPreferences.getLocale(), moltinPreferences.getLanguage(), query_string.getQueryMap(), uuid);
     }
 
     public Observable<CategoryTreeResponse> getCategoryTree(MoltinQuery query_string){
-        return service.getCategoryTree(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap());
+        return service.getCategoryTree(moltinPreferences.getLocale(), moltinPreferences.getLanguage(), query_string.getQueryMap());
     }
 
     public Observable<CollectionsResponse> getCollections(MoltinQuery query_string){
-        return service.getCollections(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap());
+        return service.getCollections(moltinPreferences.getLocale(), moltinPreferences.getLanguage(), query_string.getQueryMap());
     }
 
     public Observable<CollectionResponse> getCollectionById(MoltinQuery query_string, String uuid){
-        return service.getCollectionById(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap(), uuid);
+        return service.getCollectionById(moltinPreferences.getLocale(), moltinPreferences.getLanguage(), query_string.getQueryMap(), uuid);
     }
 
     public Observable<FilesResponse> getFiles(MoltinQuery query_string){
-        return service.getFiles(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap());
+        return service.getFiles(moltinPreferences.getLocale(), moltinPreferences.getLanguage(), query_string.getQueryMap());
     }
 
     public Observable<FileResponse> getFileById(MoltinQuery query_string, String uuid){
-        return service.getFileById(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap(), uuid);
+        return service.getFileById(moltinPreferences.getLocale(), moltinPreferences.getLanguage(), query_string.getQueryMap(), uuid);
     }
 
     public Observable<CurrenciesResponse> getCurrencies(MoltinQuery query_string){
-        return service.getCurrencies(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap());
+        return service.getCurrencies(moltinPreferences.getLocale(), moltinPreferences.getLanguage(), query_string.getQueryMap());
     }
 
     public Observable<CurrencyResponse> getCurrencyById(MoltinQuery query_string, String uuid){
-        return service.getCurrencyById(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap(), uuid);
+        return service.getCurrencyById(moltinPreferences.getLocale(), moltinPreferences.getLanguage(), query_string.getQueryMap(), uuid);
     }
 
     public Observable<CartResponse> createCartWithId(MoltinQuery query_string, String uuid){
-        return service.createCartWithId(preferences.getLocale(), preferences.getLanguage(), query_string.getQueryMap(), uuid);
+        return service.createCartWithId(moltinPreferences.getLocale(), moltinPreferences.getLanguage(), query_string.getQueryMap(), uuid);
     }
 
     public Observable<CartItemsResponse> getItemsInCart(String uuid){
-        return service.getItemsInCart(preferences.getLocale(), preferences.getLanguage(), uuid);
+        return service.getItemsInCart(moltinPreferences.getLocale(), moltinPreferences.getLanguage(), uuid);
     }
 
     public Observable<CartItemsResponse> addItemToCart(String reference, CartItemRequest item){

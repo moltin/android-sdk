@@ -33,6 +33,38 @@ public class BaseResponse {
         public String detail;
         public JsonApiErrorResponseLinks links;
 
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getDetail() {
+            return detail;
+        }
+
+        public void setDetail(String detail) {
+            this.detail = detail;
+        }
+
+        public JsonApiErrorResponseLinks getLinks() {
+            return links;
+        }
+
+        public void setLinks(JsonApiErrorResponseLinks links) {
+            this.links = links;
+        }
+
         public class JsonApiErrorResponseLinks{
 
             public JsonApiErrorResponseLinks about;

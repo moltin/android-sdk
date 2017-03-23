@@ -22,8 +22,6 @@ import rx.Observable;
 public class Moltin {
 
     private Api api;
-    private Gson gson;
-    private Preferences preferences;
 
     public static Products Products;
     public static Brands Brands;
@@ -35,20 +33,20 @@ public class Moltin {
     public static Carts Carts;
     public static Checkout Checkout;
 
-
-
-    public Moltin(Preferences preferences) {
-        if(preferences == null){
+    public Moltin(MoltinPreferences moltinPreferences) {
+        if(moltinPreferences == null){
             throw new NullPointerException("You must provide a Preferences object to use Moltin.");
-        } else {
-            this.preferences = preferences;
         }
 
+       setup(moltinPreferences);
+    }
+
+    private void setup(MoltinPreferences moltinPreferences){
         Gson gson = new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                 .create();
 
-        this.api = new Api(preferences, gson);
+        this.api = new Api(moltinPreferences, gson);
         this.Products = new Products(this.api);
         this.Brands = new Brands(this.api);
         this.Categories = new Categories(this.api);
@@ -60,24 +58,20 @@ public class Moltin {
         this.Checkout = new Checkout(this.api);
     }
 
-    public Preferences getPreferences() {
-        return preferences;
+    public MoltinPreferences getMoltinPreferences() {
+        return api.getMoltinPreferences();
     }
 
-    public void setPreferences(Preferences preferences) {
-        this.preferences = preferences;
+    public void setMoltinPreferences(MoltinPreferences moltinPreferences) {
+       setup(moltinPreferences);
     }
 
     public Observable<AccessTokenResponse> requestAuthentication(){
-        return this.api.login(preferences.getClientId());
+        return this.api.login();
     }
 
     public void setAccessToken(AccessTokenResponse accessToken){
         this.api.setAccessToken(accessToken);
-    }
-
-    public boolean isAuthenticated(){
-        return this.api.isAuthenticated();
     }
 
     public static ArrayList<BaseResponse.JsonApiErrorResponse>  getErrorsFromResponse(Throwable e){

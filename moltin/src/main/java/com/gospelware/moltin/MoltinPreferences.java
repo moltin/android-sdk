@@ -4,18 +4,16 @@ package com.gospelware.moltin;
  * Created by lewis on 28/02/2017.
  */
 
-public class Preferences {
+public class MoltinPreferences {
 
     private String currency;
     private String language;
-    private String endpoint;
     private String clientId;
     private String locale;
 
-    public Preferences(String currency, String language, String endpoint, String clientId, String locale) {
+    public MoltinPreferences(String currency, String language, String clientId, String locale) {
         this.currency = currency;
         this.language = language;
-        this.endpoint = endpoint;
         this.clientId = clientId;
         this.locale = locale;
     }
@@ -26,14 +24,6 @@ public class Preferences {
 
     public void setCurrency(String currency) {
         this.currency = currency;
-    }
-
-    public String getEndpoint() {
-        return endpoint;
-    }
-
-    public void setEndpoint(String endpoint) {
-        this.endpoint = endpoint;
     }
 
     public String getClientId() {
